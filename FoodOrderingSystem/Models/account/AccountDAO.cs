@@ -86,12 +86,12 @@ namespace FoodOrderingSystem.Models.account
             {
                 connection.Open();
                 string Sql = "Insert Into account (userID, userEmail, roleName, hashedPassword, fullname, phoneNumber, dateOfBirth, address, status) " +
-                    "Values (Left(SHA(RAND()),12), @userEmail, 'Staff', SHA(@password), @fullName, @phoneNumber, @dateOfBirth, @address, 'Active')";
+                    "Values (Left(SHA(RAND()),12), @userEmail, 'Staff', SHA(@password), @fullname, @phoneNumber, @dateOfBirth, @address, 'Active')";
                 using (var command = new MySqlCommand(Sql, connection))
                 {
                     command.Parameters.AddWithValue("@userEmail", userEmail);
                     command.Parameters.AddWithValue("@password", password);
-                    command.Parameters.AddWithValue("@fullName", fullname);
+                    command.Parameters.AddWithValue("@fullname", fullname);
                     command.Parameters.AddWithValue("@phoneNumber", phoneNumber);
                     command.Parameters.AddWithValue("@dateOfBirth", dateOfBirth);
                     command.Parameters.AddWithValue("@address", address);
@@ -99,6 +99,33 @@ namespace FoodOrderingSystem.Models.account
                     if (rowEffects > 0)
                     {
                         Debug.WriteLine(rowEffects);
+                        result = true;
+                    }
+                }
+                connection.Close();
+            }
+            return result;
+        }
+
+        public bool UpdateStaffInformation(string userID, string fullname, string phoneNumber, DateTime dateOfBirth, string address)
+        {
+            var result = false;
+            using (var connection = new MySqlConnection(DBUtils.ConnectionString))
+            {
+                connection.Open();
+                string Sql = "UPDATE account " +
+                    "SET fullname = @fullname, phoneNumber = @phoneNumber, dateOfBirth = @dateOfBirth, address = @address " +
+                    "WHERE userID = @userID";
+                using (var command = new MySqlCommand(Sql, connection))
+                {
+                    command.Parameters.AddWithValue("@userID", userID);
+                    command.Parameters.AddWithValue("@fullname", fullname);
+                    command.Parameters.AddWithValue("@phoneNumber", phoneNumber);
+                    command.Parameters.AddWithValue("@dateOfBirth", dateOfBirth);
+                    command.Parameters.AddWithValue("@address", address);
+                    int rowEffects = command.ExecuteNonQuery();
+                    if (rowEffects > 0)
+                    {
                         result = true;
                     }
                 }

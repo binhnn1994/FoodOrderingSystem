@@ -14,7 +14,9 @@ namespace FoodOrderingSystem.Services.Implements
         public IEnumerable<Account> ViewStaffsList(int RowsOnPage, int RequestPage) =>
             _accountDao.ViewStaffsList(RowsOnPage, RequestPage);
         public int NumberOfStaffs() => _accountDao.NumberOfStaffs();
-        public bool CreateStaff(string userEmail, string password, string fullName, string phoneNumber, DateTime dateOfBirth, string address)
-            => _accountDao.CreateStaff(userEmail, password, fullName, phoneNumber, dateOfBirth, address);
+        public bool CreateStaff(string userEmail, string password, string fullname, string phoneNumber, DateTime dateOfBirth, string address)
+            => _accountDao.CreateStaff(userEmail, password, fullname, phoneNumber, dateOfBirth, address);
+        public bool UpdateStaffInformation(string userID, string fullname, string phoneNumber, DateTime dateOfBirth, string address)
+            => _accountDao.UpdateStaffInformation(userID, fullname, phoneNumber, dateOfBirth, address);
     }
 }

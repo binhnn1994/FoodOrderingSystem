@@ -9,6 +9,7 @@ namespace FoodOrderingSystem.Models.account
     {
         int NumberOfStaffs();
         IEnumerable<Account> ViewStaffsList(int RowsOnPage, int RequestPage);
-        bool CreateStaff(string userEmail, string password, string fullName, string phoneNumber, DateTime dateOfBirth, string address);
+        bool CreateStaff(string userEmail, string password, string fullname, string phoneNumber, DateTime dateOfBirth, string address);
+        bool UpdateStaffInformation(string userID, string fullname, string phoneNumber, DateTime dateOfBirth, string address);
     }
 }
