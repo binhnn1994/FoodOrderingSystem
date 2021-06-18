@@ -8,7 +8,7 @@ namespace FoodOrderingSystem.Services.Interfaces
 {
     public interface IAccountService
     {
-        int NumberOfAccounts();
-        IEnumerable<Account> ViewAccountsList(int RowsOnPage, int RequestPage);
+        int NumberOfStaffs();
+        IEnumerable<Account> ViewStaffsList(int RowsOnPage, int RequestPage);
     }
 }

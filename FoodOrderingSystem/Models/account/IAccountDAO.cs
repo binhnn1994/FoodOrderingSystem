@@ -7,7 +7,7 @@ namespace FoodOrderingSystem.Models.account
 {
     public interface IAccountDAO
     {
-        int NumberOfAccounts();
-        IEnumerable<Account> ViewAccountsList(int RowsOnPage, int RequestPage);
+        int NumberOfStaffs();
+        IEnumerable<Account> ViewStaffsList(int RowsOnPage, int RequestPage);
     }
 }

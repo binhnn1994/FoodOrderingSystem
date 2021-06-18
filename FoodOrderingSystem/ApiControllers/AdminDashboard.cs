@@ -27,14 +27,14 @@ namespace FoodOrderingSystem.ApiControllers
             public int RequestPage { get; set; }
         }
         [HttpPost]
-        [Route("ViewAccountsList")]
-        public JsonResult ViewAccountsList([FromServices] IAccountService accountService,
+        [Route("ViewStaffsList")]
+        public JsonResult ViewStaffsList([FromServices] IAccountService accountService,
                                 [FromBody] Request request)
         {
             try
             {
-                IEnumerable<Account> accounts = accountService.ViewAccountsList(request.RowsOnPage, request.RequestPage);
-                int count = accountService.NumberOfAccounts();
+                IEnumerable<Account> accounts = accountService.ViewStaffsList(request.RowsOnPage, request.RequestPage);
+                int count = accountService.NumberOfStaffs();
                 double totalPage = (double)count / (double)request.RowsOnPage;
                 var result = new
                 {
