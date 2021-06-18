@@ -49,5 +49,28 @@ namespace FoodOrderingSystem.ApiControllers
                 return new JsonResult("Error occur");
             }
         }
+
+        [Route("CreateStaff")]
+        public IActionResult CreateStaff([FromServices] IAccountService accountService, [FromForm] Account account)
+        {
+            try
+            {
+                bool result = accountService.CreateStaff(account.userEmail, account.hashedPassword, account.fullname, account.phoneNumber, account.dateOfBirth, account.address);
+                var message = new
+                {
+                    message = "success"
+                };
+                return new JsonResult(message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("CreateStaff: " + e.Message);
+                var message = new
+                {
+                    message = e.Message
+                };
+                return new JsonResult(message);
+            }
+        }
     }
 }

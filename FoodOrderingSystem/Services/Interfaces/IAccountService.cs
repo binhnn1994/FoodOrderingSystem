@@ -10,5 +10,6 @@ namespace FoodOrderingSystem.Services.Interfaces
     {
         int NumberOfStaffs();
         IEnumerable<Account> ViewStaffsList(int RowsOnPage, int RequestPage);
+        bool CreateStaff(string userEmail, string password, string fullName, string phoneNumber, DateTime dateOfBirth, string address);
     }
 }

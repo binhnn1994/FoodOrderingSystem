@@ -2,7 +2,9 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FoodOrderingSystem.Models.account
@@ -75,6 +77,34 @@ namespace FoodOrderingSystem.Models.account
                 connection.Close();
             }
             return count;
+        }
+
+        public bool CreateStaff(string userEmail, string password, string fullname, string phoneNumber, DateTime dateOfBirth, string address)
+        {
+            var result = false;
+            using (var connection = new MySqlConnection(DBUtils.ConnectionString))
+            {
+                connection.Open();
+                string Sql = "Insert Into account (userID, userEmail, roleName, hashedPassword, fullname, phoneNumber, dateOfBirth, address, status) " +
+                    "Values (Left(SHA(RAND()),12), @userEmail, 'Staff', SHA(@password), @fullName, @phoneNumber, @dateOfBirth, @address, 'Active')";
+                using (var command = new MySqlCommand(Sql, connection))
+                {
+                    command.Parameters.AddWithValue("@userEmail", userEmail);
+                    command.Parameters.AddWithValue("@password", password);
+                    command.Parameters.AddWithValue("@fullName", fullname);
+                    command.Parameters.AddWithValue("@phoneNumber", phoneNumber);
+                    command.Parameters.AddWithValue("@dateOfBirth", dateOfBirth);
+                    command.Parameters.AddWithValue("@address", address);
+                    int rowEffects = command.ExecuteNonQuery();
+                    if (rowEffects > 0)
+                    {
+                        Debug.WriteLine(rowEffects);
+                        result = true;
+                    }
+                }
+                connection.Close();
+            }
+            return result;
         }
     }
 }
