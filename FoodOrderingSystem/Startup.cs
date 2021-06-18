@@ -1,3 +1,6 @@
+using FoodOrderingSystem.Models.account;
+using FoodOrderingSystem.Services.Implements;
+using FoodOrderingSystem.Services.Interfaces;
 using FoodOrderingSystem.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +29,8 @@ namespace FoodOrderingSystem
             // config connection string
             DBUtils.ConnectionString = Configuration.GetConnectionString("MySql");
             services.AddControllersWithViews();
+            services.AddTransient<IAccountDAO, AccountDAO>();
+            services.AddTransient<IAccountService, AccountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
