@@ -25,6 +25,8 @@ namespace FoodOrderingSystem.ApiControllers
         {
             public int RowsOnPage { get; set; }
             public int RequestPage { get; set; }
+            public string UserID { get; set; }
+            public string Note { get; set; }
         }
 
         [HttpPost]
@@ -103,6 +105,86 @@ namespace FoodOrderingSystem.ApiControllers
                 var message = new
                 {
                     message = e.Message
+                };
+                return new JsonResult(message);
+            }
+        }
+
+        [Route("InactiveAccount")]
+        public JsonResult InactiveAccount([FromServices] IAccountService accountService, [FromForm] Request request)
+        {
+            try
+            {
+                bool result = accountService.InactiveAccount(request.UserID, request.Note);
+                var message1 = new
+                {
+                    message = "success"
+                };
+                var message2 = new
+                {
+                    message = "fail"
+                };
+                if (result) return new JsonResult(message1); else return new JsonResult(message2);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("Inactive an account: " + e.Message);
+                var message = new
+                {
+                    message = e.Message
+                };
+                return new JsonResult(message);
+            }
+        }
+
+        [Route("ActiveAccount")]
+        public JsonResult ActiveAccount([FromServices] IAccountService accountService, [FromForm] Request request)
+        {
+            try
+            {
+                bool result = accountService.ActiveAccount(request.UserID);
+                var message1 = new
+                {
+                    message = "success"
+                };
+                var message2 = new
+                {
+                    message = "fail"
+                };
+                if (result) return new JsonResult(message1); else return new JsonResult(message2);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("Active an account: " + e.Message);
+                var message = new
+                {
+                    message = e.Message
+                };
+                return new JsonResult(message);
+            }
+        }
+
+        [Route("ReasonInactived")]
+        public JsonResult ReasonInactived([FromServices] IAccountService accountService, [FromBody] Request request)
+        {
+            try
+            {
+                string note = accountService.GetDetailOfAccount(request.UserID).note;
+                if (note.Trim().Length == 0 || note == null) return new JsonResult(new {
+                    message = "fail"
+                });
+                var message = new
+                {
+                    reason = note
+                };
+                return new JsonResult(message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("Reason Inactived an account: " + e.Message);
+                var message = new
+                {
+                    message = "fail"
                 };
                 return new JsonResult(message);
             }

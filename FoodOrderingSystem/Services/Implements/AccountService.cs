@@ -18,5 +18,8 @@ namespace FoodOrderingSystem.Services.Implements
             => _accountDao.CreateStaff(userEmail, password, fullname, phoneNumber, dateOfBirth, address);
         public bool UpdateStaffInformation(string userID, string fullname, string phoneNumber, DateTime dateOfBirth, string address)
             => _accountDao.UpdateStaffInformation(userID, fullname, phoneNumber, dateOfBirth, address);
+        public bool InactiveAccount(string userID, string note) => _accountDao.InactiveAccount(userID, note);
+        public Account GetDetailOfAccount(string userID) => _accountDao.GetDetailOfAccount(userID);
+        public bool ActiveAccount(string userID) => _accountDao.ActiveAccount(userID);
     }
 }

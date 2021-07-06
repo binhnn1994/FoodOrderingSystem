@@ -20,7 +20,7 @@ namespace FoodOrderingSystem.Models.account
                 using (var connection = new MySqlConnection(DBUtils.ConnectionString))
                 {
                     connection.Open();
-                    string Sql = "Select userID, userEmail, roleName, fullname, phoneNumber, dateOfBirth, address, status " +
+                    string Sql = "Select userID, userEmail, roleName, fullname, phoneNumber, dateOfBirth, address, status, note " +
                             "From account " +
                             "Where roleName = 'Staff' " +
                             "LIMIT @offset, @limit";
@@ -42,6 +42,7 @@ namespace FoodOrderingSystem.Models.account
                                     dateOfBirth = reader.GetDateTime(5),
                                     address = reader.GetString(6),
                                     status = reader.GetString(7),
+                                    note = reader.IsDBNull(8) ? null : reader.GetString(8)
                                 });
                             }
                         }
@@ -133,5 +134,114 @@ namespace FoodOrderingSystem.Models.account
             }
             return result;
         }
+
+        public bool InactiveAccount(string userID, string note)
+        {
+            bool result = false;
+            try
+            {
+                if (GetDetailOfAccount(userID).status.Equals("Inactive")) return false;
+                if (note == null || note.Trim().Equals("")) return false;
+                using (var connection = new MySqlConnection(DBUtils.ConnectionString))
+                {
+                    connection.Open();
+                    string Sql = "UPDATE account " +
+                        "SET status= 'Inactive', note=@note " +
+                        "WHERE userID = @userID";
+                    using (var command = new MySqlCommand(Sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@note", note);
+                        command.Parameters.AddWithValue("@userID", userID);
+                        int rowEffects = command.ExecuteNonQuery();
+                        if (rowEffects > 0)
+                        {
+                            result = true;
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return result;
+        }
+
+        public bool ActiveAccount(string userID)
+        {
+            bool result = false;
+            try
+            {
+                if (GetDetailOfAccount(userID).status.Equals("Active")) return false;
+                if (GetDetailOfAccount(userID).note == null || GetDetailOfAccount(userID).note.Trim().Equals("")) return false;
+                using (var connection = new MySqlConnection(DBUtils.ConnectionString))
+                {
+                    connection.Open();
+                    string Sql = "UPDATE account " +
+                        "SET status= 'Active', note = null " +
+                        "WHERE userID = @userID";
+                    using (var command = new MySqlCommand(Sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@userID", userID);
+                        int rowEffects = command.ExecuteNonQuery();
+                        if (rowEffects > 0)
+                        {
+                            result = true;
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return result;
+        }
+
+        public Account GetDetailOfAccount(string userID)
+        {
+            Account account = null;
+            try
+            {
+                using (var connection = new MySqlConnection(DBUtils.ConnectionString))
+                {
+                    connection.Open();
+                    string Sql = "Select userID, userEmail, roleName, fullname, phoneNumber, dateOfBirth, address, status, note " +
+                                    "From account " +
+                                    "Where userID = @userID";
+                    using (var command = new MySqlCommand(Sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@userID", userID);
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                account = new Account
+                                {
+                                    userID = reader.GetString(0),
+                                    userEmail = reader.GetString(1),
+                                    roleName = reader.GetString(2),
+                                    fullname = reader.GetString(3),
+                                    phoneNumber = reader.GetString(4),
+                                    dateOfBirth = reader.GetDateTime(5),
+                                    address = reader.GetString(6),
+                                    status = reader.GetString(7),
+                                    note = reader.IsDBNull(8) ? null : reader.GetString(8)
+                                };
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return account;
+        }
+
     }
 }

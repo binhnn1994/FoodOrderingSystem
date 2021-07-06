@@ -16,5 +16,6 @@ namespace FoodOrderingSystem.Models.account
         public DateTime dateOfBirth { get; set; }
         public string address { get; set; }
         public string status { get; set; }
+        public string note { get; set; }
     }
 }

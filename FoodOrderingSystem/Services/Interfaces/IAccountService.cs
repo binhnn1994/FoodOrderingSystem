@@ -12,5 +12,8 @@ namespace FoodOrderingSystem.Services.Interfaces
         IEnumerable<Account> ViewStaffsList(int RowsOnPage, int RequestPage);
         bool CreateStaff(string userEmail, string password, string fullname, string phoneNumber, DateTime dateOfBirth, string address);
         bool UpdateStaffInformation(string userID, string fullname, string phoneNumber, DateTime dateOfBirth, string address);
+        bool InactiveAccount(string userID, string note);
+        Account GetDetailOfAccount(string userID);
+        bool ActiveAccount(string userID);
     }
 }
