@@ -1,4 +1,5 @@
 using FoodOrderingSystem.Models.account;
+using FoodOrderingSystem.Models.item;
 using FoodOrderingSystem.Services.Implements;
 using FoodOrderingSystem.Services.Interfaces;
 using FoodOrderingSystem.Utils;
@@ -31,6 +32,8 @@ namespace FoodOrderingSystem
             services.AddControllersWithViews();
             services.AddTransient<IAccountDAO, AccountDAO>();
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IItemDAO, ItemDAO>();
+            services.AddTransient<IItemService, ItemService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

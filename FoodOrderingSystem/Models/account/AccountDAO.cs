@@ -99,7 +99,6 @@ namespace FoodOrderingSystem.Models.account
                     int rowEffects = command.ExecuteNonQuery();
                     if (rowEffects > 0)
                     {
-                        Debug.WriteLine(rowEffects);
                         result = true;
                     }
                 }

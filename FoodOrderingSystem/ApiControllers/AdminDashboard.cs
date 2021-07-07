@@ -1,4 +1,5 @@
 ﻿using FoodOrderingSystem.Models.account;
+using FoodOrderingSystem.Models.item;
 using FoodOrderingSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,12 +28,14 @@ namespace FoodOrderingSystem.ApiControllers
             public int RequestPage { get; set; }
             public string UserID { get; set; }
             public string Note { get; set; }
+            public string CategoryName { get; set; }
+            public string Status { get; set; }
+            public string ItemID { get; set; }
         }
 
         [HttpPost]
         [Route("ViewStaffsList")]
-        public JsonResult ViewStaffsList([FromServices] IAccountService accountService,
-                                [FromBody] Request request)
+        public JsonResult ViewStaffsList([FromServices] IAccountService accountService, [FromBody] Request request)
         {
             try
             {
@@ -41,7 +44,7 @@ namespace FoodOrderingSystem.ApiControllers
                 double totalPage = (double)count / (double)request.RowsOnPage;
                 var result = new
                 {
-                    TotalPage = Math.Ceiling(totalPage),
+                    TotalPage = (int)Math.Ceiling(totalPage),
                     Data = accounts
                 };
                 return (new JsonResult(result));
@@ -164,8 +167,8 @@ namespace FoodOrderingSystem.ApiControllers
             }
         }
 
-        [Route("ReasonInactived")]
-        public JsonResult ReasonInactived([FromServices] IAccountService accountService, [FromBody] Request request)
+        [Route("ReasonAccountInactived")]
+        public JsonResult ReasonAccountInactived([FromServices] IAccountService accountService, [FromBody] Request request)
         {
             try
             {
@@ -182,6 +185,169 @@ namespace FoodOrderingSystem.ApiControllers
             catch (Exception e)
             {
                 _logger.LogInformation("Reason Inactived an account: " + e.Message);
+                var message = new
+                {
+                    message = "fail"
+                };
+                return new JsonResult(message);
+            }
+        }
+
+        [HttpPost]
+        [Route("ViewItemList")]
+        public JsonResult ViewItemList([FromServices] IItemService itemService, [FromBody] Request request)
+        {
+            try
+            {
+                IEnumerable<Item> items = itemService.ViewItemListFilterCategory(request.CategoryName, request.Status, request.RowsOnPage, request.RequestPage);
+                int count = itemService.NumberOfItemFilterCategory(request.CategoryName, request.Status);
+                double totalPage = (double)count / (double)request.RowsOnPage;
+                var result = new
+                {
+                    TotalPage = (int)Math.Ceiling(totalPage),
+                    Data = items
+                };
+                return (new JsonResult(result));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("Get Items List: " + ex.Message);
+                return new JsonResult("Error occur");
+            }
+        }
+
+        [Route("CreateItem")]
+        public IActionResult CreateItem([FromServices] IItemService itemService, [FromForm] Item item)
+        {
+            try
+            {
+                bool result = itemService.CreateItem(item.itemName, item.categoryName, item.unitPrice, item.availableQuantity, item.foodCoin);
+                var message = new
+                {
+                    message = "success"
+                };
+                return new JsonResult(message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("CreateItem: " + e.Message);
+                var message = new
+                {
+                    message = e.Message
+                };
+                return new JsonResult(message);
+            }
+        }
+
+        [Route("UpdateItemInformation")]
+        public IActionResult UpdateItemInformation([FromServices] IItemService itemService, [FromForm] Item item)
+        {
+            try
+            {
+                bool result = itemService.UpdateItemInformation(item.itemID, item.itemName, item.categoryName, item.unitPrice, item.availableQuantity, item.foodCoin);
+                if (result)
+                {
+                    var message = new
+                    {
+                        message = "success"
+                    };
+                    return new JsonResult(message);
+                }
+                else
+                {
+                    var message = new
+                    {
+                        message = "fail"
+                    };
+                    return new JsonResult(message);
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("Update Item Information: " + e.Message);
+                var message = new
+                {
+                    message = e.Message
+                };
+                return new JsonResult(message);
+            }
+        }
+
+        [Route("InactiveItem")]
+        public JsonResult InactiveItem([FromServices] IItemService itemService, [FromForm] Request request)
+        {
+            try
+            {
+                bool result = itemService.InactiveItem(request.ItemID, request.Note);
+                var message1 = new
+                {
+                    message = "success"
+                };
+                var message2 = new
+                {
+                    message = "fail"
+                };
+                if (result) return new JsonResult(message1); else return new JsonResult(message2);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("Inactive an item: " + e.Message);
+                var message = new
+                {
+                    message = e.Message
+                };
+                return new JsonResult(message);
+            }
+        }
+
+        [Route("ActiveItem")]
+        public JsonResult ActiveItem([FromServices] IItemService itemService, [FromForm] Request request)
+        {
+            try
+            {
+                bool result = itemService.ActiveItem(request.ItemID);
+                var message1 = new
+                {
+                    message = "success"
+                };
+                var message2 = new
+                {
+                    message = "fail"
+                };
+                if (result) return new JsonResult(message1); else return new JsonResult(message2);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("Active an item: " + e.Message);
+                var message = new
+                {
+                    message = e.Message
+                };
+                return new JsonResult(message);
+            }
+        }
+
+        [Route("ReasonItemInactived")]
+        public JsonResult ReasonItemInactived([FromServices] IItemService itemService, [FromBody] Request request)
+        {
+            try
+            {
+                string note = itemService.GetDetailOfItem(request.ItemID).note;
+                if (note.Trim().Length == 0 || note == null) return new JsonResult(new
+                {
+                    message = "fail"
+                });
+                var message = new
+                {
+                    reason = note
+                };
+                return new JsonResult(message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("Reason Inactived an item: " + e.Message);
                 var message = new
                 {
                     message = "fail"
