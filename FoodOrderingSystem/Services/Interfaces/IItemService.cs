@@ -15,5 +15,7 @@ namespace FoodOrderingSystem.Services.Interfaces
         bool InactiveItem(string itemID, string note);
         Item GetDetailOfItem(string itemID);
         bool ActiveItem(string itemID);
+        int NumberOfItemBySearching(string searchValue, string categoryName, string status);
+        IEnumerable<Item> ViewItemListBySearching(string searchValue, string categoryName, string status, int RowsOnPage, int RequestPage);
     }
 }

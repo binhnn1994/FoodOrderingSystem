@@ -30,6 +30,12 @@ namespace FoodOrderingSystem.Services.Implements
 
         public bool InactiveItem(string itemID, string note) => _itemDAO.InactiveItem(itemID, note);
 
+        public int NumberOfItemBySearching(string searchValue, string categoryName, string status)
+            => _itemDAO.NumberOfItemBySearching(searchValue, categoryName, status);
+
+        public IEnumerable<Item> ViewItemListBySearching(string searchValue, string categoryName, string status, int RowsOnPage, int RequestPage)
+            => _itemDAO.ViewItemListBySearching(searchValue, categoryName, status, RowsOnPage, RequestPage);
+
 
     }
 }

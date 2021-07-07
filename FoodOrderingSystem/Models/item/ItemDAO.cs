@@ -274,5 +274,114 @@ namespace FoodOrderingSystem.Models.item
             }
             return items;
         }
+
+        public int NumberOfItemBySearching(string searchValue, string categoryName, string status)
+        {
+            int count = 0;
+            using (var connection = new MySqlConnection(DBUtils.ConnectionString))
+            {
+                connection.Open();
+                string Sql = null;
+                if (categoryName.Trim().ToLower().Equals("all") && status.Trim().ToLower().Equals("all"))
+                    Sql = "Select COUNT(itemID) " +
+                                "From item " +
+                                "Where MATCH (itemName) AGAINST (@searchValue in natural language mode)";
+                else if (categoryName.Trim().ToLower().Equals("all") && !status.Trim().ToLower().Equals("all"))
+                    Sql = "Select COUNT(itemID) " +
+                          "From item " +
+                          "Where MATCH (itemName) AGAINST (@searchValue in natural language mode) and status = @status ";
+                else if (!categoryName.Trim().ToLower().Equals("all") && status.Trim().ToLower().Equals("all"))
+                    Sql = "Select COUNT(itemID) " +
+                          "From item " +
+                          "Where MATCH (itemName) AGAINST (@searchValue in natural language mode) and categoryName = @categoryName ";
+                else
+                    Sql = "Select COUNT(itemID) " +
+                          "From item " +
+                          "Where MATCH (itemName) AGAINST (@searchValue in natural language mode) and categoryName = @categoryName and status = @status ";
+                using (var command = new MySqlCommand(Sql, connection))
+                {
+                    command.Parameters.AddWithValue("@searchValue", searchValue);
+                    if (!categoryName.Trim().ToLower().Equals("all"))
+                        command.Parameters.AddWithValue("@categoryName", categoryName);
+                    if (!status.Trim().ToLower().Equals("all"))
+                        command.Parameters.AddWithValue("@status", status);
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            count = reader.GetInt32(0);
+                        }
+                    }
+                }
+                connection.Close();
+            }
+            return count;
+        }
+
+        public IEnumerable<Item> ViewItemListBySearching(string searchValue, string categoryName, string status, int RowsOnPage, int RequestPage)
+        {
+            var items = new List<Item>();
+            int offset = ((int)(RequestPage - 1)) * RowsOnPage;
+            try
+            {
+                using (var connection = new MySqlConnection(DBUtils.ConnectionString))
+                {
+                    connection.Open();
+                    string Sql = null;
+                    if (categoryName.Trim().ToLower().Equals("all") && status.Trim().ToLower().Equals("all"))
+                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, availableQuantity, foodCoin, note " +
+                            "From item " +
+                            "Where MATCH (itemName) AGAINST (@searchValue in natural language mode) " + 
+                            "LIMIT @offset, @limit";
+                    else if (categoryName.Trim().ToLower().Equals("all") && !status.Trim().ToLower().Equals("all"))
+                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, availableQuantity, foodCoin, note " +
+                            "From item " +
+                            "Where MATCH (itemName) AGAINST (@searchValue in natural language mode) and status = @status " +
+                            "LIMIT @offset, @limit";
+                    else if (!categoryName.Trim().ToLower().Equals("all") && status.Trim().ToLower().Equals("all"))
+                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, availableQuantity, foodCoin, note " +
+                            "From item " +
+                            "Where MATCH (itemName) AGAINST (@searchValue in natural language mode) and categoryName = @categoryName " +
+                            "LIMIT @offset, @limit";
+                    else
+                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, availableQuantity, foodCoin, note " +
+                            "From item " +
+                            "Where MATCH (itemName) AGAINST (@searchValue in natural language mode) and categoryName = @categoryName and status = @status " +
+                            "LIMIT @offset, @limit";
+                    using (var command = new MySqlCommand(Sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@offset", offset);
+                        command.Parameters.AddWithValue("@limit", RowsOnPage);
+                        command.Parameters.AddWithValue("@searchValue", searchValue);
+                        if (!categoryName.Trim().ToLower().Equals("all"))
+                            command.Parameters.AddWithValue("@categoryName", categoryName);
+                        if (!status.Trim().ToLower().Equals("all"))
+                            command.Parameters.AddWithValue("@status", status);
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                items.Add(new Item
+                                {
+                                    itemID = reader.GetString(0),
+                                    itemName = reader.IsDBNull(1) ? null : reader.GetString(1),
+                                    status = reader.IsDBNull(2) ? null : reader.GetString(2),
+                                    categoryName = reader.IsDBNull(3) ? null : reader.GetString(3),
+                                    unitPrice = reader.GetDecimal(4),
+                                    availableQuantity = reader.GetInt32(5),
+                                    foodCoin = reader.GetInt32(6),
+                                    note = reader.IsDBNull(7) ? null : reader.GetString(7)
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return items;
+        }
     }
 }

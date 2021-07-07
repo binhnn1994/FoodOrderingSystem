@@ -31,6 +31,7 @@ namespace FoodOrderingSystem.ApiControllers
             public string CategoryName { get; set; }
             public string Status { get; set; }
             public string ItemID { get; set; }
+            public string SearchValue { get; set; }
         }
 
         [HttpPost]
@@ -52,7 +53,10 @@ namespace FoodOrderingSystem.ApiControllers
             catch (Exception ex)
             {
                 _logger.LogInformation("GetAccountsList: " + ex.Message);
-                return new JsonResult("Error occur");
+                return new JsonResult(new
+                {
+                    message = ex.Message
+                });
             }
         }
 
@@ -212,7 +216,10 @@ namespace FoodOrderingSystem.ApiControllers
             catch (Exception ex)
             {
                 _logger.LogInformation("Get Items List: " + ex.Message);
-                return new JsonResult("Error occur");
+                return new JsonResult(new
+                {
+                    message = ex.Message
+                });
             }
         }
 
@@ -355,5 +362,38 @@ namespace FoodOrderingSystem.ApiControllers
                 return new JsonResult(message);
             }
         }
+
+        //Search
+        [HttpPost]
+        [Route("ViewItemListBySearching")]
+        public JsonResult ViewItemListBySearching([FromServices] IItemService itemService, [FromBody] Request request)
+        {
+            try
+            {
+                var message = new
+                {
+                    message = "Empty searchValue"
+                };
+                if (request.SearchValue.Trim() == "") return new JsonResult(message);
+                IEnumerable<Item> items = itemService.ViewItemListBySearching(request.SearchValue, request.CategoryName, request.Status, request.RowsOnPage, request.RequestPage);
+                int count = itemService.NumberOfItemBySearching(request.SearchValue, request.CategoryName, request.Status);
+                double totalPage = (double)count / (double)request.RowsOnPage;
+                var result = new
+                {
+                    TotalPage = (int)Math.Ceiling(totalPage),
+                    Data = items
+                };
+                return (new JsonResult(result));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("Get Items List: " + ex.Message);
+                return new JsonResult(new
+                {
+                    message = ex.Message
+                });
+            }
+        }
+
     }
 }
