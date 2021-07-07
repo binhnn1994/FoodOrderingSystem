@@ -11,7 +11,7 @@ namespace FoodOrderingSystem.Models.account
 {
     public class AccountDAO : IAccountDAO
     {
-        public IEnumerable<Account> ViewStaffsList(int RowsOnPage, int RequestPage)
+        public IEnumerable<Account> ViewAccountListByRole(string roleName, int RowsOnPage, int RequestPage)
         {
             var accounts = new List<Account>();
             int offset = ((int)(RequestPage - 1)) * RowsOnPage;
@@ -22,12 +22,13 @@ namespace FoodOrderingSystem.Models.account
                     connection.Open();
                     string Sql = "Select userID, userEmail, roleName, fullname, phoneNumber, dateOfBirth, address, status, note " +
                             "From account " +
-                            "Where roleName = 'Staff' " +
+                            "Where roleName = @roleName " +
                             "LIMIT @offset, @limit";
                     using (var command = new MySqlCommand(Sql, connection))
                     {
                         command.Parameters.AddWithValue("@offset", offset);
                         command.Parameters.AddWithValue("@limit", RowsOnPage);
+                        command.Parameters.AddWithValue("@roleName", roleName);
                         using (var reader = command.ExecuteReader())
                         {
                             while (reader.Read())
@@ -56,7 +57,7 @@ namespace FoodOrderingSystem.Models.account
             return accounts;
         }
 
-        public int NumberOfStaffs()
+        public int NumberOfAccountByRole(string roleName)
         {
             int count = 0;
             using (var connection = new MySqlConnection(DBUtils.ConnectionString))
@@ -64,9 +65,10 @@ namespace FoodOrderingSystem.Models.account
                 connection.Open();
                 string Sql = "Select COUNT(userID) " +
                                 "From account " +
-                                "Where roleName = 'Staff'";
+                                "Where roleName = @roleName";
                 using (var command = new MySqlCommand(Sql, connection))
                 {
+                    command.Parameters.AddWithValue("@roleName", roleName);
                     using (var reader = command.ExecuteReader())
                     {
                         if (reader.Read())

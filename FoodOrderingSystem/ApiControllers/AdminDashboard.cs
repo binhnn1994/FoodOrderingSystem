@@ -40,8 +40,34 @@ namespace FoodOrderingSystem.ApiControllers
         {
             try
             {
-                IEnumerable<Account> accounts = accountService.ViewStaffsList(request.RowsOnPage, request.RequestPage);
-                int count = accountService.NumberOfStaffs();
+                IEnumerable<Account> accounts = accountService.ViewAccountListByRole("Staff", request.RowsOnPage, request.RequestPage);
+                int count = accountService.NumberOfAccountByRole("Staff");
+                double totalPage = (double)count / (double)request.RowsOnPage;
+                var result = new
+                {
+                    TotalPage = (int)Math.Ceiling(totalPage),
+                    Data = accounts
+                };
+                return (new JsonResult(result));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("GetAccountsList: " + ex.Message);
+                return new JsonResult(new
+                {
+                    message = ex.Message
+                });
+            }
+        }
+
+        [HttpPost]
+        [Route("ViewCustumerList")]
+        public JsonResult ViewCustumerList([FromServices] IAccountService accountService, [FromBody] Request request)
+        {
+            try
+            {
+                IEnumerable<Account> accounts = accountService.ViewAccountListByRole("Customer", request.RowsOnPage, request.RequestPage);
+                int count = accountService.NumberOfAccountByRole("Customer");
                 double totalPage = (double)count / (double)request.RowsOnPage;
                 var result = new
                 {
@@ -363,7 +389,7 @@ namespace FoodOrderingSystem.ApiControllers
             }
         }
 
-        //Search
+        //Search Item
         [HttpPost]
         [Route("ViewItemListBySearching")]
         public JsonResult ViewItemListBySearching([FromServices] IItemService itemService, [FromBody] Request request)
@@ -394,6 +420,8 @@ namespace FoodOrderingSystem.ApiControllers
                 });
             }
         }
+
+
 
     }
 }
