@@ -13,5 +13,7 @@ namespace FoodOrderingSystem.Models.item
         public string categoryName { get; set; }
         public decimal unitPrice { get; set; }
         public string note { get; set; }
+        public string image { get; set; }
+        public string description { get; set; }
     }
 }

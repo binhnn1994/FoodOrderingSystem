@@ -10,8 +10,8 @@ namespace FoodOrderingSystem.Services.Interfaces
     {
         int NumberOfItemFilterCategory(string categoryName, string status);
         IEnumerable<Item> ViewItemListFilterCategory(string categoryName, string status, int RowsOnPage, int RequestPage);
-        bool CreateItem(string itemName, string categoryName, decimal unitPrice);
-        bool UpdateItemInformation(string itemID, string itemName, string categoryName, decimal unitPrice);
+        bool CreateItem(string itemName, string categoryName, decimal unitPrice, string image, string description);
+        bool UpdateItemInformation(string itemID, string itemName, string categoryName, decimal unitPrice, string image, string description);
         bool InactiveItem(string itemID, string note);
         Item GetDetailOfItem(string itemID);
         bool ActiveItem(string itemID);

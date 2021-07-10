@@ -254,7 +254,7 @@ namespace FoodOrderingSystem.ApiControllers
         {
             try
             {
-                bool result = itemService.CreateItem(item.itemName, item.categoryName, item.unitPrice);
+                bool result = itemService.CreateItem(item.itemName, item.categoryName, item.unitPrice, item.image, item.description);
                 var message = new
                 {
                     message = "success"
@@ -277,7 +277,7 @@ namespace FoodOrderingSystem.ApiControllers
         {
             try
             {
-                bool result = itemService.UpdateItemInformation(item.itemID, item.itemName, item.categoryName, item.unitPrice);
+                bool result = itemService.UpdateItemInformation(item.itemID, item.itemName, item.categoryName, item.unitPrice, item.image, item.description);
                 if (result)
                 {
                     var message = new
