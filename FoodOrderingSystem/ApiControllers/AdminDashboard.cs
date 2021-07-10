@@ -91,7 +91,7 @@ namespace FoodOrderingSystem.ApiControllers
         {
             try
             {
-                bool result = accountService.CreateStaff(account.userEmail, account.hashedPassword, account.fullname, account.phoneNumber, account.dateOfBirth, account.address);
+                bool result = accountService.CreateStaff(account.userEmail, account.hashedPassword, account.fullname, account.phoneNumber, account.address);
                 var message = new
                 {
                     message = "success"
@@ -114,7 +114,7 @@ namespace FoodOrderingSystem.ApiControllers
         {
             try
             {
-                bool result = accountService.UpdateStaffInformation(account.userID, account.fullname, account.phoneNumber, account.dateOfBirth, account.address);
+                bool result = accountService.UpdateStaffInformation(account.userID, account.fullname, account.phoneNumber, account.address);
                 if (result) {
                     var message = new
                     {
@@ -254,7 +254,7 @@ namespace FoodOrderingSystem.ApiControllers
         {
             try
             {
-                bool result = itemService.CreateItem(item.itemName, item.categoryName, item.unitPrice, item.availableQuantity, item.foodCoin);
+                bool result = itemService.CreateItem(item.itemName, item.categoryName, item.unitPrice);
                 var message = new
                 {
                     message = "success"
@@ -277,7 +277,7 @@ namespace FoodOrderingSystem.ApiControllers
         {
             try
             {
-                bool result = itemService.UpdateItemInformation(item.itemID, item.itemName, item.categoryName, item.unitPrice, item.availableQuantity, item.foodCoin);
+                bool result = itemService.UpdateItemInformation(item.itemID, item.itemName, item.categoryName, item.unitPrice);
                 if (result)
                 {
                     var message = new
@@ -413,7 +413,7 @@ namespace FoodOrderingSystem.ApiControllers
             }
             catch (Exception ex)
             {
-                _logger.LogInformation("Get Items List: " + ex.Message);
+                _logger.LogInformation("Search Items: " + ex.Message);
                 return new JsonResult(new
                 {
                     message = ex.Message
@@ -421,7 +421,68 @@ namespace FoodOrderingSystem.ApiControllers
             }
         }
 
+        //Search customer//staff accounts.
 
+        [HttpPost]
+        [Route("ViewCustomerListBySearching")]
+        public JsonResult ViewCustomerListBySearching([FromServices] IAccountService accountService, [FromBody] Request request)
+        {
+            try
+            {
+                var message = new
+                {
+                    message = "Empty searchValue"
+                };
+                if (request.SearchValue.Trim() == "") return new JsonResult(message);
+                IEnumerable<Account> accounts = accountService.ViewAccountListBySearching(request.SearchValue, "Customer", request.RowsOnPage, request.RequestPage);
+                int count = accountService.NumberOfAccountBySearching(request.SearchValue, "Customer");
+                double totalPage = (double)count / (double)request.RowsOnPage;
+                var result = new
+                {
+                    TotalPage = (int)Math.Ceiling(totalPage),
+                    Data = accounts
+                };
+                return (new JsonResult(result));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("Search customer: " + ex.Message);
+                return new JsonResult(new
+                {
+                    message = ex.Message
+                });
+            }
+        }
 
+        [HttpPost]
+        [Route("ViewStaffListBySearching")]
+        public JsonResult ViewStaffListBySearching([FromServices] IAccountService accountService, [FromBody] Request request)
+        {
+            try
+            {
+                var message = new
+                {
+                    message = "Empty searchValue"
+                };
+                if (request.SearchValue.Trim() == "") return new JsonResult(message);
+                IEnumerable<Account> accounts = accountService.ViewAccountListBySearching(request.SearchValue, "Staff", request.RowsOnPage, request.RequestPage);
+                int count = accountService.NumberOfAccountBySearching(request.SearchValue, "Staff");
+                double totalPage = (double)count / (double)request.RowsOnPage;
+                var result = new
+                {
+                    TotalPage = (int)Math.Ceiling(totalPage),
+                    Data = accounts
+                };
+                return (new JsonResult(result));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("Search staff: " + ex.Message);
+                return new JsonResult(new
+                {
+                    message = ex.Message
+                });
+            }
+        }
     }
 }

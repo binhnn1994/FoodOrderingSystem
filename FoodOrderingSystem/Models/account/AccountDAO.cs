@@ -20,7 +20,7 @@ namespace FoodOrderingSystem.Models.account
                 using (var connection = new MySqlConnection(DBUtils.ConnectionString))
                 {
                     connection.Open();
-                    string Sql = "Select userID, userEmail, roleName, fullname, phoneNumber, dateOfBirth, address, status, note " +
+                    string Sql = "Select userID, userEmail, roleName, fullname, phoneNumber, address, status, note " +
                             "From account " +
                             "Where roleName = @roleName " +
                             "LIMIT @offset, @limit";
@@ -40,10 +40,9 @@ namespace FoodOrderingSystem.Models.account
                                     roleName = reader.GetString(2),
                                     fullname = reader.GetString(3),
                                     phoneNumber = reader.GetString(4),
-                                    dateOfBirth = reader.GetDateTime(5),
-                                    address = reader.GetString(6),
-                                    status = reader.GetString(7),
-                                    note = reader.IsDBNull(8) ? null : reader.GetString(8)
+                                    address = reader.GetString(5),
+                                    status = reader.GetString(6),
+                                    note = reader.IsDBNull(7) ? null : reader.GetString(7)
                                 });
                             }
                         }
@@ -82,21 +81,20 @@ namespace FoodOrderingSystem.Models.account
             return count;
         }
 
-        public bool CreateStaff(string userEmail, string password, string fullname, string phoneNumber, DateTime dateOfBirth, string address)
+        public bool CreateStaff(string userEmail, string password, string fullname, string phoneNumber, string address)
         {
             var result = false;
             using (var connection = new MySqlConnection(DBUtils.ConnectionString))
             {
                 connection.Open();
-                string Sql = "Insert Into account (userID, userEmail, roleName, hashedPassword, fullname, phoneNumber, dateOfBirth, address, status) " +
-                    "Values (Left(SHA(RAND()),12), @userEmail, 'Staff', SHA(@password), @fullname, @phoneNumber, @dateOfBirth, @address, 'Active')";
+                string Sql = "Insert Into account (userID, userEmail, roleName, hashedPassword, fullname, phoneNumber, address, status) " +
+                    "Values (Left(SHA(RAND()),12), @userEmail, 'Staff', SHA(@password), @fullname, @phoneNumber, @address, 'Active')";
                 using (var command = new MySqlCommand(Sql, connection))
                 {
                     command.Parameters.AddWithValue("@userEmail", userEmail);
                     command.Parameters.AddWithValue("@password", password);
                     command.Parameters.AddWithValue("@fullname", fullname);
                     command.Parameters.AddWithValue("@phoneNumber", phoneNumber);
-                    command.Parameters.AddWithValue("@dateOfBirth", dateOfBirth);
                     command.Parameters.AddWithValue("@address", address);
                     int rowEffects = command.ExecuteNonQuery();
                     if (rowEffects > 0)
@@ -109,21 +107,20 @@ namespace FoodOrderingSystem.Models.account
             return result;
         }
 
-        public bool UpdateStaffInformation(string userID, string fullname, string phoneNumber, DateTime dateOfBirth, string address)
+        public bool UpdateStaffInformation(string userID, string fullname, string phoneNumber, string address)
         {
             var result = false;
             using (var connection = new MySqlConnection(DBUtils.ConnectionString))
             {
                 connection.Open();
                 string Sql = "UPDATE account " +
-                    "SET fullname = @fullname, phoneNumber = @phoneNumber, dateOfBirth = @dateOfBirth, address = @address " +
+                    "SET fullname = @fullname, phoneNumber = @phoneNumber, address = @address " +
                     "WHERE userID = @userID";
                 using (var command = new MySqlCommand(Sql, connection))
                 {
                     command.Parameters.AddWithValue("@userID", userID);
                     command.Parameters.AddWithValue("@fullname", fullname);
                     command.Parameters.AddWithValue("@phoneNumber", phoneNumber);
-                    command.Parameters.AddWithValue("@dateOfBirth", dateOfBirth);
                     command.Parameters.AddWithValue("@address", address);
                     int rowEffects = command.ExecuteNonQuery();
                     if (rowEffects > 0)
@@ -209,7 +206,7 @@ namespace FoodOrderingSystem.Models.account
                 using (var connection = new MySqlConnection(DBUtils.ConnectionString))
                 {
                     connection.Open();
-                    string Sql = "Select userID, userEmail, roleName, fullname, phoneNumber, dateOfBirth, address, status, note " +
+                    string Sql = "Select userID, userEmail, roleName, fullname, phoneNumber, address, status, note " +
                                     "From account " +
                                     "Where userID = @userID";
                     using (var command = new MySqlCommand(Sql, connection))
@@ -226,10 +223,9 @@ namespace FoodOrderingSystem.Models.account
                                     roleName = reader.GetString(2),
                                     fullname = reader.GetString(3),
                                     phoneNumber = reader.GetString(4),
-                                    dateOfBirth = reader.GetDateTime(5),
-                                    address = reader.GetString(6),
-                                    status = reader.GetString(7),
-                                    note = reader.IsDBNull(8) ? null : reader.GetString(8)
+                                    address = reader.GetString(5),
+                                    status = reader.GetString(6),
+                                    note = reader.IsDBNull(7) ? null : reader.GetString(7)
                                 };
                             }
                         }
@@ -244,5 +240,76 @@ namespace FoodOrderingSystem.Models.account
             return account;
         }
 
+        public int NumberOfAccountBySearching(string searchValue, string roleName)
+        {
+            int count = 0;
+            using (var connection = new MySqlConnection(DBUtils.ConnectionString))
+            {
+                connection.Open();
+                string Sql = "Select COUNT(userID) " +
+                                "From account " +
+                                "Where roleName = @roleName and MATCH (fullname) AGAINST (@searchValue in natural language mode)";
+                using (var command = new MySqlCommand(Sql, connection))
+                {
+                    command.Parameters.AddWithValue("@roleName", roleName);
+                    command.Parameters.AddWithValue("@searchValue", searchValue);
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            count = reader.GetInt32(0);
+                        }
+                    }
+                }
+                connection.Close();
+            }
+            return count;
+        }
+
+        public IEnumerable<Account> ViewAccountListBySearching(string searchValue, string roleName, int RowsOnPage, int RequestPage)
+        {
+            var accounts = new List<Account>();
+            int offset = ((int)(RequestPage - 1)) * RowsOnPage;
+            try
+            {
+                using (var connection = new MySqlConnection(DBUtils.ConnectionString))
+                {
+                    connection.Open();
+                    string Sql = "Select userID, userEmail, roleName, fullname, phoneNumber, address, status, note " +
+                            "From account " +
+                            "Where roleName = @roleName and MATCH (fullname) AGAINST (@searchValue in natural language mode) " +
+                            "LIMIT @offset, @limit";
+                    using (var command = new MySqlCommand(Sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@offset", offset);
+                        command.Parameters.AddWithValue("@limit", RowsOnPage);
+                        command.Parameters.AddWithValue("@roleName", roleName);
+                        command.Parameters.AddWithValue("@searchValue", searchValue);
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                accounts.Add(new Account
+                                {
+                                    userID = reader.GetString(0),
+                                    userEmail = reader.GetString(1),
+                                    roleName = reader.GetString(2),
+                                    fullname = reader.GetString(3),
+                                    phoneNumber = reader.GetString(4),
+                                    address = reader.GetString(5),
+                                    status = reader.GetString(6),
+                                    note = reader.IsDBNull(7) ? null : reader.GetString(7)
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return accounts;
+        }
     }
 }

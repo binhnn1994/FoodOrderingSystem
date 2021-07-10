@@ -12,8 +12,6 @@ namespace FoodOrderingSystem.Models.item
         public string status { get; set; }
         public string categoryName { get; set; }
         public decimal unitPrice { get; set; }
-        public int availableQuantity { get; set; }
-        public int foodCoin { get; set; }
         public string note { get; set; }
     }
 }

@@ -12,11 +12,11 @@ namespace FoodOrderingSystem.Services.Implements
         private IItemDAO _itemDAO;
         public ItemService(IItemDAO itemDAO) => _itemDAO = itemDAO;
 
-        public bool CreateItem(string itemName, string categoryName, decimal unitPrice, int availableQuantity, int foodCoin)
-            => _itemDAO.CreateItem(itemName, categoryName, unitPrice, availableQuantity, foodCoin);
+        public bool CreateItem(string itemName, string categoryName, decimal unitPrice)
+            => _itemDAO.CreateItem(itemName, categoryName, unitPrice);
 
-        public bool UpdateItemInformation(string itemID, string itemName, string categoryName, decimal unitPrice, int availableQuantity, int foodCoin)
-            => _itemDAO.UpdateItemInformation(itemID, itemName, categoryName, unitPrice, availableQuantity, foodCoin);
+        public bool UpdateItemInformation(string itemID, string itemName, string categoryName, decimal unitPrice)
+            => _itemDAO.UpdateItemInformation(itemID, itemName, categoryName, unitPrice);
 
         public int NumberOfItemFilterCategory(string categoryName, string status)
             => _itemDAO.NumberOfItemFilterCategory(categoryName, status);

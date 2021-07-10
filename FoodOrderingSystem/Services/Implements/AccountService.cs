@@ -14,12 +14,16 @@ namespace FoodOrderingSystem.Services.Implements
         public IEnumerable<Account> ViewAccountListByRole(string roleName, int RowsOnPage, int RequestPage) 
             => _accountDao.ViewAccountListByRole(roleName, RowsOnPage, RequestPage);
         public int NumberOfAccountByRole(string roleName) => _accountDao.NumberOfAccountByRole(roleName);
-        public bool CreateStaff(string userEmail, string password, string fullname, string phoneNumber, DateTime dateOfBirth, string address)
-            => _accountDao.CreateStaff(userEmail, password, fullname, phoneNumber, dateOfBirth, address);
-        public bool UpdateStaffInformation(string userID, string fullname, string phoneNumber, DateTime dateOfBirth, string address)
-            => _accountDao.UpdateStaffInformation(userID, fullname, phoneNumber, dateOfBirth, address);
+        public bool CreateStaff(string userEmail, string password, string fullname, string phoneNumber, string address)
+            => _accountDao.CreateStaff(userEmail, password, fullname, phoneNumber, address);
+        public bool UpdateStaffInformation(string userID, string fullname, string phoneNumber, string address)
+            => _accountDao.UpdateStaffInformation(userID, fullname, phoneNumber, address);
         public bool InactiveAccount(string userID, string note) => _accountDao.InactiveAccount(userID, note);
         public Account GetDetailOfAccount(string userID) => _accountDao.GetDetailOfAccount(userID);
         public bool ActiveAccount(string userID) => _accountDao.ActiveAccount(userID);
+        public IEnumerable<Account> ViewAccountListBySearching(string searchValue, string roleName, int RowsOnPage, int RequestPage)
+            => _accountDao.ViewAccountListBySearching(searchValue, roleName, RowsOnPage, RequestPage);
+        public int NumberOfAccountBySearching(string searchValue, string roleName) 
+            => _accountDao.NumberOfAccountBySearching(searchValue, roleName);
     }
 }
