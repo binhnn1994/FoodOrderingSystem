@@ -9292,16 +9292,49 @@ a.thanks-close:focus {
 .statement-table button {
     color: #fff;
     font-family: Poppins;
-    width: 100%;
+    width: 90px;
     text-align: center;
     font-size: 12px;
     font-weight: 600;
     padding: 10px 10px;
+    background-color: #2b83cf;
 }
 
 .statement-table .create-new-button>a {
     margin-top: -20px;
     margin-bottom: 30px;
+}
+
+.statement-table table tbody tr td:nth-child(1) {
+    width: 5%;
+}
+
+.statement-table table tbody tr td:nth-child(2) {
+    width: 22%;
+}
+
+.statement-table table tbody tr td:nth-child(3) {
+    width: 10%;
+}
+
+.statement-table table tbody tr td:nth-child(4) {
+    width: 15%;
+}
+
+.statement-table table tbody tr td:nth-child(5) {
+    width: 28%;
+}
+
+.statement-table table tbody tr td:nth-child(6) {
+    width: 10%;
+}
+
+.statement-table table tbody tr td:nth-child(7) {
+    width: 10%;
+}
+
+.statement-table table tbody tr td:nth-child(8) {
+    display: none;
 }
 
 nav>div>ul>li a.profile-name {
@@ -9313,8 +9346,7 @@ nav>div>ul>li a.profile-name {
     display: block;
     min-height: 1.5rem;
     padding-left: 1.5em;
-    font-size: 24px;
-    margin: -5px 22px;
+    font-size: 22px;
 }
 
 .form-check .form-check-input {
