@@ -1,0 +1,27 @@
+﻿@model List<FoodOrderingSystem.Models.item.Item>
+@{
+    ViewData["Title"] = "Các sản phẩm";
+}
+
+<div class="card-columns">
+
+    <a asp-route="cart"
+       class="btn btn-secondary btn-sm float-right">View Cart</a>
+    @foreach (var product in Model)
+    {
+        <div class=card>
+            <h3 class="card-header">@product.itemName  @product.itemID</h3>
+            <div class="card-body" style="height: 150px;">
+                @product.description
+            </div>
+            <div class="card-footer">
+                <span class="text-muted">@(product.unitPrice.ToString("n0")) VND</span>
+                <a asp-route="addcart"
+                   asp-route-itemID="@product.itemID"
+                   class="btn btn-secondary btn-sm float-right">Đặt hàng</a>
+            </div>
+        </div>
+
+    }
+
+</div>
