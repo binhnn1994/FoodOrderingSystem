@@ -484,5 +484,43 @@ namespace FoodOrderingSystem.ApiControllers
                 });
             }
         }
+
+        [Route("ViewAccountDetail")]
+        public JsonResult ViewAccountDetail([FromServices] IAccountService accountService, [FromBody] Request request)
+        {
+            try
+            {
+                Account account = accountService.GetDetailOfAccount(request.UserID);
+                return new JsonResult(account);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("ViewAccountDetail: " + e.Message);
+                var message = new
+                {
+                    message = e.Message
+                };
+                return new JsonResult(message);
+            }
+        }
+
+        [Route("ViewItemDetail")]
+        public JsonResult ViewItemDetail([FromServices] IItemService itemService, [FromBody] Request request)
+        {
+            try
+            {
+                Item item = itemService.GetDetailOfItem(request.ItemID);
+                return new JsonResult(item);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("ViewItemDetail: " + e.Message);
+                var message = new
+                {
+                    message = e.Message
+                };
+                return new JsonResult(message);
+            }
+        }
     }
 }
