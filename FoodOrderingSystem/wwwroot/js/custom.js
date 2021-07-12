@@ -2,19 +2,27 @@ window.onload = function() {
     var page = window.location.pathname.split("/").pop();
 
     //===== All Pages =====*/
-    if (true) {
-        // Format Money String Script
-        var moneys = document.getElementsByClassName("money");
-        for (let i = 0; i < moneys.length; i++) {
-            moneys[i].innerHTML = Number(moneys[i].innerHTML).toLocaleString('en');
-        }
+    if (page.includes("")) {
+        formatMoneyString();
     }
 
     //===== Profile Pages =====*/
     if (page.includes("profile")) {
-        // Autofill Profile Info Script 
+        setProfileInfo();
         document.getElementById("profile-name").value = "hihihaha";
         document.getElementById("profile-phone").value = "hihihehe";
         document.getElementById("profile-address").value = "hihihuhu";
+    }
+
+    //===== Staff Management Page =====*/
+    if (page === "StaffManagement") {
+        showStaffsList();
+    }
+}
+
+function formatMoneyString() {
+    var moneys = document.getElementsByClassName("money");
+    for (let i = 0; i < moneys.length; i++) {
+        moneys[i].innerHTML = Number(moneys[i].innerHTML).toLocaleString('en');
     }
 }
