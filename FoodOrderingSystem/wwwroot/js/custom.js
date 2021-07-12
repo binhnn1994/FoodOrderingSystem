@@ -31,3 +31,24 @@ function formatMoneyString() {
         moneys[i].innerHTML = Number(moneys[i].innerHTML).toLocaleString('en');
     }
 }
+
+function activateAccount(userID) {
+    var request = new XMLHttpRequest();
+    var url = "/api/AdminDashboard/ActiveAccount";
+    var content = 'UserID=' + userID;
+
+    request.open('POST', url, true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(content);
+}
+
+function deactivateAccount(userID) {
+    var request = new XMLHttpRequest();
+    var url = "/api/AdminDashboard/InactiveAccount";
+    var content = 'UserID=' + userID;
+    content += "&Note=Banned";
+
+    request.open('POST', url, true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(content);
+}

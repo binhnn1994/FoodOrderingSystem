@@ -14,45 +14,9 @@ function showCustomerList() {
 
 function renderCustomerList(customerList) {
     var table = document.getElementById("customer-table");
-    // table.innerHTML = "";
+    table.innerHTML = "";
 
-    // for (let i = 0; i < customerList.length; i++) {
-    //     var row = table.insertRow(-1);
-
-    //     var cellNo = row.insertCell(0);
-    //     var cellName = row.insertCell(1);
-    //     var cellPhone = row.insertCell(2);
-    //     var cellEmail = row.insertCell(3);
-    //     var cellAddress = row.insertCell(4);
-    //     var cellStatus = row.insertCell(5);
-    //     var cellID = row.insertCell(6);
-
-    //     cellNo.innerHTML = i + 1;
-    //     cellName.innerHTML = customerList[i].fullname;
-    //     cellPhone.innerHTML = customerList[i].phoneNumber;
-    //     cellEmail.innerHTML = customerList[i].userEmail;
-    //     cellAddress.innerHTML = customerList[i].address;
-    //     cellID.innerHTML = customerList[i].userID;
-
-    //     var div = document.createElement('div');
-    //     div.classList = "form-check form-switch";
-    //     var input = document.createElement('input');
-    //     input.type = "checkbox";
-    //     input.classList = "form-check-input customer-status-switch";
-    //     input.checked = (customerList[i].status === "Active");
-    //     div.appendChild(input);
-    //     cellStatus.appendChild(div);
-
-    //     if (input.checked) {
-    //         row.classList.add("gray-bg3");
-    //     } else {
-    //         row.classList.remove("gray-bg3");
-    //     }
-    // }
-
-    console.log(customerList.length);
-
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < customerList.length; i++) {
         var row = table.insertRow(-1);
 
         var cellNo = row.insertCell(0);
@@ -64,11 +28,11 @@ function renderCustomerList(customerList) {
         var cellID = row.insertCell(6);
 
         cellNo.innerHTML = i + 1;
-        cellName.innerHTML = "hehe";
-        cellPhone.innerHTML = "customerList[i].phoneNumber";
-        cellEmail.innerHTML = "customerList[i].userEmail";
-        cellAddress.innerHTML = "customerList[i].address";
-        cellID.innerHTML = "customerList[i].userID";
+        cellName.innerHTML = customerList[i].fullname;
+        cellPhone.innerHTML = customerList[i].phoneNumber;
+        cellEmail.innerHTML = customerList[i].userEmail;
+        cellAddress.innerHTML = customerList[i].address;
+        cellID.innerHTML = customerList[i].userID;
 
         cellID.style.display = "none";
 
@@ -77,7 +41,7 @@ function renderCustomerList(customerList) {
         var input = document.createElement('input');
         input.type = "checkbox";
         input.classList = "form-check-input customer-status-switch";
-        //input.checked = (customerList[i].status === "Active");
+        input.checked = (customerList[i].status === "Active");
         div.appendChild(input);
         cellStatus.appendChild(div);
 
