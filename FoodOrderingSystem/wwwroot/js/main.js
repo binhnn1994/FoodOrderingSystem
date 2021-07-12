@@ -115,6 +115,12 @@ $(document).ready(function() {
         $('#dish-price-edit').val($button.find('.price').text().replace(/\D/g, ''));
         $('#dish-description-edit').val($info.find('p').text());
 
+        if ($info.find('h6').text() === "Available") {
+            $('#dish-available').prop("checked", true);
+        } else {
+            $('#dish-unavailable').prop("checked", true);
+        }
+
         return false;
     });
 
