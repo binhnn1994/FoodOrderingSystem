@@ -113,9 +113,24 @@ namespace FoodOrderingSystem.Controllers
         }
 
         [Route("/checkout")]
-        public IActionResult CheckOut()
+        public IActionResult CheckOut([FromForm] string email, [FromForm] string address)
         {
+
             // Xử lý khi đặt hàng
+            var cart = GetCartItems();
+            ViewData["email"] = email;
+            ViewData["address"] = address;
+            ViewData["cart"] = cart;
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                //tạo cấu trúc db lưu lại đơn hàng
+                //add customerOrder
+                //xóa cart khỏi session
+                ClearCart();
+                RedirectToAction(nameof(Index));
+            }
+
             return View();
         }
 
