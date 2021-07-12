@@ -9,19 +9,21 @@ namespace FoodOrderingSystem.Models.item
 {
     public class ItemDAO : IItemDAO
     {
-        public bool CreateItem(string itemName, string categoryName, decimal unitPrice)
+        public bool CreateItem(string itemName, string categoryName, decimal unitPrice, string image, string description)
         {
             var result = false;
             using (var connection = new MySqlConnection(DBUtils.ConnectionString))
             {
                 connection.Open();
-                string Sql = "Insert Into item (itemID, itemName, status, categoryName, unitPrice) " +
-                    "Values (Left(SHA(RAND()),12), @itemName, 'Active', @categoryName, @unitPrice)";
+                string Sql = "Insert Into item (itemID, itemName, status, categoryName, unitPrice, image, description) " +
+                    "Values (Left(SHA(RAND()),12), @itemName, 'Active', @categoryName, @unitPrice, @image, @description)";
                 using (var command = new MySqlCommand(Sql, connection))
                 {
                     command.Parameters.AddWithValue("@itemName", itemName);
                     command.Parameters.AddWithValue("@categoryName", categoryName);
                     command.Parameters.AddWithValue("@unitPrice", unitPrice);
+                    command.Parameters.AddWithValue("@image", image);
+                    command.Parameters.AddWithValue("@description", description);
                     int rowEffects = command.ExecuteNonQuery();
                     if (rowEffects > 0)
                     {
@@ -33,14 +35,14 @@ namespace FoodOrderingSystem.Models.item
             return result;
         }
 
-        public bool UpdateItemInformation(string itemID, string itemName, string categoryName, decimal unitPrice)
+        public bool UpdateItemInformation(string itemID, string itemName, string categoryName, decimal unitPrice, string image, string description)
         {
             var result = false;
             using (var connection = new MySqlConnection(DBUtils.ConnectionString))
             {
                 connection.Open();
                 string Sql = "UPDATE item " +
-                    "SET itemName = @itemName, categoryName = @categoryName, unitPrice = @unitPrice " +
+                    "SET itemName = @itemName, categoryName = @categoryName, unitPrice = @unitPrice, image = @image, description = @description " +
                     "WHERE itemID = @itemID";
                 using (var command = new MySqlCommand(Sql, connection))
                 {
@@ -48,6 +50,8 @@ namespace FoodOrderingSystem.Models.item
                     command.Parameters.AddWithValue("@itemName", itemName);
                     command.Parameters.AddWithValue("@categoryName", categoryName);
                     command.Parameters.AddWithValue("@unitPrice", unitPrice);
+                    command.Parameters.AddWithValue("@image", image);
+                    command.Parameters.AddWithValue("@description", description);
                     int rowEffects = command.ExecuteNonQuery();
                     if (rowEffects > 0)
                     {
@@ -67,7 +71,7 @@ namespace FoodOrderingSystem.Models.item
                 using (var connection = new MySqlConnection(DBUtils.ConnectionString))
                 {
                     connection.Open();
-                    string Sql = "Select itemID, itemName, status, categoryName, unitPrice, note " +
+                    string Sql = "Select itemID, itemName, status, categoryName, unitPrice, note, image, description " +
                              "From item " +
                              "Where itemID = @itemID";
                     using (var command = new MySqlCommand(Sql, connection))
@@ -84,7 +88,9 @@ namespace FoodOrderingSystem.Models.item
                                     status = reader.IsDBNull(2) ? null : reader.GetString(2),
                                     categoryName = reader.IsDBNull(3) ? null : reader.GetString(3),
                                     unitPrice = reader.GetDecimal(4),
-                                    note = reader.IsDBNull(5) ? null : reader.GetString(5)
+                                    note = reader.IsDBNull(5) ? null : reader.GetString(5),
+                                    image = reader.IsDBNull(6) ? null : reader.GetString(6),
+                                    description = reader.IsDBNull(7) ? null : reader.GetString(7)
                                 };
                             }
                         }
@@ -216,21 +222,21 @@ namespace FoodOrderingSystem.Models.item
                     connection.Open();
                     string Sql = null;
                     if (categoryName.Trim().ToLower().Equals("all") && status.Trim().ToLower().Equals("all"))
-                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, note " +
+                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, note, image, description " +
                             "From item " +
                             "LIMIT @offset, @limit";
                     else if (categoryName.Trim().ToLower().Equals("all") && !status.Trim().ToLower().Equals("all"))
-                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, note " +
+                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, note, image, description " +
                             "From item " +
                             "Where status = @status " +
                             "LIMIT @offset, @limit";
                     else if (!categoryName.Trim().ToLower().Equals("all") && status.Trim().ToLower().Equals("all"))
-                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, note " +
+                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, note, image, description " +
                             "From item " +
                             "Where categoryName = @categoryName " +
                             "LIMIT @offset, @limit";
                     else
-                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, note " +
+                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, note, image, description " +
                             "From item " +
                             "Where categoryName = @categoryName and status = @status " +
                             "LIMIT @offset, @limit";
@@ -253,7 +259,9 @@ namespace FoodOrderingSystem.Models.item
                                     status = reader.IsDBNull(2) ? null : reader.GetString(2),
                                     categoryName = reader.IsDBNull(3) ? null : reader.GetString(3),
                                     unitPrice = reader.GetDecimal(4),
-                                    note = reader.IsDBNull(5) ? null : reader.GetString(5)
+                                    note = reader.IsDBNull(5) ? null : reader.GetString(5),
+                                    image = reader.IsDBNull(6) ? null : reader.GetString(6),
+                                    description = reader.IsDBNull(7) ? null : reader.GetString(7)
                                 });
                             }
                         }
@@ -321,22 +329,22 @@ namespace FoodOrderingSystem.Models.item
                     connection.Open();
                     string Sql = null;
                     if (categoryName.Trim().ToLower().Equals("all") && status.Trim().ToLower().Equals("all"))
-                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, note " +
+                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, note, image, description " +
                             "From item " +
                             "Where MATCH (itemName) AGAINST (@searchValue in natural language mode) " + 
                             "LIMIT @offset, @limit";
                     else if (categoryName.Trim().ToLower().Equals("all") && !status.Trim().ToLower().Equals("all"))
-                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, note " +
+                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, note, image, description " +
                             "From item " +
                             "Where MATCH (itemName) AGAINST (@searchValue in natural language mode) and status = @status " +
                             "LIMIT @offset, @limit";
                     else if (!categoryName.Trim().ToLower().Equals("all") && status.Trim().ToLower().Equals("all"))
-                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, note " +
+                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, note, image, description " +
                             "From item " +
                             "Where MATCH (itemName) AGAINST (@searchValue in natural language mode) and categoryName = @categoryName " +
                             "LIMIT @offset, @limit";
                     else
-                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, note " +
+                        Sql = "Select itemID, itemName, status, categoryName, unitPrice, note, image, description " +
                             "From item " +
                             "Where MATCH (itemName) AGAINST (@searchValue in natural language mode) and categoryName = @categoryName and status = @status " +
                             "LIMIT @offset, @limit";
@@ -360,7 +368,9 @@ namespace FoodOrderingSystem.Models.item
                                     status = reader.IsDBNull(2) ? null : reader.GetString(2),
                                     categoryName = reader.IsDBNull(3) ? null : reader.GetString(3),
                                     unitPrice = reader.GetDecimal(4),
-                                    note = reader.IsDBNull(5) ? null : reader.GetString(5)
+                                    note = reader.IsDBNull(5) ? null : reader.GetString(5),
+                                    image = reader.IsDBNull(6) ? null : reader.GetString(6),
+                                    description = reader.IsDBNull(7) ? null : reader.GetString(7)
                                 });
                             }
                         }

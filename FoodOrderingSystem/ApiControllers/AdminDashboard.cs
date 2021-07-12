@@ -254,7 +254,7 @@ namespace FoodOrderingSystem.ApiControllers
         {
             try
             {
-                bool result = itemService.CreateItem(item.itemName, item.categoryName, item.unitPrice);
+                bool result = itemService.CreateItem(item.itemName, item.categoryName, item.unitPrice, item.image, item.description);
                 var message = new
                 {
                     message = "success"
@@ -277,7 +277,7 @@ namespace FoodOrderingSystem.ApiControllers
         {
             try
             {
-                bool result = itemService.UpdateItemInformation(item.itemID, item.itemName, item.categoryName, item.unitPrice);
+                bool result = itemService.UpdateItemInformation(item.itemID, item.itemName, item.categoryName, item.unitPrice, item.image, item.description);
                 if (result)
                 {
                     var message = new
@@ -482,6 +482,44 @@ namespace FoodOrderingSystem.ApiControllers
                 {
                     message = ex.Message
                 });
+            }
+        }
+
+        [Route("ViewAccountDetail")]
+        public JsonResult ViewAccountDetail([FromServices] IAccountService accountService, [FromBody] Request request)
+        {
+            try
+            {
+                Account account = accountService.GetDetailOfAccount(request.UserID);
+                return new JsonResult(account);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("ViewAccountDetail: " + e.Message);
+                var message = new
+                {
+                    message = e.Message
+                };
+                return new JsonResult(message);
+            }
+        }
+
+        [Route("ViewItemDetail")]
+        public JsonResult ViewItemDetail([FromServices] IItemService itemService, [FromBody] Request request)
+        {
+            try
+            {
+                Item item = itemService.GetDetailOfItem(request.ItemID);
+                return new JsonResult(item);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("ViewItemDetail: " + e.Message);
+                var message = new
+                {
+                    message = e.Message
+                };
+                return new JsonResult(message);
             }
         }
     }
