@@ -49,6 +49,11 @@ function renderStaffList(staffList) {
         div.appendChild(input);
         cellStatus.appendChild(div);
 
+        if (input.checked === true) {
+            row.classList.remove("gray-bg");
+        } else {
+            row.classList.add("gray-bg");
+        }
     }
 
     //===== Update Popup Script =====//
@@ -77,8 +82,10 @@ function renderStaffList(staffList) {
 
         if ($(this).is(':checked')) {
             activateAccount($row.children("td:nth-child(8)").text());
+            $row.removeClass("gray-bg");
         } else {
             deactivateAccount($row.children("td:nth-child(8)").text());
+            $row.addClass("gray-bg");
         }
     });
 }

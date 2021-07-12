@@ -18,6 +18,11 @@ window.onload = function() {
     if (page === "StaffManagement") {
         showStaffsList();
     }
+
+    //===== Customer Management Page =====*/
+    if (page === "CustomerManagement") {
+        showCustomerList();
+    }
 }
 
 function formatMoneyString() {
