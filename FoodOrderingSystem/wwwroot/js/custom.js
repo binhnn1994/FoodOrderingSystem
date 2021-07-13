@@ -42,7 +42,6 @@ window.onload = function() {
             var removePrice = parseInt($(this).parent().find('.price').text().replace(/\D/g, ''));
             subtotalBill = $("#subtotal-bill");
             subtotalBill.html(parseInt(subtotalBill.html().replace(/\D/g, ''), 10) - removePrice);
-            callback();
         });
     }
 

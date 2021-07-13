@@ -103,8 +103,8 @@ function renderItemList(itemList, callback) {
                 qtyInput.type = "text";
                 qtyInput.value = 1;
                 qtyInput.style.display = "block";
-                image.src = "../images/resource/dish-img2-1.jpg";
-                image.alt = "dish-img2-1.jpg";
+                image.src = "../images/resource/dish-img1-" + (j + 1) + ".jpg";
+                image.alt = "dish-img1-" + (j + 1) + ".jpg";
 
                 button.title = "Order Now";
                 button.href = "/CustomerDashboard/addcart/" + itemList[j].itemID;
@@ -146,6 +146,7 @@ function renderItemList(itemList, callback) {
                     var removePrice = parseInt($(this).parent().find('.price').text().replace(/\D/g, ''));
                     subtotalBill = $("#subtotal-bill");
                     subtotalBill.html(parseInt(subtotalBill.html().replace(/\D/g, ''), 10) - removePrice);
+                    formatMoneyString();
                 });
             });
         }
@@ -211,7 +212,7 @@ function addToCart(itemID, itemPrice, itemName, callback) {
         price.innerHTML = itemPrice;
     }
 
-    callback();
+    console.log("calbakchihi");
 
     if (listEmpty === true) {
         setTimeout(function() { location.reload(); }, 500);
@@ -219,4 +220,6 @@ function addToCart(itemID, itemPrice, itemName, callback) {
         subtotalBill = $("#subtotal-bill");
         subtotalBill.html(parseInt(subtotalBill.html().replace(/\D/g, ''), 10) + parseInt(itemPrice));
     }
+
+    callback();
 }

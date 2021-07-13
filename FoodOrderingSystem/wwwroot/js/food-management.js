@@ -99,8 +99,8 @@ function renderItemList(itemList, callback) {
         editBtn.title = "Edit";
         editBtn.href = "#";
 
-        image.src = "../images/resource/featured-restaurant-img1.jpg";
-        image.alt = "featured-restaurant-img1.jpg";
+        image.src = "../images/resource/featured-restaurant-img" + (i + 1) + ".jpg";
+        image.alt = "featured-restaurant-img" + (i + 1) + ".jpg";
 
         if (itemList[i].status !== "Active") {
             var disableColor = "#999999";
