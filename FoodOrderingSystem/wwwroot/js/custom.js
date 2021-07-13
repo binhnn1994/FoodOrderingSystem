@@ -1,6 +1,9 @@
 window.onload = function() {
     var page = window.location.pathname.split("/").slice(-2).join("/");
 
+    // console.log(window.location.pathname);
+    // console.log(page);
+
     //===== Profile Pages =====*/
     if (page.includes("Profile")) {
         setProfileInfo();
@@ -20,9 +23,27 @@ window.onload = function() {
     }
 
     //===== Food Management Page =====*/
-    if (page === "AdminDashboard/Index") {
+    if (page === "AdminDashboard/Index" || page === "AdminDashboard/") {
         loadCategories();
         showItemList();
+    }
+
+    //===== Order Page =====*/
+    if (page === "CustomerDashboard/Index" || page === "/CustomerDashboard" || page === "/") {
+        loadCategories();
+        showItemList();
+
+        $('.item-remove-btn').prop("onclick", null).off("click");
+        $('.item-remove-btn').click(function(event) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            $(this).closest('li').remove();
+            $.get(url, function() {});
+            var removePrice = parseInt($(this).parent().find('.price').text().replace(/\D/g, ''));
+            subtotalBill = $("#subtotal-bill");
+            subtotalBill.html(parseInt(subtotalBill.html().replace(/\D/g, ''), 10) - removePrice);
+            callback();
+        });
     }
 
     //===== All Pages =====*/
@@ -34,7 +55,9 @@ window.onload = function() {
 function formatMoneyString() {
     var moneys = document.getElementsByClassName("money");
     for (let i = 0; i < moneys.length; i++) {
-        moneys[i].innerHTML = Number(moneys[i].innerHTML).toLocaleString('en');
+        if (isNaN(moneys[i].innerHTML) === false) {
+            moneys[i].innerHTML = Number(moneys[i].innerHTML).toLocaleString('en');
+        }
     }
 }
 

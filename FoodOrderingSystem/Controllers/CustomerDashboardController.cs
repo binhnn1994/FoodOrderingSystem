@@ -29,8 +29,10 @@ namespace FoodOrderingSystem.Controllers
         [Route("", Name = "Index")]
         public IActionResult Index()
         {
-            var products = itemService.ViewItemListFilterCategory("all", "all", 10, 1); //tests
-            return View(products);
+            //var products = itemService.ViewItemListFilterCategory("all", "all", 10, 1); //tests
+            //return View(products);
+			var cart = GetCartItems();
+			return View(cart);
         }
 
         /// Thêm sản phẩm vào cart
