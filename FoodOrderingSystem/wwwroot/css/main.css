@@ -253,7 +253,7 @@ form.dark-red-bg {
 }
 
 .gray-bg {
-    background-color: #f6f6f6;
+    background-color: #f1f1f1;
 }
 
 .gray-bg2 {
@@ -9292,16 +9292,49 @@ a.thanks-close:focus {
 .statement-table button {
     color: #fff;
     font-family: Poppins;
-    width: 100%;
+    width: 90px;
     text-align: center;
     font-size: 12px;
     font-weight: 600;
     padding: 10px 10px;
+    background-color: #2b83cf;
 }
 
 .statement-table .create-new-button>a {
     margin-top: -20px;
     margin-bottom: 30px;
+}
+
+.statement-table table tbody tr td:nth-child(1) {
+    width: 5%;
+}
+
+.statement-table table tbody tr td:nth-child(2) {
+    width: 22%;
+}
+
+.statement-table table tbody tr td:nth-child(3) {
+    width: 10%;
+}
+
+.statement-table table tbody tr td:nth-child(4) {
+    width: 15%;
+}
+
+.statement-table table tbody tr td:nth-child(5) {
+    width: 28%;
+}
+
+.statement-table table tbody tr td:nth-child(6) {
+    width: 10%;
+}
+
+.statement-table table tbody tr td:nth-child(7) {
+    width: 10%;
+}
+
+.statement-table table tbody tr td:nth-child(8) {
+    display: none;
 }
 
 nav>div>ul>li a.profile-name {
@@ -9313,8 +9346,7 @@ nav>div>ul>li a.profile-name {
     display: block;
     min-height: 1.5rem;
     padding-left: 1.5em;
-    font-size: 24px;
-    margin: -5px 22px;
+    font-size: 22px;
 }
 
 .form-check .form-check-input {
@@ -9418,4 +9450,58 @@ nav>div>ul>li a.profile-name {
 .form-check-inline {
     display: inline-block;
     margin-right: 1rem
+}
+
+
+/*===== Report Tab =====*/
+
+.report-table {
+    float: left;
+    width: 100%;
+}
+
+.report-table table {
+    width: 100%;
+    text-align: center;
+    -webkit-box-shadow: 0 0 32px rgba(0, 0, 0, 0.04);
+    -ms-box-shadow: 0 0 32px rgba(0, 0, 0, 0.04);
+    -o-box-shadow: 0 0 32px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 0 32px rgba(0, 0, 0, 0.04);
+}
+
+.report-table table thead {
+    background-color: #2a2a2a;
+    color: #fff;
+    -webkit-box-shadow: 0 0 32px rgba(0, 0, 0, 0.04);
+    -ms-box-shadow: 0 0 32px rgba(0, 0, 0, 0.04);
+    -o-box-shadow: 0 0 32px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 0 32px rgba(0, 0, 0, 0.04);
+}
+
+.report-table table th {
+    font-size: 12px;
+    font-family: Poppins;
+    padding: 15px 10px;
+    text-align: inherit;
+}
+
+.report-table table tbody {
+    background-color: #fff;
+}
+
+.report-table table tbody td {
+    font-family: Poppins;
+    font-size: 13px;
+    color: #666;
+    padding: 15px 18px;
+    border: 1px solid #eee;
+}
+
+.report-table table tbody tr td:nth-child(2) {
+    text-align: left;
+}
+
+.report-table table tbody tr td:nth-child(4),
+.report-table table tbody tr td:nth-child(5) {
+    text-align: right;
 }

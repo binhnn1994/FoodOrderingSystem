@@ -87,27 +87,8 @@ $(document).ready(function() {
         return false;
     });
 
-    $('.create-close-btn').on('click', function() {
+    $('.create-close-btn, .create-submit-btn').on('click', function() {
         $('html').removeClass('create-popup-active');
-        return false;
-    });
-
-    //===== Update Popup Script =====//
-    $('.update-popup-btn').on('click', function() {
-        $('html').addClass('update-popup-active');
-
-        var $row = $(this).closest('tr');
-
-        $('#staff-email-edit').val($row.children("td:nth-child(4)").text());
-        $('#staff-name-edit').val($row.children("td:nth-child(2)").text());
-        $('#staff-phone-edit').val($row.children("td:nth-child(3)").text());
-        $('#staff-address-edit').val($row.children("td:nth-child(5)").text());
-
-        return false;
-    });
-
-    $('.update-close-btn').on('click', function() {
-        $('html').removeClass('update-popup-active');
         return false;
     });
 

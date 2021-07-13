@@ -1,199 +1,155 @@
-﻿<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <title>Staff Management - GudFood</title>
-    <link rel="shortcut icon" href="~/images/favicon.png" type="image/x-icon">
-
-    <link rel="stylesheet" href="~/css/icons.min.css">
-    <link rel="stylesheet" href="~/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/css/main.css">
-    <link rel="stylesheet" href="~/css/red-color.css">
-    <link rel="stylesheet" href="~/css/yellow-color.css">
-</head>
-
-<body>
-    <main>
-        <header class="stick" style="transform: translate3d(0px, 0px, 0px); position: fixed; top: 0px;">
-            <div class="logo-menu-sec">
-                <div class="container">
-                    <div class="logo">
-                        <h1 itemprop="headline">
-                            <a href="Index" title="Home" itemprop="url"><img src="~/images/logo.png" alt="logo.png" itemprop="image"></a>
-                        </h1>
+﻿<main>
+    <header class="stick" style="transform: translate3d(0px, 0px, 0px); position: fixed; top: 0px;">
+        <div class="logo-menu-sec">
+            <div class="container">
+                <div class="logo">
+                    <h1 itemprop="headline">
+                        <a href="Index" title="Home" itemprop="url"><img src="~/images/logo.png" alt="logo.png" itemprop="image"></a>
+                    </h1>
+                </div>
+                <nav>
+                    <div class="menu-sec">
+                        <ul>
+                            <li style="margin-left: 150px;">
+                                <a href="Index" title="FOOD MANAGEMENT" itemprop="url"><span class="red-clr">MANAGEMENT</span>FOOD MANAGEMENT</a>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#" title="ACCOUNT MANAGEMENT" itemprop="url"><span class="red-clr">MANAGEMENT</span>ACCOUNT MANAGEMENT</a>
+                                <ul class="sub-dropdown">
+                                    <li><a href="StaffManagement" title="STAFF MANAGEMENT" itemprop="url">STAFF</a></li>
+                                    <li><a href="CustomerManagement" title="CUSTOMER MANAGEMENT" itemprop="url">CUSTOMER</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul style="margin: 10px; float: right;">
+                            <li><a href="Profile" title="CHANGE INFOMATION" itemprop="url" class="profile-name">Huu Quoc</a></li>
+                        </ul>
+                        <!-- Current User Name -->
                     </div>
-                    <nav>
-                        <div class="menu-sec">
-                            <ul>
-                                <li style="margin-left: 150px;">
-                                    <a href="Index" title="FOOD MANAGEMENT" itemprop="url"><span class="red-clr">MANAGEMENT</span>FOOD MANAGEMENT</a>
-                                </li>
-                                <li class="menu-item-has-children">
-                                    <a href="#" title="ACCOUNT MANAGEMENT" itemprop="url"><span class="red-clr">MANAGEMENT</span>ACCOUNT MANAGEMENT</a>
-                                    <ul class="sub-dropdown">
-                                        <li><a href="StaffManagement" title="STAFF MANAGEMENT" itemprop="url">STAFF</a></li>
-                                        <li><a href="CustomerManagement" title="CUSTOMER MANAGEMENT" itemprop="url">CUSTOMER</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <ul style="margin: 10px; float: right;">
-                                <li><a href="profile-admin.html" title="CHANGE INFOMATION" itemprop="url" class="profile-name">Huu Quoc</a></li>
-                            </ul>
-                            <!-- Current User Name -->
+                </nav>
+                <!-- Navigation -->
+            </div>
+        </div>
+        <!-- Logo Menu Section -->
+    </header>
+    <!-- Header -->
+    <section>
+        <div class="block gray-bg top-padd30">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-lg-12">
+                        <div class="sec-box">
+                            <div class="filters-wrapper">
+                                <form class="restaurant-search-form brd-rd2">
+                                    <div class="row" style="margin: -30px 210px 10px;">
+                                        <div class="col-md-9 col-sm-9 col-lg-9 col-xs-12">
+                                            <div class="input-field brd-rd4"><input class="brd-rd2" type="text" placeholder="Search staff here..."></div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
+                                            <button class="brd-rd4 red-bg">SEARCH</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="statement-table">
+                                    <div class="create-new-button">
+                                        <a class="brd-rd3 create-popup-btn" href="#" itemprop="url">ADD</a>
+                                    </div>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>NO.</th>
+                                                <th>FULL NAME</th>
+                                                <th>PHONE NO.</th>
+                                                <th>EMAIL</th>
+                                                <th>ADDRESS</th>
+                                                <th>ACTION</th>
+                                                <th>STATUS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="staff-table">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Customer Table -->
+                            </div>
                         </div>
-                    </nav>
-                    <!-- Navigation -->
+                    </div>
                 </div>
             </div>
-            <!-- Logo Menu Section -->
-        </header>
-        <!-- Header -->
-
-        <section>
-            <div class="block gray-bg top-padd30">
-                <div class="container">
+        </div>
+    </section>
+    
+    <div class="create-popup text-center">
+        <div class="sign-popup-wrapper brd-rd5">
+            <div class="sign-popup-inner brd-rd5">
+                <a class="create-close-btn" href="#" title="" itemprop="url"><i class="fa fa-close"></i></a>
+                <div class="sign-popup-title text-center">
+                    <h4 itemprop="headline">ADD NEW STAFF</h4>
+                </div>
+                <form class="sign-form" name="create-form">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <div class="sec-box">
-                                <div class="filters-wrapper">
-                                    <form class="restaurant-search-form brd-rd2">
-                                        <div class="row" style="margin: -30px 210px 10px;">
-                                            <div class="col-md-9 col-sm-9 col-lg-9 col-xs-12">
-                                                <div class="input-field brd-rd4"><input class="brd-rd2" type="text" placeholder="Search staff here..."></div>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
-                                                <button class="brd-rd4 red-bg">SEARCH</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <div class="statement-table">
-                                        <div class="create-new-button">
-                                            <a class="brd-rd3 create-popup-btn" href="#" itemprop="url">ADD</a>
-                                        </div>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>NO.</th>
-                                                    <th>FULL NAME</th>
-                                                    <th>PHONE NO.</th>
-                                                    <th>EMAIL</th>
-                                                    <th>ADDRESS</th>
-                                                    <th>ACTION</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Huu Quoc</td>
-                                                    <td>0123456789</td>
-                                                    <td>huuquoc@trungga.com</td>
-                                                    <td>335 Camberwell Road Camberwell, Canada</td>
-                                                    <td>
-                                                        <button class="brd-rd2 update-popup-btn" style="background-color: #2b83cf; margin-bottom: 10px;">UPDATE</button><br>
-                                                        <div class="form-check form-switch" style="">
-                                                            <input class="form-check-input" type="checkbox" checked>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>Huu Quoc</td>
-                                                    <td>0123456789</td>
-                                                    <td>huuquoc@trungga.com</td>
-                                                    <td>335 Camberwell Road Camberwell, Canada</td>
-                                                    <td>
-                                                        <button class="brd-rd2 update-popup-btn" style="background-color: #2b83cf; margin-bottom: 10px;">UPDATE</button><br>
-                                                        <div class="form-check form-switch" style="font-size: 24px; margin: -5px 22px;">
-                                                            <input class="form-check-input" type="checkbox">
-                                                        </div>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!-- Customer Table -->
-                                </div>
-                            </div>
+                            <label>Email</label>
+                            <input class="brd-rd3" type="email" placeholder="Enter Email" style="font-size: 14px">
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <label>Password</label>
+                            <input class="brd-rd3" type="password" placeholder="Enter Password" style="font-size: 14px">
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <label>Full Name</label>
+                            <input class="brd-rd3" type="text" placeholder="Enter Name" style="font-size: 14px">
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <label>Phone Number</label>
+                            <input class="brd-rd3" type="text" placeholder="Enter Phone No." style="font-size: 14px">
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <label>Address</label>
+                            <input class="brd-rd3" type="text" placeholder="Enter Address" style="font-size: 14px">
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <button class="red-bg brd-rd3 create-submit-btn" style="margin-top: 12px;" onclick="createStaff()" type="button">ADD</button>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="bottom-bar dark-bg text-center">
-            <div class="container">
-                <p></p>
+                </form>
             </div>
         </div>
-        <!-- Bottom Bar -->
-
-        <div class="create-popup text-center">
-            <div class="sign-popup-wrapper brd-rd5">
-                <div class="sign-popup-inner brd-rd5">
-                    <a class="create-close-btn" href="#" title="" itemprop="url"><i class="fa fa-close"></i></a>
-                    <div class="sign-popup-title text-center">
-                        <h4 itemprop="headline">ADD NEW STAFF</h4>
-                    </div>
-                    <form class="sign-form">
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 col-lg-12">
-                                <input class="brd-rd3" type="email" placeholder="Email" style="font-size: 14px">
-                            </div>
-                            <div class="col-md-12 col-sm-12 col-lg-12">
-                                <input class="brd-rd3" type="password" placeholder="Password" style="font-size: 14px">
-                            </div>
-                            <div class="col-md-12 col-sm-12 col-lg-12">
-                                <button class="red-bg brd-rd3">ADD</button>
-                            </div>
+    </div>
+    <div class="update-popup text-center">
+        <div class="sign-popup-wrapper brd-rd5">
+            <div class="sign-popup-inner brd-rd5">
+                <a class="update-close-btn" href="#" title="" itemprop="url"><i class="fa fa-close"></i></a>
+                <div class="sign-popup-title text-center">
+                    <h4 itemprop="headline">UPDATE STAFF INFO</h4>
+                </div>
+                <form class="sign-form" name="update-form">
+                    <div class="row">
+                        <input type="hidden" id="staff-id-edit">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <label>Email</label>
+                            <input class="brd-rd3" type="email" id="staff-email-edit" placeholder="Enter Staff Email" style="font-size: 14px" disabled>
                         </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="update-popup text-center">
-            <div class="sign-popup-wrapper brd-rd5">
-                <div class="sign-popup-inner brd-rd5">
-                    <a class="update-close-btn" href="#" title="" itemprop="url"><i class="fa fa-close"></i></a>
-                    <div class="sign-popup-title text-center">
-                        <h4 itemprop="headline">UPDATE STAFF INFO</h4>
-                    </div>
-                    <form class="sign-form">
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 col-lg-12">
-                                <label>Email</label>
-                                <input class="brd-rd3" type="email" id="staff-email-edit" placeholder="Enter Staff Email" style="font-size: 14px" disabled>
-                            </div>
-                            <div class="col-md-12 col-sm-12 col-lg-12">
-                                <label>Full Name</label>
-                                <input class="brd-rd3" type="text" id="staff-name-edit" placeholder="Enter Staff Name" style="font-size: 14px">
-                            </div>
-                            <div class="col-md-12 col-sm-12 col-lg-12">
-                                <label>Phone Number</label>
-                                <input class="brd-rd3" type="text" id="staff-phone-edit" placeholder="Enter Staff Phone No." style="font-size: 14px">
-                            </div>
-                            <div class="col-md-12 col-sm-12 col-lg-12">
-                                <label>Address</label>
-                                <input class="brd-rd3" type="text" id="staff-address-edit" placeholder="Enter Staff Address" style="font-size: 14px">
-                            </div>
-                            <div class="col-md-12 col-sm-12 col-lg-12">
-                                <button class="red-bg brd-rd3" style="margin-top: 12px;">SAVE CHANGES</button>
-                            </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <label>Full Name</label>
+                            <input class="brd-rd3" type="text" id="staff-name-edit" placeholder="Enter Staff Name" style="font-size: 14px">
                         </div>
-                    </form>
-                </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <label>Phone Number</label>
+                            <input class="brd-rd3" type="text" id="staff-phone-edit" placeholder="Enter Staff Phone No." style="font-size: 14px">
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <label>Address</label>
+                            <input class="brd-rd3" type="text" id="staff-address-edit" placeholder="Enter Staff Address" style="font-size: 14px">
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <button class="red-bg brd-rd3 update-submit-btn" style="margin-top: 12px;" onclick="updateStaff()" type="button">SAVE CHANGES</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-    </main>
-    <!-- Main Wrapper -->
+    </div>
+</main>
 
-    <script src="~/js/jquery.min.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
-    <script src="~/js/main.js"></script>
-    <script src="~/js/plugins.js"></script>
-    <script src="~/js/custom.js"></script>
-</body>
-
-</html>
+<script src="~/js/staff-management.js"></script>
