@@ -2,7 +2,7 @@ window.onload = function() {
     var page = window.location.pathname.split("/").slice(-2).join("/");
 
     //===== Profile Pages =====*/
-    if (page.includes("profile")) {
+    if (page.includes("Profile")) {
         setProfileInfo();
         document.getElementById("profile-name").value = "hihihaha";
         document.getElementById("profile-phone").value = "hihihehe";
