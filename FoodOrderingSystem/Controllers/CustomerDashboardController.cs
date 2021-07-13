@@ -42,8 +42,8 @@ namespace FoodOrderingSystem.Controllers
         }
 
         /// Thêm sản phẩm vào cart
-        [Route ("/addcart", Name = "addcart")]
-        public IActionResult AddToCart([FromForm] string itemID, [FromForm] int quantity)
+        [Route("addcart/{itemID}", Name = "addcart")]
+        public IActionResult AddToCart([FromRoute] string itemID)
         {
             var product = itemService.GetDetailOfItem(itemID);
             if (product == null)
@@ -53,12 +53,12 @@ namespace FoodOrderingSystem.Controllers
             if (cartitem != null)
             {
                 // Đã tồn tại, tăng thêm 1
-                cartitem.quantity =quantity;
+                cartitem.quantity++;
             }
             else
             {
                 //  Thêm mới
-                cart.Add(new CartObj() { quantity = quantity, item = product });
+                cart.Add(new CartObj() { quantity = 1, item = product });
             }
             // Lưu cart vào Session
             SaveCartSession(cart);
