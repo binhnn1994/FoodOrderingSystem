@@ -1,4 +1,5 @@
 ﻿using FoodOrderingSystem.Models.account;
+using FoodOrderingSystem.Models.category;
 using FoodOrderingSystem.Models.item;
 using FoodOrderingSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -518,6 +519,25 @@ namespace FoodOrderingSystem.ApiControllers
                 var message = new
                 {
                     message = e.Message
+                };
+                return new JsonResult(message);
+            }
+        }
+
+        [Route("GetCategories")]
+        public JsonResult GetCategories([FromServices] ICategoryService categoryService)
+        {
+            try
+            {
+                IEnumerable<Category> categories = categoryService.GetCategories();
+                return new JsonResult(categories);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("GetCategories: " + e.Message);
+                var message = new
+                {
+                    message = "error"
                 };
                 return new JsonResult(message);
             }
