@@ -22,7 +22,7 @@ window.onload = function() {
     //===== Food Management Page =====*/
     if (page === "AdminDashboard/Index") {
         loadCategories();
-        showItemList("");
+        showItemList();
     }
 
     //===== All Pages =====*/

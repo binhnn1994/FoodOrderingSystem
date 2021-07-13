@@ -20,7 +20,10 @@ function loadCategories() {
     request.send();
 }
 
-function showItemList(searchValue) {
+function showItemList() {
+    $('.filter-all-items')[0].click();
+
+    var searchValue = document.getElementById("search-value").value;
     var request = new XMLHttpRequest();
     var url, content;
 
@@ -153,7 +156,6 @@ function renderItemList(itemList, callback) {
         var selector = $(this).attr('data-filter');
         $('.filter-buttons li').removeClass('active');
         $(this).parent().addClass('active');
-        console.log(selector);
 
         var list = document.getElementById("item-list").childNodes;
         for (var i = 0; i < list.length; i++) {
@@ -237,9 +239,6 @@ function createItem() {
     content += "&unitPrice=" + inputs[2].value;
     content += "&image=" + inputs[3].value;
     content += "&description=" + encodeURIComponent(inputs[4].value);
-
-    console.log(url);
-    console.log(content);
 
     request.open('POST', url, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
