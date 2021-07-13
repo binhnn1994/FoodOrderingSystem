@@ -98,34 +98,8 @@ $(document).ready(function() {
         return false;
     });
 
-    $('.add-close-btn').on('click', function() {
+    $('.add-close-btn, .add-submit-btn').on('click', function() {
         $('html').removeClass('add-popup-active');
-        return false;
-    });
-
-    //===== Edit Popup Script =====//
-    $('.edit-popup-btn').on('click', function() {
-        $('html').addClass('edit-popup-active');
-
-        var $info = $(this).parent().parent().find('.featured-restaurant-info');
-        var $button = $(this).parent().parent().find('.ord-btn');
-
-        $('#dish-name-edit').val($info.find('h4').text());
-        $('#dish-category-edit').val($info.find('h5').text());
-        $('#dish-price-edit').val($button.find('.price').text().replace(/\D/g, ''));
-        $('#dish-description-edit').val($info.find('p').text());
-
-        if ($info.find('h6').text() === "Available") {
-            $('#dish-available').prop("checked", true);
-        } else {
-            $('#dish-unavailable').prop("checked", true);
-        }
-
-        return false;
-    });
-
-    $('.edit-close-btn').on('click', function() {
-        $('html').removeClass('edit-popup-active');
         return false;
     });
 
@@ -421,7 +395,8 @@ $(document).ready(function() {
 
 }); //===== Document Ready Ends =====//
 
-jQuery(window).on('load', function($) {
+// jQuery(window).on('load', function($) {
+function addFilter() {
     'use strict';
 
     //===== Isotope =====//
@@ -448,5 +423,5 @@ jQuery(window).on('load', function($) {
             }
         });
     }
-
-});
+}
+// });

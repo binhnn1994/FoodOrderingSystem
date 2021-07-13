@@ -1,10 +1,5 @@
 window.onload = function() {
-    var page = window.location.pathname.split("/").pop();
-
-    //===== All Pages =====*/
-    if (page.includes("")) {
-        formatMoneyString();
-    }
+    var page = window.location.pathname.split("/").slice(-2).join("/");
 
     //===== Profile Pages =====*/
     if (page.includes("profile")) {
@@ -15,13 +10,23 @@ window.onload = function() {
     }
 
     //===== Staff Management Page =====*/
-    if (page === "StaffManagement") {
+    if (page === "AdminDashboard/StaffManagement") {
         showStaffsList();
     }
 
     //===== Customer Management Page =====*/
-    if (page === "CustomerManagement") {
+    if (page === "AdminDashboard/CustomerManagement") {
         showCustomerList();
+    }
+
+    //===== Food Management Page =====*/
+    if (page === "AdminDashboard/Index") {
+        showItemList();
+    }
+
+    //===== All Pages =====*/
+    if (page.length >= 0) {
+        // formatMoneyString();
     }
 }
 
@@ -47,6 +52,27 @@ function deactivateAccount(userID) {
     var url = "/api/AdminDashboard/InactiveAccount";
     var content = 'UserID=' + userID;
     content += "&Note=Banned";
+
+    request.open('POST', url, true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(content);
+}
+
+function activateItem(itemID) {
+    var request = new XMLHttpRequest();
+    var url = "/api/AdminDashboard/ActiveItem";
+    var content = 'ItemID=' + itemID;
+
+    request.open('POST', url, true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(content);
+}
+
+function deactivateItem(itemID) {
+    var request = new XMLHttpRequest();
+    var url = "/api/AdminDashboard/InactiveItem";
+    var content = 'ItemID=' + itemID;
+    content += "&Note=" + encodeURIComponent("Suspension Of Business");
 
     request.open('POST', url, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
