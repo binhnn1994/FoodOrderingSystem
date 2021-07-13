@@ -1,4 +1,6 @@
 using FoodOrderingSystem.Models.account;
+using FoodOrderingSystem.Models.customerOrder;
+using FoodOrderingSystem.Models.feedback;
 using FoodOrderingSystem.Models.item;
 using FoodOrderingSystem.Services.Implements;
 using FoodOrderingSystem.Services.Interfaces;
@@ -29,11 +31,27 @@ namespace FoodOrderingSystem
         {
             // config connection string
             DBUtils.ConnectionString = Configuration.GetConnectionString("MySql");
+
+            //get mail settings
+            services.AddOptions();
+            var mailsettings = Configuration.GetSection("MailSettings");
+            services.Configure<MailSettings>(mailsettings);
+            services.AddTransient<ISendMailService, SendMailService>();
+
+
             services.AddControllersWithViews();
             services.AddTransient<IAccountDAO, AccountDAO>();
             services.AddTransient<IAccountService, AccountService>();
+
             services.AddTransient<IItemDAO, ItemDAO>();
             services.AddTransient<IItemService, ItemService>();
+
+            services.AddTransient<ICustomerOrderDAO, CustomerOrderDAO>();
+            services.AddTransient<ICustomerOrderService, CustomerOrderService>();
+
+            services.AddTransient<IFeedbackDAO, FeedbackDAO>();
+            services.AddTransient<IFeedbackService, FeedbackService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
