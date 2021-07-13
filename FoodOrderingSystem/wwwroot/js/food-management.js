@@ -22,7 +22,6 @@ function loadCategories() {
 
 function showItemList(searchValue) {
     var request = new XMLHttpRequest();
-
     var url, content;
 
     if (searchValue.length > 0) {

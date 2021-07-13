@@ -1,7 +1,16 @@
 function showStaffsList() {
+    var searchValue = document.getElementById("search-value").value;
+
     var request = new XMLHttpRequest();
-    var url = "/api/AdminDashboard/ViewStaffsList";
-    var content = '{"RowsOnPage": 100, "RequestPage": 1}';
+    var url, content;
+
+    if (searchValue.length > 0) {
+        url = "/api/AdminDashboard/ViewStaffListBySearching";
+        content = '{"SearchValue": "' + searchValue + '", "RowsOnPage": 100, "RequestPage": 1}';
+    } else {
+        url = "/api/AdminDashboard/ViewStaffsList";
+        content = '{"RowsOnPage": 100, "RequestPage": 1}';
+    }
 
     request.open('POST', url, true);
     request.setRequestHeader("Content-Type", "text/json");
@@ -105,6 +114,7 @@ function updateStaff() {
     request.open('POST', url, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     request.onload = function() {
+        alert("Updated successfully!");
         showStaffsList();
     };
     request.send(content);
@@ -124,6 +134,7 @@ function createStaff() {
     request.open('POST', url, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     request.onload = function() {
+        alert("Added successfully!");
         showStaffsList();
     };
     request.send(content);
