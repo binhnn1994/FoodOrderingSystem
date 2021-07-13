@@ -369,7 +369,7 @@ namespace FoodOrderingSystem.ApiControllers
             try
             {
                 string note = itemService.GetDetailOfItem(request.ItemID).note;
-                if (note.Trim().Length == 0 || note == null) return new JsonResult(new
+                if (note == null || note.Trim().Length == 0) return new JsonResult(new
                 {
                     message = "fail"
                 });

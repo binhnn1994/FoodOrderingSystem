@@ -31,6 +31,11 @@ namespace FoodOrderingSystem
             // config connection string
             DBUtils.ConnectionString = Configuration.GetConnectionString("MySql");
             services.AddControllersWithViews();
+            services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
+            services.AddSession(cfg => {                    // Đăng ký dịch vụ Session
+                cfg.Cookie.Name = "gudfood";                // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
+                cfg.IdleTimeout = new TimeSpan(0, 60, 0);    // Thời gian tồn tại của Session
+            });
             services.AddTransient<IAccountDAO, AccountDAO>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IItemDAO, ItemDAO>();
@@ -55,6 +60,8 @@ namespace FoodOrderingSystem
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

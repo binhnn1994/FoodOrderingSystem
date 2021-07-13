@@ -1,7 +1,16 @@
 function showCustomerList() {
+    var searchValue = document.getElementById("search-value").value;
+
     var request = new XMLHttpRequest();
-    var url = "/api/AdminDashboard/ViewCustumerList";
-    var content = '{"RowsOnPage": 100, "RequestPage": 1}';
+    var url, content;
+
+    if (searchValue.length > 0) {
+        url = "/api/AdminDashboard/ViewCustomerListBySearching";
+        content = '{"SearchValue": "' + searchValue + '", "RowsOnPage": 100, "RequestPage": 1}';
+    } else {
+        url = "/api/AdminDashboard/ViewCustumerList";
+        content = '{"RowsOnPage": 100, "RequestPage": 1}';
+    }
 
     request.open('POST', url, true);
     request.setRequestHeader("Content-Type", "text/json");

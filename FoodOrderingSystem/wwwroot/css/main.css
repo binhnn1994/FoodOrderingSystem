@@ -2301,6 +2301,7 @@ h3.marginb-0 {
 }
 
 .filter-buttons>li a,
+.filter-buttons>li button,
 .statement-table .create-new-button>a {
     padding: 7.5px 20px;
     border: 1px solid transparent;
@@ -9261,7 +9262,7 @@ a.thanks-close:focus {
     text-align: right;
 }
 
-.filters-wrapper .filter-buttons .add-new-button>a,
+.filters-wrapper .filter-buttons .add-new-button>button,
 .statement-table .create-new-button>a {
     color: #fff;
     font-family: Poppins;
@@ -9273,7 +9274,7 @@ a.thanks-close:focus {
     line-height: 22px;
 }
 
-.filters-wrapper .filter-buttons .add-new-button>a:hover,
+.filters-wrapper .filter-buttons .add-new-button>button:hover,
 .statement-table .create-new-button>a:hover {
     background: #ffbe00 !important;
     color: #2a2a2a;

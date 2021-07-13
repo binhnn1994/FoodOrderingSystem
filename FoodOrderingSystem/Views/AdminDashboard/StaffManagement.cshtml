@@ -1,4 +1,8 @@
-﻿<main>
+﻿@{
+    ViewData["Title"] = "Staff Management";
+}
+
+<main>
     <header class="stick" style="transform: translate3d(0px, 0px, 0px); position: fixed; top: 0px;">
         <div class="logo-menu-sec">
             <div class="container">
@@ -43,10 +47,10 @@
                                 <form class="restaurant-search-form brd-rd2">
                                     <div class="row" style="margin: -30px 210px 10px;">
                                         <div class="col-md-9 col-sm-9 col-lg-9 col-xs-12">
-                                            <div class="input-field brd-rd4"><input class="brd-rd2" type="text" placeholder="Search staff here..."></div>
+                                            <div class="input-field brd-rd4"><input class="brd-rd2" id="search-value" type="text" placeholder="Search staff here..."></div>
                                         </div>
                                         <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
-                                            <button class="brd-rd4 red-bg">SEARCH</button>
+                                            <button class="brd-rd4 red-bg" onclick="showStaffsList();" type="button">SEARCH</button>
                                         </div>
                                     </div>
                                 </form>
@@ -126,7 +130,7 @@
                 <form class="sign-form" name="update-form">
                     <div class="row">
                         <input type="hidden" id="staff-id-edit">
-                        <div class="col-md-12 col-sm-12 col-lg-12">
+                        <div class="col-md-12 col-sm-12 col-lg-12" style="display: none">
                             <label>Email</label>
                             <input class="brd-rd3" type="email" id="staff-email-edit" placeholder="Enter Staff Email" style="font-size: 14px" disabled>
                         </div>
