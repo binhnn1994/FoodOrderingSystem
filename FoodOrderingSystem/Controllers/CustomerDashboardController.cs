@@ -19,16 +19,17 @@ namespace FoodOrderingSystem.Controllers
         private readonly ILogger<CustomerDashboardController> _logger;
 
         private readonly IItemService itemService;
-        private readonly ICustomerOrderService customerOrderService;
-        private readonly IOrderDetailsService orderDetailsService;
+        //private readonly ICustomerOrderService customerOrderService;
+        //private readonly IOrderDetailsService orderDetailsService;
 
-        public CustomerDashboardController(ILogger<CustomerDashboardController> logger, IItemService _itemService,
-                                        ICustomerOrderService _customerOrderService, IOrderDetailsService _orderDetailsService)
+        public CustomerDashboardController(ILogger<CustomerDashboardController> logger, IItemService _itemService
+                                        //,ICustomerOrderService _customerOrderService, IOrderDetailsService _orderDetailsService
+                                        )
         {
             _logger = logger;
             itemService = _itemService;
-            customerOrderService = _customerOrderService;
-            orderDetailsService = _orderDetailsService;
+            //customerOrderService = _customerOrderService;
+            //orderDetailsService = _orderDetailsService;
         }
 
         [Route("", Name = "Index")]
@@ -126,7 +127,7 @@ namespace FoodOrderingSystem.Controllers
         [Route("/checkout")]
         public IActionResult CheckOut([FromForm] string address, [FromForm] string note, [FromForm] double total)
         {
-            var session = HttpContext.Session;
+            /*var session = HttpContext.Session;
             string userID = session.GetString("USERID");
             double deliveryFee = 20000;
             // Xử lý khi đặt hàng
@@ -146,7 +147,7 @@ namespace FoodOrderingSystem.Controllers
                 ClearCart();
                 RedirectToAction(nameof(Index));
             }
-
+            */
             return View();
         }
 
