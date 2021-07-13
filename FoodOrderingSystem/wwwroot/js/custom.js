@@ -18,6 +18,11 @@ window.onload = function() {
     if (page === "StaffManagement") {
         showStaffsList();
     }
+
+    //===== Customer Management Page =====*/
+    if (page === "CustomerManagement") {
+        showCustomerList();
+    }
 }
 
 function formatMoneyString() {
@@ -25,4 +30,25 @@ function formatMoneyString() {
     for (let i = 0; i < moneys.length; i++) {
         moneys[i].innerHTML = Number(moneys[i].innerHTML).toLocaleString('en');
     }
+}
+
+function activateAccount(userID) {
+    var request = new XMLHttpRequest();
+    var url = "/api/AdminDashboard/ActiveAccount";
+    var content = 'UserID=' + userID;
+
+    request.open('POST', url, true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(content);
+}
+
+function deactivateAccount(userID) {
+    var request = new XMLHttpRequest();
+    var url = "/api/AdminDashboard/InactiveAccount";
+    var content = 'UserID=' + userID;
+    content += "&Note=Banned";
+
+    request.open('POST', url, true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(content);
 }

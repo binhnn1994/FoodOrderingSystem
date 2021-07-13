@@ -253,7 +253,7 @@ form.dark-red-bg {
 }
 
 .gray-bg {
-    background-color: #f6f6f6;
+    background-color: #f1f1f1;
 }
 
 .gray-bg2 {
@@ -9450,4 +9450,58 @@ nav>div>ul>li a.profile-name {
 .form-check-inline {
     display: inline-block;
     margin-right: 1rem
+}
+
+
+/*===== Report Tab =====*/
+
+.report-table {
+    float: left;
+    width: 100%;
+}
+
+.report-table table {
+    width: 100%;
+    text-align: center;
+    -webkit-box-shadow: 0 0 32px rgba(0, 0, 0, 0.04);
+    -ms-box-shadow: 0 0 32px rgba(0, 0, 0, 0.04);
+    -o-box-shadow: 0 0 32px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 0 32px rgba(0, 0, 0, 0.04);
+}
+
+.report-table table thead {
+    background-color: #2a2a2a;
+    color: #fff;
+    -webkit-box-shadow: 0 0 32px rgba(0, 0, 0, 0.04);
+    -ms-box-shadow: 0 0 32px rgba(0, 0, 0, 0.04);
+    -o-box-shadow: 0 0 32px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 0 32px rgba(0, 0, 0, 0.04);
+}
+
+.report-table table th {
+    font-size: 12px;
+    font-family: Poppins;
+    padding: 15px 10px;
+    text-align: inherit;
+}
+
+.report-table table tbody {
+    background-color: #fff;
+}
+
+.report-table table tbody td {
+    font-family: Poppins;
+    font-size: 13px;
+    color: #666;
+    padding: 15px 18px;
+    border: 1px solid #eee;
+}
+
+.report-table table tbody tr td:nth-child(2) {
+    text-align: left;
+}
+
+.report-table table tbody tr td:nth-child(4),
+.report-table table tbody tr td:nth-child(5) {
+    text-align: right;
 }
