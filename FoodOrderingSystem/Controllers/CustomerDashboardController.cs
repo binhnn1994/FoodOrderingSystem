@@ -30,12 +30,18 @@ namespace FoodOrderingSystem.Controllers
         public IActionResult Index()
         {
             var products = itemService.ViewItemListFilterCategory("all", "all", 10, 1); //tests
-            return View(products);
+            int quantity = 1;
+            var list = new List<CartObj>();
+            foreach (var product in products) list.Add(new CartObj { 
+                item = product,
+                quantity = quantity
+            });
+            return View(list);
         }
 
         /// Thêm sản phẩm vào cart
-        [Route ("addcart/{itemID}", Name = "addcart")]
-        public IActionResult AddToCart([FromRoute] string itemID)
+        [Route ("/addcart", Name = "addcart")]
+        public IActionResult AddToCart([FromForm] string itemID, [FromForm] int quantity)
         {
             var product = itemService.GetDetailOfItem(itemID);
             if (product == null)
@@ -45,12 +51,12 @@ namespace FoodOrderingSystem.Controllers
             if (cartitem != null)
             {
                 // Đã tồn tại, tăng thêm 1
-                cartitem.quantity++;
+                cartitem.quantity =quantity;
             }
             else
             {
                 //  Thêm mới
-                cart.Add(new CartObj() { quantity = 1, item = product });
+                cart.Add(new CartObj() { quantity = quantity, item = product });
             }
             // Lưu cart vào Session
             SaveCartSession(cart);
