@@ -1,5 +1,6 @@
-﻿using FoodOrderingSystem.Models.account;
+using FoodOrderingSystem.Models.account;
 using FoodOrderingSystem.Models.customerOrder;
+using FoodOrderingSystem.Models.category;
 using FoodOrderingSystem.Models.item;
 using FoodOrderingSystem.Models.orderDetails;
 using FoodOrderingSystem.Services.Implements;
@@ -41,6 +42,8 @@ namespace FoodOrderingSystem
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IItemDAO, ItemDAO>();
             services.AddTransient<IItemService, ItemService>();
+            services.AddTransient<ICategoryDAO, CategoryDAO>();
+            services.AddTransient<ICategoryService, CategoryService>();
             //services.AddTransient<ICustomerOrderDAO, CustomerOrderDAO>();
             //services.AddTransient<ICustomerOrderService, CustomerOrderService>();
             //services.AddTransient<IOrderDetailsDAO, OrderDetailsDAO>();

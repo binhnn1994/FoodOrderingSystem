@@ -1,13 +1,8 @@
 window.onload = function() {
-    var page = window.location.pathname.split("/").pop();
-
-    //===== All Pages =====*/
-    if (page.includes("")) {
-        formatMoneyString();
-    }
+    var page = window.location.pathname.split("/").slice(-2).join("/");
 
     //===== Profile Pages =====*/
-    if (page.includes("profile")) {
+    if (page.includes("Profile")) {
         setProfileInfo();
         document.getElementById("profile-name").value = "hihihaha";
         document.getElementById("profile-phone").value = "hihihehe";
@@ -15,13 +10,24 @@ window.onload = function() {
     }
 
     //===== Staff Management Page =====*/
-    if (page === "StaffManagement") {
+    if (page === "AdminDashboard/StaffManagement") {
         showStaffsList();
     }
 
     //===== Customer Management Page =====*/
-    if (page === "CustomerManagement") {
+    if (page === "AdminDashboard/CustomerManagement") {
         showCustomerList();
+    }
+
+    //===== Food Management Page =====*/
+    if (page === "AdminDashboard/Index") {
+        loadCategories();
+        showItemList();
+    }
+
+    //===== All Pages =====*/
+    if (page.length >= 0) {
+        // formatMoneyString();
     }
 }
 
@@ -40,6 +46,7 @@ function activateAccount(userID) {
     request.open('POST', url, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     request.send(content);
+    alert("Enabled account successfully!");
 }
 
 function deactivateAccount(userID) {
@@ -47,6 +54,28 @@ function deactivateAccount(userID) {
     var url = "/api/AdminDashboard/InactiveAccount";
     var content = 'UserID=' + userID;
     content += "&Note=Banned";
+
+    request.open('POST', url, true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(content);
+    alert("Disabled account successfully!");
+}
+
+function activateItem(itemID) {
+    var request = new XMLHttpRequest();
+    var url = "/api/AdminDashboard/ActiveItem";
+    var content = 'ItemID=' + itemID;
+
+    request.open('POST', url, true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(content);
+}
+
+function deactivateItem(itemID) {
+    var request = new XMLHttpRequest();
+    var url = "/api/AdminDashboard/InactiveItem";
+    var content = 'ItemID=' + itemID;
+    content += "&Note=" + encodeURIComponent("Suspension Of Business");
 
     request.open('POST', url, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

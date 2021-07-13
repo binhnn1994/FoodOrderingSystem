@@ -1,4 +1,8 @@
-﻿<main>
+﻿@{
+    ViewData["Title"] = "Food Management";
+}
+
+<main>
     <header class="stick" style="transform: translate3d(0px, 0px, 0px); position: fixed; top: 0px;">
         <div class="logo-menu-sec">
             <div class="container">
@@ -40,77 +44,25 @@
                     <div class="col-md-12 col-sm-12 col-lg-12">
                         <div class="sec-box">
                             <div class="filters-wrapper">
+                                <datalist id="categories"></datalist>
                                 <form class="restaurant-search-form brd-rd2">
                                     <div class="row" style="margin: -30px 210px 10px;">
                                         <div class="col-md-9 col-sm-9 col-lg-9 col-xs-12">
-                                            <div class="input-field brd-rd4"><input class="brd-rd2" type="text" placeholder="Search dish here..."></div>
+                                            <div class="input-field brd-rd4"><input class="brd-rd2" type="text" id="search-value" placeholder="Search dish here..."></div>
                                         </div>
                                         <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
-                                            <button class="brd-rd4 red-bg">SEARCH</button>
+                                            <button class="brd-rd4 red-bg" onclick="showItemList();" type="button">SEARCH</button>
                                         </div>
                                     </div>
                                 </form>
-                                <ul class="filter-buttons center" style="padding-inline-start: 0;">
-                                    <li class="active"><a class="brd-rd30" data-filter="*" href="#" itemprop="url">All</a></li>
-                                    <li><a class="brd-rd30" data-filter=".filter-item1" href="#" itemprop="url">Pizza</a></li>
-                                    <li><a class="brd-rd30" data-filter=".filter-item2" href="#" itemprop="url">Burgers</a></li>
-                                    <li><a class="brd-rd30" data-filter=".filter-item3" href="#" itemprop="url">Beverages</a></li>
-                                    <li><a class="brd-rd30" data-filter=".filter-item4" href="#" itemprop="url">Snacks</a></li>
-                                    <li class="add-new-button"><a class="brd-rd3 add-popup-btn" href="#" itemprop="url">ADD</a></li>
+                                <ul class="filter-buttons center" style="padding-inline-start: 0;" id="category-list">
+                                    <li class="active" style="margin-left: 55px"><a class="brd-rd30 filter-all-items" data-filter="*" href="#" itemprop="url">All</a></li>
+                                    <li class="add-new-button"><button class="brd-rd4 add-popup-btn">ADD</button></li>
                                 </ul>
                                 <!-- Filter Buttons -->
                                 <div class="filters-inner style2">
                                     <div class="row">
-                                        <div class="masonry" style="position: relative; height: 462px;">
-                                            <div class="col-md-12 col-sm-12 col-lg-6 filter-item filter-item1">
-                                                <div class="featured-restaurant-box" style="visibility: visible;">
-                                                    <div class="featured-restaurant-thumb">
-                                                        <img class="brd-rd50" src="~/images/resource/featured-restaurant-img1.jpg" alt="featured-restaurant-img1.jpg" itemprop="image">
-                                                    </div>
-                                                    <div class="featured-restaurant-info">
-                                                        <h4 itemprop="headline">Pork Tenderloin Marinated</h4>
-                                                        <h5 itemprop="headline">Pizza</h5>
-                                                        <p itemprop="description">Ground beef, sausage, bacon, chicken, pepperoni and ham.</p>
-                                                    </div>
-                                                    <div class="ord-btn">
-                                                        <span class="price money">1200</span>
-                                                        <a class="brd-rd2 edit-popup-btn" href="#" title="Edit" itemprop="url">Edit</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 col-sm-12 col-lg-6 filter-item filter-item1">
-                                                <div class="featured-restaurant-box" style="visibility: visible;">
-                                                    <div class="featured-restaurant-thumb">
-                                                        <img class="brd-rd50" src="~/images/resource/featured-restaurant-img2.jpg" alt="featured-restaurant-img2.jpg" itemprop="image">
-                                                    </div>
-                                                    <div class="featured-restaurant-info">
-                                                        <h4 itemprop="headline">Beef Tenderloin Marinated</h4>
-                                                        <h5 itemprop="headline">Pizza</h5>
-                                                        <p itemprop="description">Ground beef, sausage, bacon, chicken, pepperoni and ham.</p>
-                                                        <h6 itemprop="headline">Available</h6>
-                                                    </div>
-                                                    <div class="ord-btn">
-                                                        <span class="price money">120000</span>
-                                                        <a class="brd-rd2 edit-popup-btn" href="#" title="Edit" itemprop="url">Edit</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12 col-sm-12 col-lg-6 filter-item filter-item2">
-                                                <div class="featured-restaurant-box" style="visibility: visible;">
-                                                    <div class="featured-restaurant-thumb">
-                                                        <img class="brd-rd50" src="~/images/resource/featured-restaurant-img3.jpg" alt="featured-restaurant-img3.jpg" itemprop="image">
-                                                    </div>
-                                                    <div class="featured-restaurant-info">
-                                                        <h4 itemprop="headline">Pork Tenderloin</h4>
-                                                        <h5 itemprop="headline">Burgers</h5>
-                                                        <p itemprop="description">Ground beef, sausage, bacon, chicken, pepperoni and ham.</p>
-                                                    </div>
-                                                    <div class="ord-btn">
-                                                        <span class="price money">3500</span>
-                                                        <a class="brd-rd2 edit-popup-btn" href="#" title="Edit" itemprop="url">Edit</a>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div class="masonry" id="item-list">
                                         </div>
                                     </div>
                                 </div>
@@ -129,7 +81,7 @@
                 <div class="sign-popup-title text-center">
                     <h4 itemprop="headline">ADD NEW DISH</h4>
                 </div>
-                <form class="sign-form">
+                <form class="sign-form" id="add-form">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <label>Name</label>
@@ -137,7 +89,7 @@
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <label>Category</label>
-                            <input class="brd-rd3" type="text" id="dish-category-add" placeholder="Enter Dish Category" style="font-size: 14px">
+                            <input list="categories" name="category" class="brd-rd3" type="text" id="dish-category-add" placeholder="Choose Dish Category" style="font-size: 14px" autocomplete="off">
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <label>Price</label>
@@ -152,7 +104,7 @@
                             <textarea class="brd-rd3" id="dish-description-add" style="margin-top: 1rem; font-size:12px;" placeholder="Write Description... "></textarea>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <button class="red-bg brd-rd3">ADD</button>
+                            <button class="red-bg brd-rd3 add-submit-btn" onclick="createItem();" type="button">ADD</button>
                         </div>
                     </div>
                 </form>
@@ -167,15 +119,16 @@
                 <div class="sign-popup-title text-center">
                     <h4 itemprop="headline">EDIT DISH INFO</h4>
                 </div>
-                <form class="sign-form">
+                <form class="sign-form" id="edit-form">
                     <div class="row">
+                        <input type="hidden" id="dish-id-edit">
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <label>Name</label>
                             <input class="brd-rd3" type="text" id="dish-name-edit" placeholder="Enter Dish Name" style="font-size: 14px">
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <label>Category</label>
-                            <input class="brd-rd3" type="text" id="dish-category-edit" placeholder="Enter Dish Category" style="font-size: 14px">
+                            <input list="categories" name="category" class="brd-rd3" type="text" id="dish-category-edit" placeholder="Choose Dish Category" style="font-size: 14px" autocomplete="off">
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <label>Price</label>
@@ -191,13 +144,13 @@
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <label>Status</label><br>
-                            <input type="radio" name="dish-status-edit" id="new-is-owner" checked="checked" style="margin-left: 24px;">
-                            <span>Available</span><br>
-                            <input type="radio" name="dish-status-edit" id="new-is-cashier" style="margin-left: 24px;">
-                            <span>Unavailable</span>
+                            <input type="radio" name="dish-status-edit" id="dish-available" checked="checked" style="margin-left: 24px;">
+                            <label for="dish-available" style="font-weight: 400;">Available</label><br>
+                            <input type="radio" name="dish-status-edit" id="dish-unavailable" style="margin-left: 24px;">
+                            <label for="dish-unavailable" style="font-weight: 400;">Unavailable</label>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <button class="red-bg brd-rd3" style="margin-top: 12px;">SAVE CHANGES</button>
+                            <button class="red-bg brd-rd3 edit-submit-btn" style="margin-top: 12px;" onclick="updateItem();" type="button">SAVE CHANGES</button>
                         </div>
                     </div>
                 </form>
@@ -205,3 +158,5 @@
         </div>
     </div>
 </main>
+
+<script src="~/js/food-management.js"></script>
