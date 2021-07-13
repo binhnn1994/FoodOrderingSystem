@@ -9,13 +9,13 @@ namespace FoodOrderingSystem.Models.customerOrder
 {
     public class CustomerOrderDAO : ICustomerOrderDAO
     {
-        public bool AddCustomerOrder(string customerID, string toAddress, double deliveryFee, string note, decimal total)
+        public string AddCustomerOrder(string customerID, string toAddress, double deliveryFee, string note, double total)
         {
-            var result = false;
+            string result = null;
             using (var connection = new MySqlConnection(DBUtils.ConnectionString))
             {
                 connection.Open();
-                string Sql = "Insert Into customerOrder (orderID, customerID, orderDate, status, toAddress, deliveryFee, note, total) " +
+                /*string Sql = "Insert Into customerOrder (orderID, customerID, orderDate, status, toAddress, deliveryFee, note, total) " +
                     "Values (Left(SHA(RAND()),10), @customerID, @orderDate, 'pending', @toAddress, @deliveryFee, @note, @total)";
                 using (var command = new MySqlCommand(Sql, connection))
                 {
@@ -28,9 +28,10 @@ namespace FoodOrderingSystem.Models.customerOrder
                     int rowEffects = command.ExecuteNonQuery();
                     if (rowEffects > 0)
                     {
-                        result = true;
+                        result = orderID;
                     }
-                }
+                }*/ 
+                // PROC add custumerOrder OUTPUT OrderID
                 connection.Close();
             }
             return result;

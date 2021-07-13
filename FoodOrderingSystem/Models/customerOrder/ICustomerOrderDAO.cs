@@ -7,6 +7,6 @@ namespace FoodOrderingSystem.Models.customerOrder
 {
     public interface ICustomerOrderDAO
     {
-        bool AddCustomerOrder(string customerID, string toAddress, double deliveryFee, string note, decimal total);
+        string AddCustomerOrder(string customerID, string toAddress, double deliveryFee, string note, double total);
     }
 }

@@ -19,11 +19,16 @@ namespace FoodOrderingSystem.Controllers
         private readonly ILogger<CustomerDashboardController> _logger;
 
         private readonly IItemService itemService;
+        private readonly ICustomerOrderService customerOrderService;
+        private readonly IOrderDetailsService orderDetailsService;
 
-        public CustomerDashboardController(ILogger<CustomerDashboardController> logger, IItemService _itemService)
+        public CustomerDashboardController(ILogger<CustomerDashboardController> logger, IItemService _itemService,
+                                        ICustomerOrderService _customerOrderService, IOrderDetailsService _orderDetailsService)
         {
             _logger = logger;
             itemService = _itemService;
+            customerOrderService = _customerOrderService;
+            orderDetailsService = _orderDetailsService;
         }
 
         [Route("", Name = "Index")]
@@ -119,19 +124,24 @@ namespace FoodOrderingSystem.Controllers
         }
 
         [Route("/checkout")]
-        public IActionResult CheckOut([FromForm] string email, [FromForm] string address)
+        public IActionResult CheckOut([FromForm] string address, [FromForm] string note, [FromForm] double total)
         {
-
+            var session = HttpContext.Session;
+            string userID = session.GetString("USERID");
+            double deliveryFee = 20000;
             // Xử lý khi đặt hàng
             var cart = GetCartItems();
-            ViewData["email"] = email;
             ViewData["address"] = address;
             ViewData["cart"] = cart;
 
-            if (!string.IsNullOrEmpty(email))
+            if (!string.IsNullOrEmpty(userID))
             {
                 //tạo cấu trúc db lưu lại đơn hàng
-                //add customerOrder
+                string orderID = customerOrderService.AddCustomerOrder(userID, address, deliveryFee, note, total);
+                foreach (var cartObject in cart)
+                {
+                    orderDetailsService.AddOrderDetail(orderID, cartObject.item.itemID, cartObject.quantity);
+                }
                 //xóa cart khỏi session
                 ClearCart();
                 RedirectToAction(nameof(Index));
