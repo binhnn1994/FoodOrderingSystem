@@ -146,10 +146,10 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-lg-6">
                             <ul class="payment-info-list">
-                                <li><span>Name:</span>Huu Quoc</li>
-                                <li><span>Email:</span>huuquoc@gmail.com</li>
-                                <li><span>Phone:</span>0123456789</li>
-                                <li><span>Address:</span>E2a-7, D1 Street, High-Tech Park, Long Thanh My, Thu Duc District, Ho Chi Minh City<a class="red-clr" href="#" title="" itemprop="url"><i class="fa fa-pencil"></i> Edit</a></li>
+                                <li><span>Name:</span><input class="brd-rd3" type="text" id="billing-name"></li>
+                                <li><span>Email:</span><input class="brd-rd3" type="text" id="billing-email"></li>
+                                <li><span>Phone:</span><input class="brd-rd3" type="text" id="billing-phone"></li>
+                                <li><span>Address:</span><input class="brd-rd3" type="text" id="billing-address"></li>
                             </ul>
                         </div>
                         <div class="col-md-6 col-sm-6 col-lg-6">
@@ -163,12 +163,12 @@
             </div>
             <div class="confrm-order red-bg ">
                 <ul class="order-total">
-                    <li><span>Sub total</span> <i>$158</i></li>
-                    <li><span>Delivery fee</span> <i>$70</i></li>
+                    <li><span>Sub total</span> <i class="money" id="billing-subtotal"></i></li>
+                    <li><span>Delivery fee</span> <i class="money" id="billing-delivery"></i></li>
                     <li>
                         <hr style="width: 100%; margin: 0;">
                     </li>
-                    <li><span style="top: 0%">Total</span> <i>$210</i></li>
+                    <li><span style="top: 0%">Total</span> <i class="money" id="billing-total"></i></li>
                 </ul>
                 <div class="confrm-order-btn ">
                     <a class="brd-rd3 " href="# " title=" " itemprop="url ">CONFIRM ORDER</a>

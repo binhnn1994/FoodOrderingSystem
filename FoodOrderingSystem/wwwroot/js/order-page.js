@@ -212,8 +212,6 @@ function addToCart(itemID, itemPrice, itemName, callback) {
         price.innerHTML = itemPrice;
     }
 
-    console.log("calbakchihi");
-
     if (listEmpty === true) {
         setTimeout(function() { location.reload(); }, 500);
     } else {
