@@ -96,9 +96,11 @@ function updateStaff() {
     var request = new XMLHttpRequest();
     var url = "/api/AdminDashboard/UpdateStaffInformation";
     var content = 'userID=' + inputs[0].value;
-    content += "&fullname=" + inputs[2].value;
+    content += "&fullname=" + encodeURIComponent(inputs[2].value);
     content += "&phoneNumber=" + inputs[3].value;
-    content += "&address=" + inputs[4].value;
+    content += "&address=" + encodeURIComponent(inputs[4].value);
+
+    console.log(content);
 
     request.open('POST', url, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
