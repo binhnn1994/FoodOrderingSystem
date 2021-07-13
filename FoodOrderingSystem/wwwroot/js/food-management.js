@@ -1,12 +1,33 @@
-function showItemList() {
+function loadCategories() {
+    var request = new XMLHttpRequest();
+    var url = "/api/AdminDashboard/GetCategories";
+    var list = document.getElementById("category-list");
+
+    request.open('GET', url, true);
+    request.onload = function() {
+        var result = JSON.parse(this.responseText);
+        for (let i = 0; i < result.length; i++) {
+            var category = document.createElement("li");
+            var anchor = document.createElement("a");
+            anchor.classList = "brd-rd30";
+            anchor.setAttribute("data-filter", "filter-item-" + result[i].categoryName.toLowerCase().replace(/ /g, ""));
+            anchor.href = "#";
+            anchor.innerHTML = result[i].categoryName;
+            category.appendChild(anchor);
+            list.appendChild(category);
+        }
+    };
+    request.send();
+}
+
+function showItemList(searchValue) {
     var request = new XMLHttpRequest();
 
     var url, content;
 
-    var searchValue = document.getElementById("search-value");
     if (searchValue.length > 0) {
         url = "/api/AdminDashboard/ViewItemListBySearching";
-        content = '{"SearchValue": "Rice", "CategoryName": "all", "Status": "all", "RowsOnPage": 100, "RequestPage": 1}';
+        content = '{"SearchValue": "' + searchValue + '", "CategoryName": "all", "Status": "all", "RowsOnPage": 100, "RequestPage": 1}';
     } else {
         url = "/api/AdminDashboard/ViewItemList";
         content = '{"CategoryName": "all", "Status": "all", "RowsOnPage": 100, "RequestPage": 1}';
@@ -18,7 +39,6 @@ function showItemList() {
         var result = JSON.parse(this.responseText).data;
         renderItemList(result, function() {
             formatMoneyString();
-            addFilter();
         });
     };
     request.send(content);
@@ -60,7 +80,7 @@ function renderItemList(itemList, callback) {
         button.appendChild(price);
         button.appendChild(editBtn);
 
-        item.classList = "col-md-12 col-sm-12 col-lg-6 filter-item filter-item1";
+        item.classList = "col-md-12 col-sm-12 col-lg-6 filter-item";
         box.classList = "featured-restaurant-box";
         thumb.classList = "featured-restaurant-thumb";
         info.classList = "featured-restaurant-info";
@@ -68,6 +88,8 @@ function renderItemList(itemList, callback) {
         image.classList = "brd-rd50";
         price.classList = "price money";
         editBtn.classList = "brd-rd2 edit-popup-btn";
+
+        item.classList.add("filter-item-" + itemList[i].categoryName.toLowerCase().replace(/ /g, ""));
 
         id.style = "display: none";
         box.style.height = "181px";
@@ -77,6 +99,15 @@ function renderItemList(itemList, callback) {
 
         image.src = "../images/resource/featured-restaurant-img1.jpg";
         image.alt = "featured-restaurant-img1.jpg";
+
+        if (itemList[i].status !== "Active") {
+            var disableColor = "#999999";
+            name.style.color = disableColor;
+            status.style.color = disableColor;
+            category.style.color = disableColor;
+            description.style.color = disableColor;
+            price.style.color = disableColor;
+        }
 
         id.innerHTML = itemList[i].itemID;
         name.innerHTML = itemList[i].itemName;
@@ -117,20 +148,43 @@ function renderItemList(itemList, callback) {
         $('html').removeClass('edit-popup-active');
         return false;
     });
+
+    $('.filter-buttons a').prop("onclick", null).off("click");
+    $('.filter-buttons a').on('click', function() {
+        var selector = $(this).attr('data-filter');
+        $('.filter-buttons li').removeClass('active');
+        $(this).parent().addClass('active');
+        console.log(selector);
+
+        var list = document.getElementById("item-list").childNodes;
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].classList.contains(selector) || selector === '*') {
+                list[i].style.display = "block";
+            } else {
+                list[i].style.display = "none";
+            }
+        }
+        // $('.masonry').isotope({ filter: selector });
+    });
 }
 
 function getCategories() {
     var request = new XMLHttpRequest();
-    var url = "GetCategories";
+    var url = "/api/AdminDashboard/GetCategories";
+    var list = document.getElementById("categories");
+
+    while (list.firstChild) {
+        list.removeChild(list.firstChild);
+    }
 
     request.open('GET', url, true);
     request.onload = function() {
         var result = JSON.parse(this.responseText);
-        var listCategories = document.getElementById("categories");
+
         for (let i = 0; i < result.length; i++) {
             var category = document.createElement("option");
-            category.textContent = result[i];
-            listCategories.appendChild(category);
+            category.value = result[i].categoryName;
+            list.appendChild(category);
         }
     };
     request.send();
@@ -168,7 +222,7 @@ function updateItem() {
     request.open('POST', url, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     request.onload = function() {
-        // showItemList();
+        alert("Updated successfully!");
         location.reload();
     };
     request.send(content);
@@ -191,7 +245,7 @@ function createItem() {
     request.open('POST', url, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     request.onload = function() {
-        // showItemList();
+        alert("Added successfully!");
         location.reload();
     };
     request.send(content);

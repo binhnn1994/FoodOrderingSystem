@@ -21,7 +21,8 @@ window.onload = function() {
 
     //===== Food Management Page =====*/
     if (page === "AdminDashboard/Index") {
-        showItemList();
+        loadCategories();
+        showItemList("");
     }
 
     //===== All Pages =====*/
@@ -45,6 +46,7 @@ function activateAccount(userID) {
     request.open('POST', url, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     request.send(content);
+    alert("Enabled account successfully!");
 }
 
 function deactivateAccount(userID) {
@@ -56,6 +58,7 @@ function deactivateAccount(userID) {
     request.open('POST', url, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     request.send(content);
+    alert("Disabled account successfully!");
 }
 
 function activateItem(itemID) {
