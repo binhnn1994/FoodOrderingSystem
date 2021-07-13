@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace FoodOrderingSystem.Services.Interfaces
 {
-    public interface ICustomerOrderService
+    public interface IOrderDetailsService
     {
-        string AddCustomerOrder(string customerID, string toAddress, double deliveryFee, string note, double total);
+        bool AddOrderDetail(string orderID, string itemID, int quantity);
     }
 }

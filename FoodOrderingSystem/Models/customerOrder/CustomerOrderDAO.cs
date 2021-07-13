@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,29 +10,35 @@ namespace FoodOrderingSystem.Models.customerOrder
 {
     public class CustomerOrderDAO : ICustomerOrderDAO
     {
-        public bool AddCustomerOrder(string customerID, string toAddress, double deliveryFee, string note, decimal total)
+        public string AddCustomerOrder(string customerID, string toAddress, double deliveryFee, string note, double total)
         {
-            var result = false;
-            using (var connection = new MySqlConnection(DBUtils.ConnectionString))
+            string result = null;
+            try
             {
+                MySqlConnection connection = new MySqlConnection(DBUtils.ConnectionString);
+                MySqlCommand command = new MySqlCommand();
+                command.Connection = connection;
+                command.CommandType = CommandType.StoredProcedure;
                 connection.Open();
-                string Sql = "Insert Into customerOrder (orderID, customerID, orderDate, status, toAddress, deliveryFee, note, total) " +
-                    "Values (Left(SHA(RAND()),10), @customerID, @orderDate, 'pending', @toAddress, @deliveryFee, @note, @total)";
-                using (var command = new MySqlCommand(Sql, connection))
+                AddMediaExecute();
+                void AddMediaExecute()
                 {
-                    command.Parameters.AddWithValue("@customerID", customerID);
-                    command.Parameters.AddWithValue("@orderDate", DateTime.Now);
-                    command.Parameters.AddWithValue("@toAddress", toAddress);
-                    command.Parameters.AddWithValue("@deliveryFee", deliveryFee);
-                    command.Parameters.AddWithValue("@note", note);
+                    command.CommandText = "CreateOrder";
+                    command.Parameters.AddWithValue("@customerID_Input", customerID);
+                    command.Parameters.AddWithValue("@toAddress_Input", toAddress);
+                    command.Parameters.AddWithValue("@deliveryFee_Input", deliveryFee);
+                    command.Parameters.AddWithValue("@note_Input", note);
                     command.Parameters.AddWithValue("@total", total);
-                    int rowEffects = command.ExecuteNonQuery();
-                    if (rowEffects > 0)
-                    {
-                        result = true;
-                    }
+                    command.Parameters.Add("@orderID_Output", MySqlDbType.String).Direction
+                        = ParameterDirection.Output;
+                    command.ExecuteNonQuery();
+                    result = (string)command.Parameters["@orderID_Output"].Value;
                 }
                 connection.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Fail. " + ex.Message);
             }
             return result;
         }
