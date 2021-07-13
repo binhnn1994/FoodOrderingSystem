@@ -44,10 +44,10 @@ namespace FoodOrderingSystem
             services.AddTransient<IItemService, ItemService>();
             services.AddTransient<ICategoryDAO, CategoryDAO>();
             services.AddTransient<ICategoryService, CategoryService>();
-            //services.AddTransient<ICustomerOrderDAO, CustomerOrderDAO>();
-            //services.AddTransient<ICustomerOrderService, CustomerOrderService>();
-            //services.AddTransient<IOrderDetailsDAO, OrderDetailsDAO>();
-            //services.AddTransient<IOrderDetailsService, OrderDetailsService>();
+            services.AddTransient<ICustomerOrderDAO, CustomerOrderDAO>();
+            services.AddTransient<ICustomerOrderService, CustomerOrderService>();
+            services.AddTransient<IOrderDetailsDAO, OrderDetailsDAO>();
+            services.AddTransient<IOrderDetailsService, OrderDetailsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

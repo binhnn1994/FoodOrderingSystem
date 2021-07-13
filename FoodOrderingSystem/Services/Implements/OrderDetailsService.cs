@@ -1,4 +1,5 @@
-﻿using FoodOrderingSystem.Services.Interfaces;
+﻿using FoodOrderingSystem.Models.orderDetails;
+using FoodOrderingSystem.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,10 @@ namespace FoodOrderingSystem.Services.Implements
 {
     public class OrderDetailsService : IOrderDetailsService
     {
-        private IOrderDetailsService _orderDetailsService;
-        public OrderDetailsService(IOrderDetailsService orderDetailsService) => _orderDetailsService = orderDetailsService;
+        private IOrderDetailsDAO _orderDetailsDAO;
+        public OrderDetailsService(IOrderDetailsDAO orderDetailsDAO) => _orderDetailsDAO = orderDetailsDAO;
 
         public bool AddOrderDetail(string orderID, string itemID, int quantity)
-            => _orderDetailsService.AddOrderDetail(orderID, itemID, quantity);
+            => _orderDetailsDAO.AddOrderDetail(orderID, itemID, quantity);
     }
 }
