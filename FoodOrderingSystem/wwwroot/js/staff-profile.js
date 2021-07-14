@@ -220,9 +220,9 @@ function replyFeedback() {
 
     var feedbackID = inputs[0].value;
     var customerEmail = inputs[1].value;
-    var content = inputs[2].value;
+    var replyContent = inputs[2].value;
 
-    var content = '{"FeedbackID": "' + feedbackID + '", "CustomerEmail": "' + customerEmail + '", "Content": "' + content + '"}';
+    var content = '{"FeedbackID": "' + feedbackID + '", "CustomerEmail": "' + customerEmail + '", "Content": "' + replyContent + '"}';
     request.open('POST', url, true);
     request.setRequestHeader("Content-Type", "text/json");
     request.onload = function() {

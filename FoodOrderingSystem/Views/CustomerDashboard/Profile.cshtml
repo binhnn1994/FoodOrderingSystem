@@ -107,13 +107,13 @@
                 <div class="sign-popup-title text-center">
                     <h4 itemprop="headline">FEEDBACK</h4>
                 </div>
-                <form class="sign-form">
+                <form class="sign-form" name="feedback-form">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <textarea class="brd-rd3" style="margin-top: 1rem; font-size:12px;" placeholder="Write your feedback here... "></textarea>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <button class="red-bg brd-rd3" type="submit">SEND</button>
+                            <button class="red-bg brd-rd3 feedback-submit-btn" onclick="sendFeedback()" type="button">SEND</button>
                         </div>
                     </div>
                 </form>

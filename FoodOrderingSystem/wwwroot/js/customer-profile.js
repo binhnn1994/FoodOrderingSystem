@@ -84,7 +84,6 @@ function renderOrderList(orderList, callback) {
 }
 
 function getOrderDetail(orderID) {
-    console.log(orderID);
     var request = new XMLHttpRequest();
     var url = "/api/StaffDashboard/GetOrderDetailsByOrderID";
     var content = '{"OrderID": "' + orderID + '"}';
@@ -149,19 +148,17 @@ function renderOrderDetail(orderDetail, callback) {
 function sendFeedback() {
     var request = new XMLHttpRequest();
     var url = "/api/CustomerDashboard/AddFeedback";
-    // var inputs = document.forms["reply-form"].elements;
+    var inputs = document.forms["feedback-form"].elements;
 
-    // var feedbackID = inputs[0].value;
-    // var customerEmail = inputs[1].value;
-    // var content = inputs[2].value;
+    var feedbackContent = inputs[0].value;
+    var customerEmail = "huuquoc852@gmail.com";
+    var content = '{"CustomerEmail": "' + customerEmail + '", "RequestContent": "' + feedbackContent + '"}';
 
-    // var content = '{"FeedbackID": "' + feedbackID + '", "CustomerEmail": "' + customerEmail + '", "Content": "' + content + '"}';
-    // request.open('POST', url, true);
-    // request.setRequestHeader("Content-Type", "text/json");
-    // request.onload = function() {
-    //     var result = JSON.parse(this.responseText);
-    //     alert(result.message);
-    //     showReviewList();
-    // };
-    // request.send(content);
+    request.open('POST', url, true);
+    request.setRequestHeader("Content-Type", "text/json");
+    request.onload = function() {
+        var result = JSON.parse(this.responseText);
+        alert("Sent " + result.message + "fully");
+    };
+    request.send(content);
 }
