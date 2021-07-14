@@ -111,6 +111,22 @@ function initPages() {
     if (page.includes("StaffDashboard")) {
         showOrderList();
         showReviewList();
+
+        //===== Accept Order Script =====//
+        $('.accept-order').on('click', function() {
+            var orderID = $(this).parent().find('span').text();
+            console.log(orderID);
+            // acceptOrder(orderID);
+            return false;
+        });
+
+        //===== Decline Order Script =====//
+        $('.decline-order').on('click', function() {
+            var orderID = $(this).parent().find('span').text();
+            console.log(orderID);
+            // declineOrder(orderID);
+            return false;
+        });
     }
 }
 

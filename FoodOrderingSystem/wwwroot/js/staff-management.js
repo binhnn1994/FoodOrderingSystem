@@ -176,10 +176,7 @@ function clearCreateStaffError(inputs) {
     $(inputs[1]).css("border", "none");
     $(inputs[2]).css("border", "none");
 
-
     $(".sign-form").find(".err-msg")[0].textContent = "";
-
     $(".sign-form").find(".err-msg")[1].textContent = "";
-
     $(".sign-form").find(".err-msg")[2].textContent = "";
 }

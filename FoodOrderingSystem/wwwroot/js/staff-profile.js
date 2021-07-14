@@ -22,22 +22,29 @@ function renderOrderList(orderList, callback) {
         row.classList.add("order-row");
         row.style.cursor = "pointer";
 
-        var cellId = row.insertCell(0);
+        var cellNo = row.insertCell(0);
         var cellName = row.insertCell(1);
         var cellDate = row.insertCell(2);
         var cellAddress = row.insertCell(3);
         var cellTotal = row.insertCell(4);
+        var cellId = row.insertCell(5);
 
-        cellId.innerHTML = i + 1;
+        cellNo.innerHTML = i + 1;
         cellName.innerHTML = orderList[i].customerID;
         cellDate.innerHTML = formatDate(orderList[i].orderDate);
         cellAddress.innerHTML = orderList[i].toAddress;
         cellTotal.innerHTML = '<span class="money">' + orderList[i].total + '</span>';
+        cellId.innerHTML = orderList[i].orderID;
+
+        cellId.style.display = "none";
     }
 
     //===== Customer Status Script =====//
     $('.order-row').on('click', function() {
         $('html').addClass('detail-popup-active');
+
+        $('#order-customer-id').html($(this).children("td:nth-child(6)").text());
+
         return false;
     });
 
@@ -160,5 +167,35 @@ function replyFeedback() {
         alert(result.message);
         showReviewList();
     };
+    request.send(content);
+}
+
+function acceptOrder(orderID) {
+    var request = new XMLHttpRequest();
+    var url = "/api/StaffDashboard/ConfirmOrder";
+    var content = '{"OrderID": "' + $('#order-customer-id').html() + '", "ConfirmButton": "Accept"}';
+
+    request.open('POST', url, true);
+    request.setRequestHeader("Content-Type", "text/json");
+    request.onload = function() {
+        var result = JSON.parse(this.responseText);
+        alert(result.message);
+        showOrderList();
+    }
+    request.send(content);
+}
+
+function declineOrder(orderID) {
+    var request = new XMLHttpRequest();
+    var url = "/api/StaffDashboard/ConfirmOrder";
+    var content = '{"OrderID": "' + $('#order-customer-id').html() + '", "ConfirmButton": "Decline"}';
+
+    request.open('POST', url, true);
+    request.setRequestHeader("Content-Type", "text/json");
+    request.onload = function() {
+        var result = JSON.parse(this.responseText);
+        alert(result.message);
+        showOrderList();
+    }
     request.send(content);
 }

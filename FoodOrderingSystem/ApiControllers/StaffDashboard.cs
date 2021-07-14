@@ -43,7 +43,9 @@ namespace FoodOrderingSystem.ApiControllers
                 bool result = false;
                 if(status != null) result = customerOrderService.ConfirmUpdate(request.OrderID, status);
                 
-                if (result) return new JsonResult(new { Message = "Confirm Successfully" });
+                if (result && status == "Accepted") return new JsonResult(new { Message = "Accepted Successfully!" });
+				if (result && status == "Rejected") return new JsonResult(new { Message = "Rejected Successfully!" });
+
                 return new JsonResult(new { Message = "An error occured! Please try again !" });
             }
             catch (Exception ex)
