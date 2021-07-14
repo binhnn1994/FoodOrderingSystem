@@ -7,6 +7,6 @@ namespace FoodOrderingSystem.Models.feedback
 {
     public class FeedbackDAO : IFeedbackDAO
     {
-        bool AddFeedback()
+        bool AddFeedback();
     }
 }

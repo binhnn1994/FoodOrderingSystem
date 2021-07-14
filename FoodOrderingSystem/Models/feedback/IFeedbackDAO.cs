@@ -7,5 +7,6 @@ namespace FoodOrderingSystem.Models.feedback
 {
     public interface IFeedbackDAO
     {
+        bool AddFeedback(int feedbackID, string customerEmail, DateTime receiveDate, string status, string content, DateTime respondDate);
     }
 }
