@@ -13,11 +13,13 @@ namespace FoodOrderingSystem.Models.feedback
         [Required]
         public string CustomerEmail { get; set; }
         [Required]
+        public string Status { get; set; }
+        [Required]
         public DateTime ReceiveDate { get; set; }
         [Required]
         public string RequestContent { get; set; }
-        public DateTime RespondDate { get; set; }
-        public string ResponseContent { get; set; }
+        public DateTime? RespondDate { get; set; }
+        public string RespondContent { get; set; }
 
     }
 }
