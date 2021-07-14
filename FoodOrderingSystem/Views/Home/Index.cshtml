@@ -1,6 +1,17 @@
-﻿@{
+﻿@model List<FoodOrderingSystem.Models.Cart.CartObj>
+@{
     ViewData["Title"] = "Ordering";
 }
+
+@* @if (Model.Count > 0) {
+                                                            decimal total = 0;
+                                                            @foreach (var cartitem in Model) {
+                                                                var subtotal = cartitem.quantity * cartitem.item.unitPrice;
+                                                                total += subtotal;
+
+                                                                <p>hihi</p>
+                                                            }
+                                                        } *@
 
 <main>
     <header class="stick" style="transform: translate3d(0px, 0px, 0px); position: fixed; top: 0px;">
@@ -15,10 +26,10 @@
                     <div class="menu-sec">
                         <form class="restaurant-search-form brd-rd2" style="width: 70%;">
                             <div class="col-md-5 col-sm-4 col-lg-9">
-                                <div class="input-field brd-rd4"><input class="brd-rd2" type="text" placeholder="Search dish here..."></div>
+                                <div class="input-field brd-rd4"><input class="brd-rd2" id="search-value" type="text" placeholder="Search dish here..."></div>
                             </div>
                             <div class="col-md-1 col-sm-2 col-lg-3">
-                                <button class="brd-rd4 red-bg">SEARCH</button>
+                                <button class="brd-rd4 red-bg" onclick="showItemList();" type="button">SEARCH</button>
                             </div>
                         </form>
                         <a class="red-bg brd-rd4 sign-popup-btn" href="#" title="Register" itemprop="url" style="margin-left: 1rem;">REGISTER</a>
@@ -42,57 +53,7 @@
                                 <div class="row">
                                     <div class="col-md-8 col-sm-12 col-lg-8">
                                         <div class="restaurant-detail-wrapper">
-                                            <div class="tab-content">
-                                                <div class="dishes-list-wrapper">
-                                                    <h4 class="title3" itemprop="headline"><span class="sudo-bottom sudo-bg-red">Pizza</span></h4>
-                                                    <ul class="dishes-list">
-                                                        <li>
-                                                            <div class="featured-restaurant-box">
-                                                                <div class="featured-restaurant-thumb">
-                                                                    <img src="~/images/resource/dish-img1-1.jpg" alt="dish-img1-1.jpg" itemprop="image">
-                                                                </div>
-                                                                <div class="featured-restaurant-info">
-                                                                    <h4 itemprop="headline">Pizza Meatlovers</h4>
-                                                                    <span class="price">$85.00</span>
-                                                                    <p itemprop="description">Ground beef, sausage, bacon, chicken, pepperoni and ham.</p>
-                                                                </div>
-                                                                <div class="qty-wrap">
-                                                                    <div class="input-group bootstrap-touchspin">
-                                                                        <input class="qty form-control" type="text" value="1" style="display: block;">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="ord-btn">
-                                                                    <a class="brd-rd2" href="#" title="Order Now" itemprop="url">Add to order</a>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="dishes-list-wrapper">
-                                                    <h4 class="title3" itemprop="headline"><span class="sudo-bottom sudo-bg-red">Burgers</span></h4>
-                                                    <ul class="dishes-list">
-                                                        <li>
-                                                            <div class="featured-restaurant-box">
-                                                                <div class="featured-restaurant-thumb">
-                                                                    <img src="~/images/resource/dish-img2-1.jpg" alt="dish-img2-1.jpg" itemprop="image">
-                                                                </div>
-                                                                <div class="featured-restaurant-info">
-                                                                    <h4 itemprop="headline">Burger Bacon Gouda</h4>
-                                                                    <span class="price">$85.00</span>
-                                                                    <p itemprop="description">Bacon, ham, ground beef and gouda cheese.</p>
-                                                                </div>
-                                                                <div class="qty-wrap">
-                                                                    <div class="input-group bootstrap-touchspin">
-                                                                        <input class="qty form-control" type="text" value="1" style="display: block;">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="ord-btn">
-                                                                    <a class="brd-rd2" href="#" title="Order Now" itemprop="url">Add to order</a>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                            <div class="tab-content" id="dishes-list">
                                             </div>
                                         </div>
                                     </div>
@@ -101,19 +62,37 @@
                                             <div class="order-inner gradient-brd">
                                                 <h4 itemprop="headline" style="color: #01b1c9; font-weight: 600;">Order Details</h4>
                                                 <div class="order-list-wrapper">
-                                                    <ul class="order-list-inner">
+                                                    <ul class="order-list-inner" id="order-list">
+                                                        @* @if (Model.Count > 0) {
+                                                            decimal total = 0;
+                                                            @foreach (var cartitem in Model) {
+                                                                var subtotal = cartitem.quantity * cartitem.item.unitPrice;
+                                                                total += subtotal;
+
+                                                                <li>
+                                                                    <div class="dish-name">
+                                                                        <h5 style="display: none">@cartitem.item.itemID</h5>
+                                                                        <h6 itemprop="headline"><span style="color: #00db30">@cartitem.quantity</span> x @cartitem.item.itemName</h6>
+                                                                        <a class="item-remove-btn" href="#" title="" itemprop="url"><i class="fa fa-close"></i></a>
+                                                                        <span class="price money">@(subtotal.ToString("n0"))</span>
+                                                                    </div>
+                                                                </li>
+                                                            }
+                                                        } *@
                                                         <li>
                                                             <div class="dish-name">
-                                                                <h6 itemprop="headline">2 x Pizza Meatlovers</h6>
+                                                                <h5 style="display: none">95b50503d970</h5>
+                                                                <h6 itemprop="headline"><span style="color: #00db30">2</span> x Pizza Meatlovers</h6>
                                                                 <a class="item-remove-btn" href="#" title="" itemprop="url"><i class="fa fa-close"></i></a>
-                                                                <span class="price">$85.00</span>
+                                                                <span class="price money">8500</span>
                                                             </div>
                                                         </li>
                                                         <li>
                                                             <div class="dish-name">
-                                                                <h6 itemprop="headline">3 x Chicken Tandoori Special With Mozzarella</h6>
+                                                                <h5>itemID</h5>
+                                                                <h6 itemprop="headline"><span>3</span> x Chicken Tandoori Special With Mozzarella</h6>
                                                                 <a class="item-remove-btn" href="#" title="" itemprop="url"><i class="fa fa-close"></i></a>
-                                                                <span class="price">$85.00</span>
+                                                                <span class="price money">8500</span>
                                                             </div>
                                                         </li>
                                                     </ul>
@@ -233,3 +212,5 @@
         </div>
     </div>
 </main>
+
+<script src="~/js/order-page.js"></script>

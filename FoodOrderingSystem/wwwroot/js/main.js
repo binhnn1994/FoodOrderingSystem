@@ -131,16 +131,6 @@ $(document).ready(function() {
         return false;
     });
 
-    //===== Cash Method Popup Script =====//
-    $('.cash-popup-btn').on('click', function() {
-        $('html').addClass('cash-method-popup-active');
-    });
-
-    $('.cash-method a.payment-close-btn').on('click', function() {
-        $('html').removeClass('cash-method-popup-active');
-        return false;
-    });
-
     //===== Card Method Popup Script =====//
     $('.card-popup-btn').on('click', function() {
         $('html').addClass('card-method-popup-active');
