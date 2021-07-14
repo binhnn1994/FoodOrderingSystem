@@ -29,6 +29,7 @@ namespace FoodOrderingSystem.ApiControllers
             public string Status { get; set; }
             public string ItemID { get; set; }
             public string SearchValue { get; set; }
+            public string OrderID { get; set; }
         }
 
         [HttpPost]
@@ -123,6 +124,23 @@ namespace FoodOrderingSystem.ApiControllers
                 {
                     message = ex.Message
                 });
+            }
+        }
+
+        [Route("GetOrderDetailsByOrderID")]
+        public JsonResult GetOrderDetailsByOrderID([FromServices] IOrderDetailsService orderDetailsService, Request request)
+        {
+            try
+            {
+                if (request.OrderID == null) return new JsonResult(new { Message = "Invalid OrderID" });
+                var result = orderDetailsService.GetOrderDetails(request.OrderID);
+                if (result == null) return new JsonResult(new { Message = "Invalid OrderID" });
+                return new JsonResult(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("GetOrderDetailsByOrderID: " + ex.Message);
+                return new JsonResult(new { Message = ex.Message });
             }
         }
 
