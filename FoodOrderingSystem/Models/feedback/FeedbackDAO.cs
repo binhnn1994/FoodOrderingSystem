@@ -16,7 +16,7 @@ namespace FoodOrderingSystem.Models.feedback
                 using (var connection = new MySqlConnection(DBUtils.ConnectionString))
                 {
                     connection.Open();
-                    string Sql = "Select feedbackID, customerEmail, content " +
+                    string Sql = "Select feedbackID, customerEmail, receiveDate, content, respondDate" +
                             "From feedback " +
                             "Where feedbackID = @feedbackID ";
                     using (var command = new MySqlCommand(Sql, connection))
@@ -28,9 +28,11 @@ namespace FoodOrderingSystem.Models.feedback
                             {
                                 return new Feedback
                                 {
-                                    FeedbackID = reader.GetString("feedbackID"),
+                                    FeedbackID = reader.GetInt32("feedbackID"),
                                     CustomerEmail = reader.GetString("customerEmail"),
-                                    Content = reader.GetString("content")
+                                    ReceiveDate = reader.GetDateTime("receiveDate"),
+                                    Content = reader.GetString("content"),
+                                    RespondDate = reader.IsDBNull(reader.GetOrdinal("receiveDate")) ? null : reader.GetDateTime("receiveDate")
                                 };
                             }
                         }
@@ -65,7 +67,7 @@ namespace FoodOrderingSystem.Models.feedback
                             {
                                 feedbacks.Add(new Feedback
                                 {
-                                    FeedbackID = reader.GetString("feedbackID"),
+                                    FeedbackID = reader.GetInt32("feedbackID"),
                                     CustomerEmail = reader.GetString("customerEmail"),
                                     ReceiveDate = reader.GetDateTime("receiveDate"),
                                     Content = reader.GetString("content"),
