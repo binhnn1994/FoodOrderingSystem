@@ -1,7 +1,10 @@
 using FoodOrderingSystem.Models.account;
 using FoodOrderingSystem.Models.customerOrder;
+using FoodOrderingSystem.Models.category;
+using FoodOrderingSystem.Models.customerOrder;
 using FoodOrderingSystem.Models.feedback;
 using FoodOrderingSystem.Models.item;
+using FoodOrderingSystem.Models.orderDetails;
 using FoodOrderingSystem.Services.Implements;
 using FoodOrderingSystem.Services.Interfaces;
 using FoodOrderingSystem.Utils;
@@ -14,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FoodOrderingSystem.Models.saleReport;
 
 namespace FoodOrderingSystem
 {
@@ -40,17 +44,31 @@ namespace FoodOrderingSystem
 
 
             services.AddControllersWithViews();
+            services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
+            services.AddSession(cfg => {                    // Đăng ký dịch vụ Session
+                cfg.Cookie.Name = "gudfood";                // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
+                cfg.IdleTimeout = new TimeSpan(0, 60, 0);    // Thời gian tồn tại của Session
+            });
             services.AddTransient<IAccountDAO, AccountDAO>();
             services.AddTransient<IAccountService, AccountService>();
 
             services.AddTransient<IItemDAO, ItemDAO>();
             services.AddTransient<IItemService, ItemService>();
+            services.AddTransient<ICategoryDAO, CategoryDAO>();
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<ICustomerOrderDAO, CustomerOrderDAO>();
+            services.AddTransient<ICustomerOrderService, CustomerOrderService>();
+            services.AddTransient<IOrderDetailsDAO, OrderDetailsDAO>();
+            services.AddTransient<IOrderDetailsService, OrderDetailsService>();
 
             services.AddTransient<ICustomerOrderDAO, CustomerOrderDAO>();
             services.AddTransient<ICustomerOrderService, CustomerOrderService>();
 
             services.AddTransient<IFeedbackDAO, FeedbackDAO>();
             services.AddTransient<IFeedbackService, FeedbackService>();
+
+            services.AddTransient<ISaleReportDAO, SaleReportDAO>();
+            services.AddTransient<ISaleReportService, SaleReportService>();
 
             //add session
             services.AddDistributedMemoryCache();
@@ -82,6 +100,8 @@ namespace FoodOrderingSystem
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSession();
+
             app.UseSession();
 
             app.UseEndpoints(endpoints =>

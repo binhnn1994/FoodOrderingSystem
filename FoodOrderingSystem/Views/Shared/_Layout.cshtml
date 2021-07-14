@@ -1,1 +1,35 @@
-﻿@RenderBody()
+﻿<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewData["Title"] - GudFood</title>
+    <link rel="shortcut icon" href="~/images/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="~/css/icons.min.css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/red-color.css">
+    <link rel="stylesheet" href="~/css/yellow-color.css">
+    <link rel="stylesheet" href="~/css/jquery.bootstrap-touchspin.min.css">
+</head>
+
+<body>
+    @RenderBody()
+
+    <div class="bottom-bar dark-bg text-center">
+        <div class="container">
+            <p></p>
+        </div>
+    </div>
+    <!-- Bottom Bar -->
+
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/custom.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/plugins.js"></script>
+    <script src="~/js/jquery.bootstrap-touchspin.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

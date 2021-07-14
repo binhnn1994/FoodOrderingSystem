@@ -11,10 +11,12 @@ namespace FoodOrderingSystem.Services.Implements
     {
         private IFeedbackDAO _feedbackDAO;
         public FeedbackService(IFeedbackDAO feedbackDAO) => _feedbackDAO = feedbackDAO;
-        public Feedback GetFeedback(string feedbackID) => _feedbackDAO.GetFeedback(feedbackID);
+        public Feedback GetFeedback(string feedbackID) => _feedbackDAO.GetFeedbackByID(feedbackID);
 
         public IList<Feedback> GetFeedbackByStatus(string status) => _feedbackDAO.GetFeedbackByStatus(status);
 
         public bool RespondFeedback(string feedbackID) => _feedbackDAO.RespondFeedback(feedbackID);
+
+        public int AddFeedback(string customerEmail, string requestContent) => _feedbackDAO.AddFeedback(customerEmail, requestContent);
     }
 }

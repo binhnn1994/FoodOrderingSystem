@@ -1,0 +1,163 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<main>
+    <header class="stick" style="transform: translate3d(0px, 0px, 0px); position: fixed; top: 0px;">
+        <div class="logo-menu-sec">
+            <div class="container">
+                <div class="logo">
+                    <h1 itemprop="headline">
+                        <a href="Index" title="Home" itemprop="url"><img src="~/images/logo.png" alt="logo.png" itemprop="image"></a>
+                    </h1>
+                </div>
+                <nav>
+                    <div class="menu-sec">
+                        <ul>
+                            <li style="margin-left: 150px;">
+                                <a href="Index" title="FOOD MANAGEMENT" itemprop="url"><span class="red-clr">MANAGEMENT</span>FOOD MANAGEMENT</a>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#" title="ACCOUNT MANAGEMENT" itemprop="url"><span class="red-clr">MANAGEMENT</span>ACCOUNT MANAGEMENT</a>
+                                <ul class="sub-dropdown">
+                                    <li><a href="StaffManagement" title="STAFF MANAGEMENT" itemprop="url">STAFF</a></li>
+                                    <li><a href="CustomerManagement" title="CUSTOMER MANAGEMENT" itemprop="url">CUSTOMER</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul style="margin: 10px; float: right;">
+                            <li><a href="Profile" title="CHANGE INFORMATION" itemprop="url" class="profile-name" id="nav-user"></a></li>
+                        </ul>
+                        <!-- Current User Name -->
+                    </div>
+                </nav>
+                <!-- Navigation -->
+            </div>
+        </div>
+        <!-- Logo Menu Section -->
+    </header>
+    <!-- Header -->
+    <section>
+        <div class="block gray-bg top-padd30">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-lg-12">
+                        <div class="sec-box">
+                            <div class="dashboard-tabs-wrapper">
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-12 col-lg-4">
+                                        <div class="profile-sidebar brd-rd5 wow fadeIn" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">
+                                            <div class="profile-sidebar-inner brd-rd5">
+                                                <div class="user-info red-bg">
+                                                    <div class="user-info-inner">
+                                                        <h5 itemprop="headline" id="info-name"></h5>
+                                                        <span id="info-email"></span>
+                                                        <a class="brd-rd3 sign-out-btn yellow-bg" href="login-register.html" title="" itemprop="url"><i class="fa fa-sign-out"></i> SIGN OUT</a>
+                                                    </div>
+                                                </div>
+                                                <ul class="nav nav-tabs">
+                                                    <li class="active"><a href="#statement" data-toggle="tab" aria-expanded="true"><i class="fa fa-wpforms"></i> SALES REPORT</a></li>
+                                                    <li><a href="#account-settings" data-toggle="tab"><i class="fa fa-cog"></i> ACCOUNT SETTINGS</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-sm-12 col-lg-8">
+                                        <div class="tab-content">
+                                            <div class="tab-pane fade active in" id="statement">
+                                                <div class="tabs-wrp brd-rd5">
+                                                    <h4 itemprop="headline">SALES REPORT</h4>
+                                                    <div class="date-input">
+                                                        <label for="date-from">From:</label>
+                                                        <input class="brd-rd8" type="date" id="date-from">
+                                                        <label for="date-to" style="margin-left: 30px;">To:</label>
+                                                        <input class="brd-rd8" type="date" id="date-to">
+                                                    </div>
+                                                    <div class="report-table">
+                                                        <table>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>ID</th>
+                                                                    <th>ITEM NAME</th>
+                                                                    <th>CATEGORY</th>
+                                                                    <th>QTY SOLD</th>
+                                                                    <th>TOTAL SALES</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>12</td>
+                                                                    <td>Pizza Chicken</td>
+                                                                    <td>Pizza</td>
+                                                                    <td>260</td>
+                                                                    <td><span class="money">20800000</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>32</td>
+                                                                    <td>Burgers Mac Cheese</td>
+                                                                    <td>Burgers</td>
+                                                                    <td>370</td>
+                                                                    <td><span class="money">16590000</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>13</td>
+                                                                    <td>Burgers Cheese</td>
+                                                                    <td>Burgers</td>
+                                                                    <td>260</td>
+                                                                    <td><span class="money">14190000</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>55</td>
+                                                                    <td>Burgers Mac</td>
+                                                                    <td>Burgers</td>
+                                                                    <td>137</td>
+                                                                    <td><span class="money">12760000</span></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!-- Statement Table -->
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="account-settings">
+                                                <div class="tabs-wrp account-settings brd-rd5">
+                                                    <h4 itemprop="headline">ACCOUNT SETTINGS</h4>
+                                                    <div class="account-settings-inner">
+                                                        <div class="row">
+                                                            <div class="col-md-12 col-sm-12 col-lg-12">
+                                                                <div class="profile-info-form-wrap">
+                                                                    <form class="profile-info-form">
+                                                                        <div class="row mrg20">
+                                                                            <div class="col-md-12 col-sm-12 col-lg-12">
+                                                                                <label>Full Name</label>
+                                                                                <input class="brd-rd3" type="text" id="profile-name" placeholder="Enter Your Name">
+                                                                            </div>
+                                                                            <div class="col-md-12 col-sm-12 col-lg-12">
+                                                                                <label>Phone Number</label>
+                                                                                <input class="brd-rd3" type="text" id="profile-phone" placeholder="Enter Your Phone Number">
+                                                                            </div>
+                                                                            <div class="col-md-12 col-sm-12 col-lg-12">
+                                                                                <label>Address</label>
+                                                                                <input class="brd-rd3" type="text" id="profile-address" placeholder="Enter Your Address">
+                                                                            </div>
+                                                                        </div>
+                                                                        <button class="red-bg brd-rd4" style="width: 22%; font-size: 13px; margin: 0px 230px" type="submit">SAVE</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Section Box -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

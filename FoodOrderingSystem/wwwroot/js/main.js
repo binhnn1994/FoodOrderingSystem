@@ -92,53 +92,15 @@ $(document).ready(function() {
         return false;
     });
 
-    //===== Update Popup Script =====//
-    $('.update-popup-btn').on('click', function() {
-        $('html').addClass('update-popup-active');
-
-        var $row = $(this).closest('tr');
-
-        $('#staff-email-edit').val($row.children("td:nth-child(4)").text());
-        $('#staff-name-edit').val($row.children("td:nth-child(2)").text());
-        $('#staff-phone-edit').val($row.children("td:nth-child(3)").text());
-        $('#staff-address-edit').val($row.children("td:nth-child(5)").text());
-
-        return false;
-    });
-
-    $('.update-close-btn').on('click', function() {
-        $('html').removeClass('update-popup-active');
-        return false;
-    });
-
     //===== Add Popup Script =====//
     $('.add-popup-btn').on('click', function() {
         $('html').addClass('add-popup-active');
+        getCategories();
         return false;
     });
 
-    $('.add-close-btn').on('click', function() {
+    $('.add-close-btn, .add-submit-btn').on('click', function() {
         $('html').removeClass('add-popup-active');
-        return false;
-    });
-
-    //===== Edit Popup Script =====//
-    $('.edit-popup-btn').on('click', function() {
-        $('html').addClass('edit-popup-active');
-
-        var $info = $(this).parent().parent().find('.featured-restaurant-info');
-        var $button = $(this).parent().parent().find('.ord-btn');
-
-        $('#dish-name-edit').val($info.find('h4').text());
-        $('#dish-category-edit').val($info.find('h5').text());
-        $('#dish-price-edit').val($button.find('.price').text().replace(/\D/g, ''));
-        $('#dish-description-edit').val($info.find('p').text());
-
-        return false;
-    });
-
-    $('.edit-close-btn').on('click', function() {
-        $('html').removeClass('edit-popup-active');
         return false;
     });
 
@@ -166,16 +128,6 @@ $(document).ready(function() {
 
     $('a.close-buyer').on('click', function() {
         $('html').removeClass('order-popup-active');
-        return false;
-    });
-
-    //===== Cash Method Popup Script =====//
-    $('.cash-popup-btn').on('click', function() {
-        $('html').addClass('cash-method-popup-active');
-    });
-
-    $('.cash-method a.payment-close-btn').on('click', function() {
-        $('html').removeClass('cash-method-popup-active');
         return false;
     });
 
@@ -431,35 +383,4 @@ $(document).ready(function() {
         });
         return false;
     });
-
 }); //===== Document Ready Ends =====//
-
-jQuery(window).on('load', function($) {
-    'use strict';
-
-    //===== Isotope =====//
-    if (jQuery('.filter-item').length > 0) {
-        if (jQuery().isotope) {
-            var jQuerycontainer = jQuery('.masonry'); // cache container
-            jQuerycontainer.isotope({
-                itemSelector: '.filter-item',
-                columnWidth: .5,
-            });
-            jQuery('.filter-buttons a').on('click', function() {
-                var selector = jQuery(this).attr('data-filter');
-                jQuery('.filter-buttons li').removeClass('active');
-                jQuery(this).parent().addClass('active');
-                jQuerycontainer.isotope({ filter: selector });
-                return false;
-            });
-            jQuerycontainer.isotope('layout'); // layout/layout
-        }
-
-        jQuery(window).resize(function() {
-            if (jQuery().isotope) {
-                jQuery('.masonry').isotope('layout'); // layout/relayout on window resize
-            }
-        });
-    }
-
-});

@@ -1,137 +1,84 @@
-﻿<html lang="en">
+﻿@{
+    ViewData["Title"] = "Customer Management";
+}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <title>Customer Management - GudFood</title>
-    <link rel="shortcut icon" href="~/images/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="~/css/icons.min.css">
-    <link rel="stylesheet" href="~/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/css/main.css">
-    <link rel="stylesheet" href="~/css/red-color.css">
-    <link rel="stylesheet" href="~/css/yellow-color.css">
-</head>
-
-<body>
-    <main>
-        <header class="stick" style="transform: translate3d(0px, 0px, 0px); position: fixed; top: 0px;">
-            <div class="logo-menu-sec">
-                <div class="container">
-                    <div class="logo">
-                        <h1 itemprop="headline">
-                            <a href="Index" title="Home" itemprop="url"><img src="~/images/logo.png" alt="logo.png" itemprop="image"></a>
-                        </h1>
-                    </div>
-                    <nav>
-                        <div class="menu-sec">
-                            <ul>
-                                <li style="margin-left: 150px;">
-                                    <a href="Index" title="FOOD MANAGEMENT" itemprop="url"><span class="red-clr">MANAGEMENT</span>FOOD MANAGEMENT</a>
-                                </li>
-                                <li class="menu-item-has-children">
-                                    <a href="#" title="ACCOUNT MANAGEMENT" itemprop="url"><span class="red-clr">MANAGEMENT</span>ACCOUNT MANAGEMENT</a>
-                                    <ul class="sub-dropdown">
-                                        <li><a href="StaffManagement" title="STAFF MANAGEMENT" itemprop="url">STAFF</a></li>
-                                        <li><a href="CustomerManagement" title="CUSTOMER MANAGEMENT" itemprop="url">CUSTOMER</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <ul style="margin: 10px; float: right;">
-                                <li><a href="profile-admin.html" title="CHANGE INFOMATION" itemprop="url" class="profile-name">Huu Quoc</a></li>
-                            </ul>
-                            <!-- Current User Name -->
-                        </div>
-                    </nav>
-                    <!-- Navigation -->
+<main>
+    <header class="stick" style="transform: translate3d(0px, 0px, 0px); position: fixed; top: 0px;">
+        <div class="logo-menu-sec">
+            <div class="container">
+                <div class="logo">
+                    <h1 itemprop="headline">
+                        <a href="Index" title="Home" itemprop="url"><img src="~/images/logo.png" alt="logo.png" itemprop="image"></a>
+                    </h1>
                 </div>
+                <nav>
+                    <div class="menu-sec">
+                        <ul>
+                            <li style="margin-left: 150px;">
+                                <a href="#" title="FOOD MANAGEMENT" itemprop="url"><span class="red-clr">MANAGEMENT</span>FOOD MANAGEMENT</a>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#" title="ACCOUNT MANAGEMENT" itemprop="url"><span class="red-clr">MANAGEMENT</span>ACCOUNT MANAGEMENT</a>
+                                <ul class="sub-dropdown">
+                                    <li><a href="StaffManagement" title="STAFF MANAGEMENT" itemprop="url">STAFF</a></li>
+                                    <li><a href="CustomerManagement" title="CUSTOMER MANAGEMENT" itemprop="url">CUSTOMER</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul style="margin: 10px; float: right;">
+                            <li><a href="Profile" title="CHANGE INFORMATION" itemprop="url" class="profile-name" id="nav-user"></a></li>
+                        </ul>
+                        <!-- Current User Name -->
+                    </div>
+                </nav>
+                <!-- Navigation -->
             </div>
-            <!-- Logo Menu Section -->
-        </header>
-        <!-- Header -->
+        </div>
+        <!-- Logo Menu Section -->
+    </header>
+    <!-- Header -->
 
-        <section>
-            <div class="block gray-bg top-padd30">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 col-lg-12">
-                            <div class="sec-box">
-                                <div class="filters-wrapper">
-                                    <form class="restaurant-search-form brd-rd2">
-                                        <div class="row" style="margin: -30px 210px 10px;">
-                                            <div class="col-md-9 col-sm-9 col-lg-9 col-xs-12">
-                                                <div class="input-field brd-rd4"><input class="brd-rd2" type="text" placeholder="Search customer here..."></div>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
-                                                <button class="brd-rd4 red-bg">SEARCH</button>
-                                            </div>
+    <section>
+        <div class="block gray-bg top-padd30">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-lg-12">
+                        <div class="sec-box">
+                            <div class="filters-wrapper">
+                                <form class="restaurant-search-form brd-rd2">
+                                    <div class="row" style="margin: -30px 210px 10px;">
+                                        <div class="col-md-9 col-sm-9 col-lg-9 col-xs-12">
+                                            <div class="input-field brd-rd4"><input class="brd-rd2" id="search-value" type="text" placeholder="Search customer here..."></div>
                                         </div>
-                                    </form>
-                                    <div class="statement-table">
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>NO.</th>
-                                                    <th>FULL NAME</th>
-                                                    <th>PHONE NO.</th>
-                                                    <th>EMAIL</th>
-                                                    <th>ADDRESS</th>
-                                                    <th>ACTION</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Huu Quoc</td>
-                                                    <td>0123456789</td>
-                                                    <td>huuquoc@trungga.com</td>
-                                                    <td>335 Camberwell Road Camberwell, Canada</td>
-                                                    <td>
-                                                        <div class="form-check form-switch" style="font-size: 24px; margin: -5px 22px;">
-                                                            <input class="form-check-input" type="checkbox">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>Huu Quoc</td>
-                                                    <td>0123456789</td>
-                                                    <td>huuquoc@trungga.com</td>
-                                                    <td>335 Camberwell Road Camberwell, Canada</td>
-                                                    <td>
-                                                        <div class="form-check form-switch" style="font-size: 24px; margin: -5px 22px;">
-                                                            <input class="form-check-input" type="checkbox">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
+                                            <button class="brd-rd4 red-bg" onclick="showCustomerList();" type="button">SEARCH</button>
+                                        </div>
                                     </div>
-                                    <!-- Customer Table -->
+                                </form>
+                                <div class="statement-table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>NO.</th>
+                                                <th>FULL NAME</th>
+                                                <th>PHONE NO.</th>
+                                                <th>EMAIL</th>
+                                                <th>ADDRESS</th>
+                                                <th>STATUS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="customer-table">
+                                        </tbody>
+                                    </table>
                                 </div>
+                                <!-- Customer Table -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <div class="bottom-bar dark-bg text-center">
-            <div class="container">
-                <p></p>
-            </div>
         </div>
-        <!-- Bottom Bar -->
+    </section>
+</main>
 
-    </main>
-    <!-- Main Wrapper -->
-
-    <script src="~/js/jquery.min.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
-    <script src="~/js/main.js"></script>
-    <script src="~/js/plugins.js"></script>
-    <script src="~/js/custom.js"></script>
-</body>
-
-</html>
+<script src="~/js/customer-management.js"></script>

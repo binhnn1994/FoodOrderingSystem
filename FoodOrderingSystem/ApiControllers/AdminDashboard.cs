@@ -1,5 +1,7 @@
 ﻿using FoodOrderingSystem.Models.account;
+using FoodOrderingSystem.Models.category;
 using FoodOrderingSystem.Models.item;
+using FoodOrderingSystem.Models.saleReport;
 using FoodOrderingSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -368,7 +370,7 @@ namespace FoodOrderingSystem.ApiControllers
             try
             {
                 string note = itemService.GetDetailOfItem(request.ItemID).note;
-                if (note.Trim().Length == 0 || note == null) return new JsonResult(new
+                if (note == null || note.Trim().Length == 0) return new JsonResult(new
                 {
                     message = "fail"
                 });
@@ -518,6 +520,51 @@ namespace FoodOrderingSystem.ApiControllers
                 var message = new
                 {
                     message = e.Message
+                };
+                return new JsonResult(message);
+            }
+        }
+
+        [Route("GetCategories")]
+        public JsonResult GetCategories([FromServices] ICategoryService categoryService)
+        {
+            try
+            {
+                IEnumerable<Category> categories = categoryService.GetCategories();
+                return new JsonResult(categories);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("GetCategories: " + e.Message);
+                var message = new
+                {
+                    message = "error"
+                };
+                return new JsonResult(message);
+            }
+        }
+
+        public class FromDateToDate
+        {
+            public DateTime FromDate { get; set; }
+            public DateTime ToDate { get; set; }
+        }
+        [Route("SaleReport")]
+        public JsonResult SaleReport([FromServices] ISaleReportService saleReportService,[FromBody] FromDateToDate dateObj)
+        {
+            try
+            {
+                if (dateObj.FromDate.ToString() == null || dateObj.ToDate.ToString() == null) return new JsonResult(new { message = "fail" });
+                IList<SaleReportObj> saleReportObjList = saleReportService.ListSaleReport(dateObj.FromDate, dateObj.ToDate);
+                if (saleReportObjList == null) return new JsonResult(new { Message = "There is no order during this time !" });
+                return new JsonResult(saleReportObjList);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("GetCategories: " + e.Message);
+                var message = new
+                {
+                    message = "error"
                 };
                 return new JsonResult(message);
             }
