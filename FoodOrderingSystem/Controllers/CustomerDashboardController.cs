@@ -178,5 +178,11 @@ namespace FoodOrderingSystem.Controllers
             string jsoncart = JsonConvert.SerializeObject(list);
             session.SetString(CARTKEY, jsoncart);
         }
+
+        [Route("Profile")]
+        public IActionResult Profile()
+        {
+            return View();
+        }
     }
 }
