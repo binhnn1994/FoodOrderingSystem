@@ -126,5 +126,20 @@ namespace FoodOrderingSystem.ApiControllers
             }
         }
 
+        [Route("GetOrderListByID/{customerID}")]
+        public JsonResult GetOrderListByID([FromServices] ICustomerOrderService customerOrderService, string customerID)
+        {
+            try
+            {
+                var orders = customerOrderService.GetOrderListByID(customerID);
+                if (orders == null || orders.Count == 0) return new JsonResult(new { Message = "There is no order" });
+                return new JsonResult(orders);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("GetOrderListByID: " + ex.Message);
+                return new JsonResult(new { Message = ex.Message });
+            }
+        }
     }
 }

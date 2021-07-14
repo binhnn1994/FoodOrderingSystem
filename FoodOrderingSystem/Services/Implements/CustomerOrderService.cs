@@ -18,5 +18,6 @@ namespace FoodOrderingSystem.Services.Implements
         public IList<CustomerOrder> GetPendingCustomerOrders() => _customerOrderDAO.GetPendingCustomerOrders();
         public string AddCustomerOrder(string customerID, string toAddress, double deliveryFee, string note, double total)
             => _customerOrderDAO.AddCustomerOrder(customerID, toAddress, deliveryFee, note, total);
+        public IList<CustomerOrder> GetOrderListByID(string customerID) => _customerOrderDAO.GetOrderListByID(customerID);
     }
 }

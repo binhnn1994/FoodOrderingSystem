@@ -12,5 +12,6 @@ namespace FoodOrderingSystem.Services.Interfaces
         public CustomerOrder GetCustomerOrderByID(string orderID);
         public bool ConfirmUpdate(string orderID, string status);
         public IList<CustomerOrder> GetPendingCustomerOrders();
+        public IList<CustomerOrder> GetOrderListByID(string customerID);
     }
 }
