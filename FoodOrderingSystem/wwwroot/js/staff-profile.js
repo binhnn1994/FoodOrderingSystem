@@ -1,6 +1,6 @@
 function showOrderList() {
     var request = new XMLHttpRequest();
-    var url = "/api/StaffDashboard/GetPendingOrder";
+    var url = "/api/StaffDashboard/GetOrders/Pending";
 
     request.open('GET', url, true);
     request.onload = function() {
@@ -61,38 +61,23 @@ function getOrderDetail() {
     request.setRequestHeader("Content-Type", "text/json");
     request.onload = function() {
         var result = JSON.parse(this.responseText);
-        renderOrderDetail(result);
+        renderOrderDetail(result, function() {
+            formatMoneyString();
+        });
     }
     request.send(content);
 }
 
-function renderOrderDetail(orderDetail) {
-    function getItemNameAndPrice(itemID) {
-        var request = new XMLHttpRequest();
-        var url = "/api/AdminDashboard/ViewItemDetail";
-        var content = '{"ItemID": "' + itemID + '"}';
-
-        request.open('POST', url, true);
-        request.setRequestHeader("Content-Type", "text/json");
-        request.onload = function() {
-            console.log(this.responseText);
-            var result = JSON.parse(this.responseText);
-            values = {
-                name: result.itemName,
-                price: result.unitPrice
-            }
-        }
-        request.send(content);
-    }
-
+function renderOrderDetail(orderDetail, callback) {
     var list = document.getElementById("order-details-list");
+    var subtotal = 0;
+    var deliveryFee;
 
     while (list.firstChild) {
         list.removeChild(list.firstChild);
     }
 
     for (let i = 0; i < orderDetail.length; i++) {
-        var values = getItemNameAndPrice(orderDetail[i].itemID);
         var li = document.createElement('li');
         var item = document.createElement('div');
         var quantity = document.createElement('span');
@@ -109,9 +94,24 @@ function renderOrderDetail(orderDetail) {
         item.classList = "dish-name";
 
         quantity.innerHTML = orderDetail[i].quantity;
-        name.innerHTML += " x " + values;
-        price.innerHTML = values[1] * orderDetail[i].quantity;
+        name.innerHTML += " x " + orderDetail[i].item;
+        price.innerHTML = orderDetail[i].unitPrice * orderDetail[i].quantity;
+        subtotal += orderDetail[i].unitPrice * orderDetail[i].quantity;
     }
+
+    if (subtotal > 500000) {
+        deliveryFee = 5000;
+    } else if (subtotal > 300000) {
+        deliveryFee = 10000;
+    } else {
+        deliveryFee = 20000;
+    }
+
+    document.getElementById("subtotal-order-details").innerHTML = subtotal;
+    document.getElementById("delivery-order-details").innerHTML = deliveryFee;
+    document.getElementById("total-order-details").innerHTML = subtotal + deliveryFee;
+
+    callback();
 }
 
 function showReviewList() {
