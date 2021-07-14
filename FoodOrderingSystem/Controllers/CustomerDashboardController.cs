@@ -170,6 +170,9 @@ namespace FoodOrderingSystem.Controllers
         [Route("Profile")]
         public IActionResult Profile()
         {
+            var session = HttpContext.Session;
+            string userID = session.GetString("USERID");
+            ViewBag.userID = userID;
             return View();
         }
     }
