@@ -9,6 +9,11 @@ namespace FoodOrderingSystem.Models.feedback
 {
     public class FeedbackDAO : IFeedbackDAO
     {
+        public bool AddFeedback(int feedbackID, string customerEmail, DateTime receiveDate, string status, string content, DateTime respondDate)
+        {
+            throw new NotImplementedException();
+        }
+
         public Feedback GetFeedback(string feedbackID)
         {
             try
