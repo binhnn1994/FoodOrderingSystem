@@ -17,7 +17,7 @@ namespace FoodOrderingSystem.Models.saleReport
                 using (var connection = new MySqlConnection(DBUtils.ConnectionString))
                 {
                     connection.Open();
-                    string Sql = "SELECT  I.itemID, I.itemName, I.categoryName, I.unitPrice, SUM(OD.quantity*I.unitPrice) as totalSales " +
+                    string Sql = "SELECT  I.itemID, I.itemName, I.categoryName, I.unitPrice, SUM(OD.quantity) as totalQuantity, SUM(OD.quantity*I.unitPrice) as totalSales " +
                                     "FROM customerOrder O, account C, orderDetails OD, item I " +
                                     "WHERE O.customerID = C.userID and O.orderID = OD.orderID and OD.itemID = I.itemID and O.orderDate >= @fromDate and O.orderDate <= @toDate " +
                                     "GROUP BY I.itemID";
@@ -35,7 +35,8 @@ namespace FoodOrderingSystem.Models.saleReport
                                     ItemName = reader.GetString(1),
                                     CategoryName = reader.GetString(2),
                                     UnitPrice = reader.GetFloat(3),
-                                    TotalSales = reader.GetFloat(4)
+                                    TotleQuantity = reader.GetInt32(4),
+                                    TotalSales = reader.GetFloat(5)
                                 });
                             }
                         }

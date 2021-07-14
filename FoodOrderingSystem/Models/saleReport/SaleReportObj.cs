@@ -14,6 +14,7 @@ namespace FoodOrderingSystem.Models.saleReport
         public string ItemName { get; set; }
         public string CategoryName { get; set; }
         public float UnitPrice { get; set; }
+        public int TotleQuantity { get; set; }
         public float TotalSales { get; set; }
     }
 }
