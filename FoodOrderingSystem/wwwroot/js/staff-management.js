@@ -121,21 +121,67 @@ function updateStaff() {
 }
 
 function createStaff() {
-    var inputs = document.forms["create-form"].elements;
+   
+        var inputs = document.forms["create-form"].elements;
+    if (isCreateStaffValid(inputs)) {
+        var request = new XMLHttpRequest();
+        var url = "/api/AdminDashboard/CreateStaff";
+        var content = 'userEmail=' + inputs[0].value;
+        content += "&hashedPassword=" + inputs[1].value;
+        content += "&fullname=" + inputs[2].value;
+        content += "&phoneNumber=" + inputs[3].value;
+        content += "&address=" + inputs[4].value;
 
-    var request = new XMLHttpRequest();
-    var url = "/api/AdminDashboard/CreateStaff";
-    var content = 'userEmail=' + inputs[0].value;
-    content += "&hashedPassword=" + inputs[1].value;
-    content += "&fullname=" + inputs[2].value;
-    content += "&phoneNumber=" + inputs[3].value;
-    content += "&address=" + inputs[4].value;
+        request.open('POST', url, true);
+        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        request.onload = function () {
+            $('html').removeClass('create-popup-active');
+            alert("Added successfully!");
+            clearCreateStaffError(inputs)
+            showStaffsList();
+        };
+        request.send(content);
+    }
+}
 
-    request.open('POST', url, true);
-    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    request.onload = function() {
-        alert("Added successfully!");
-        showStaffsList();
-    };
-    request.send(content);
+function isCreateStaffValid(inputs) {
+    clearCreateStaffError(inputs);
+    if (inputs[0].value == "" || inputs[1].value == "" || inputs[2].value == "") {
+        if (!IsEmail(inputs[0].value)) {
+            $(".sign-form").find(".err-msg")[0].textContent = "Must have a valid email address";
+            $(inputs[0]).css("border", "1px solid red");
+        }
+        if (inputs[1].value == "") {
+            $(".sign-form").find(".err-msg")[1].textContent = "Must have a password";
+            $(inputs[1]).css("border", "1px solid red");
+        }
+        if (inputs[2].value == "") {
+            $(".sign-form").find(".err-msg")[2].textContent = "Must have a name";
+            $(inputs[2]).css("border", "1px solid red");
+        }
+        return false;
+    }
+    return true;
+}
+
+function IsEmail(email) {
+    var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if (!regex.test(email)) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function clearCreateStaffError(inputs) {
+    $(inputs[0]).css("border", "none");
+    $(inputs[1]).css("border", "none");
+    $(inputs[2]).css("border", "none");
+
+
+        $(".sign-form").find(".err-msg")[0].textContent = "";
+
+        $(".sign-form").find(".err-msg")[1].textContent = "";
+
+        $(".sign-form").find(".err-msg")[2].textContent = "";
 }

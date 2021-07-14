@@ -6892,6 +6892,10 @@ input:checked+.switch-slider:before {
     float: right;
 }
 
+.sign-form .required::after {
+    content: " *";
+    color: red;
+ }
 
 /*===== Login & Register Popup =====*/
 
