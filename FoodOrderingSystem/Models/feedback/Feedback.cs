@@ -9,9 +9,11 @@ namespace FoodOrderingSystem.Models.feedback
     public class Feedback
     {
         [Required]
-        public string FeedbackID { get; set; }
+        public int FeedbackID { get; set; }
         [Required]
         public string CustomerEmail { get; set; }
+        [Required]
+        public string Status { get; set; }
         [Required]
         public DateTime ReceiveDate { get; set; }
         [Required]
