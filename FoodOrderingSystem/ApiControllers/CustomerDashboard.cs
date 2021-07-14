@@ -127,22 +127,20 @@ namespace FoodOrderingSystem.ApiControllers
             }
         }
 
-        [Route("GetOrderDetailsByOrderID")]
-        public JsonResult GetOrderDetailsByOrderID([FromServices] IOrderDetailsService orderDetailsService, Request request)
+        [Route("GetOrderListByID/{customerID}")]
+        public JsonResult GetOrderListByID([FromServices] ICustomerOrderService customerOrderService, string customerID)
         {
             try
             {
-                if (request.OrderID == null) return new JsonResult(new { Message = "Invalid OrderID" });
-                var result = orderDetailsService.GetOrderDetails(request.OrderID);
-                if (result == null) return new JsonResult(new { Message = "Invalid OrderID" });
-                return new JsonResult(result);
+                var orders = customerOrderService.GetOrderListByID(customerID);
+                if (orders == null || orders.Count == 0) return new JsonResult(new { Message = "There is no order" });
+                return new JsonResult(orders);
             }
             catch (Exception ex)
             {
-                _logger.LogInformation("GetOrderDetailsByOrderID: " + ex.Message);
+                _logger.LogInformation("GetOrderListByID: " + ex.Message);
                 return new JsonResult(new { Message = ex.Message });
             }
         }
-
     }
 }

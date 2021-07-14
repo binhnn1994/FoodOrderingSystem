@@ -1,4 +1,6 @@
-﻿using FoodOrderingSystem.Services.Interfaces;
+﻿using FoodOrderingSystem.Models.account;
+using FoodOrderingSystem.Models.customerOrder;
+using FoodOrderingSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -54,15 +56,30 @@ namespace FoodOrderingSystem.ApiControllers
                 return new JsonResult(new { Message = ex.Message});
             }
         }
+        public class CustomerOrder_Account
+        {
+            public CustomerOrder CustomerOrder { get; set; }
+            public Account Account { get; set; }
+        }
 
         [Route("GetPendingOrder")]
-        public JsonResult GetPendingOrder([FromServices] ICustomerOrderService customerOrderService)
+        public JsonResult GetPendingOrder([FromServices] ICustomerOrderService customerOrderService, [FromServices] IAccountService accountService)
         {
             try
             {
                 var pendingOrders = customerOrderService.GetPendingCustomerOrders();
                 if (pendingOrders == null || pendingOrders.Count == 0) return new JsonResult(new { Message = "There is no pending order at this time" });
-                return new JsonResult(pendingOrders);
+                var customerOrder_Account = new List<CustomerOrder_Account>();
+                foreach (var ord in pendingOrders)
+                {
+                    var acc = accountService.GetDetailOfAccount(ord.CustomerID);
+                    customerOrder_Account.Add(new CustomerOrder_Account
+                    {
+                        CustomerOrder = ord,
+                        Account = acc
+                    });
+                }
+                return new JsonResult(customerOrder_Account);
             }
             catch (Exception ex)
             {
