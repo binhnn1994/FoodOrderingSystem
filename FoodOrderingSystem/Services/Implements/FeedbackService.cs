@@ -16,5 +16,7 @@ namespace FoodOrderingSystem.Services.Implements
         public IList<Feedback> GetFeedbacks(string status) => _feedbackDAO.GetFeedbacks(status);
 
         public bool RespondFeedback(string feedbackID) => _feedbackDAO.RespondFeedback(feedbackID);
+
+        public int AddFeedback(string customerEmail, string requestContent) => _feedbackDAO.AddFeedback(customerEmail, requestContent);
     }
 }

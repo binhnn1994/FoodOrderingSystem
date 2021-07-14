@@ -12,6 +12,7 @@ namespace FoodOrderingSystem.Models.feedback
         public IList<Feedback> GetFeedbacks(string status);
 
         public bool RespondFeedback(string feedbackID);
-        bool AddFeedback(int feedbackID, string customerEmail, DateTime receiveDate, string status, string content, DateTime respondDate);
+
+        int AddFeedback(string customerEmail, string requestContent);
     }
 }

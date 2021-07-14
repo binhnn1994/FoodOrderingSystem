@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,9 +10,35 @@ namespace FoodOrderingSystem.Models.feedback
 {
     public class FeedbackDAO : IFeedbackDAO
     {
-        public bool AddFeedback(int feedbackID, string customerEmail, DateTime receiveDate, string status, string content, DateTime respondDate)
+        public int AddFeedback(string customerEmail, string requestContent)
         {
-            throw new NotImplementedException();
+            int result = 0;
+            try
+            {
+                MySqlConnection connection = new MySqlConnection(DBUtils.ConnectionString);
+                MySqlCommand command = new MySqlCommand();
+                command.Connection = connection;
+                command.CommandType = CommandType.StoredProcedure;
+                connection.Open();
+                AddFeedbackExecute();
+                void AddFeedbackExecute()
+                {
+                    command.CommandText = "CreateFeedback";
+                    command.Parameters.AddWithValue("@customerEmail_Input", customerEmail);
+                    command.Parameters.AddWithValue("@requestContent_Input", requestContent);
+                    var reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        result = reader.GetInt32(0);
+                    }
+                }
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Fail. " + ex.Message);
+            }
+            return result;
         }
 
         public Feedback GetFeedback(string feedbackID)
