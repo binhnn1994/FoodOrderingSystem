@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FoodOrderingSystem.Models.orderDetails
 {
-    public interface IOrderDetailDAO
+    public interface IOrderDetailsDAO
     {
     }
 }

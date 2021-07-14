@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FoodOrderingSystem.Models.orderDetails
 {
-    public class OrderDetailDAO
+    public class OrderDetailsDAO
     {
         public IList<OrderDetails> GetOrderDetails(string orderID)
         {
