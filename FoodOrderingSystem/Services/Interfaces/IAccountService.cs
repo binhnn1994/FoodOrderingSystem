@@ -17,5 +17,6 @@ namespace FoodOrderingSystem.Services.Interfaces
         bool ActiveAccount(string userID);
         int NumberOfAccountBySearching(string searchValue, string roleName);
         IEnumerable<Account> ViewAccountListBySearching(string searchValue, string roleName, int RowsOnPage, int RequestPage);
+        public Account Login(string userEmail, string password);
     }
 }

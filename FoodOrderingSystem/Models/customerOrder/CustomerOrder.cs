@@ -18,5 +18,6 @@ namespace FoodOrderingSystem.Models.customerOrder
         public string ToAddress { get; set; }
         public double DeliveryFee { get; set; }
         public string Note { get; set; }
+        public double Total { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace FoodOrderingSystem.Models.customerOrder
                 using (var connection = new MySqlConnection(DBUtils.ConnectionString))
                 {
                     connection.Open();
-                    string Sql = "Select orderID, customerID, orderDate, status, toAddress, deliveryFee, note " +
+                    string Sql = "Select orderID, customerID, orderDate, status, toAddress, deliveryFee, note, total " +
                             "From customerOrder " +
                             "Where orderID = @orderID ";
                     using (var command = new MySqlCommand(Sql, connection))
@@ -34,7 +34,8 @@ namespace FoodOrderingSystem.Models.customerOrder
                                     Status = reader.GetString("status"),
                                     ToAddress = reader.GetString("toAddress"),
                                     DeliveryFee = reader.GetDouble("deliveryFee"),
-                                    Note = reader.IsDBNull(reader.GetOrdinal("note")) ? null : reader.GetString("note")
+                                    Note = reader.IsDBNull(reader.GetOrdinal("note")) ? null : reader.GetString("note"),
+                                    Total = reader.GetDouble("total")
                                 };
                             }
                         }
@@ -82,7 +83,7 @@ namespace FoodOrderingSystem.Models.customerOrder
                 using (var connection = new MySqlConnection(DBUtils.ConnectionString))
                 {
                     connection.Open();
-                    string Sql = "Select orderID, customerID, orderDate, status, toAddress, deliveryFee, note "
+                    string Sql = "Select orderID, customerID, orderDate, status, toAddress, deliveryFee, note, total "
                         + "From customerOrder "
                         + "Where status = 'Pending' ";
                     using (var command = new MySqlCommand(Sql, connection))
@@ -91,7 +92,7 @@ namespace FoodOrderingSystem.Models.customerOrder
                         {
                             while (reader.Read())
                             {
-                                customerOrders.Add( new CustomerOrder
+                                customerOrders.Add(new CustomerOrder
                                 {
                                     OrderID = reader.GetString("orderID"),
                                     CustomerID = reader.GetString("customerID"),
@@ -99,7 +100,8 @@ namespace FoodOrderingSystem.Models.customerOrder
                                     Status = reader.GetString("status"),
                                     ToAddress = reader.GetString("toAddress"),
                                     DeliveryFee = reader.GetDouble("deliveryFee"),
-                                    Note = reader.IsDBNull(reader.GetOrdinal("note")) ? null : reader.GetString("note")
+                                    Note = reader.IsDBNull(reader.GetOrdinal("note")) ? null : reader.GetString("note"),
+                                    Total = reader.GetDouble("total")
                                 });
                             }
                             return customerOrders;

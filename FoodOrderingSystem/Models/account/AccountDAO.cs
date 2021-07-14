@@ -311,5 +311,40 @@ namespace FoodOrderingSystem.Models.account
             }
             return accounts;
         }
+
+        public Account Login(string userEmail, string password)
+        {
+            try
+            {
+                using (var connection = new MySqlConnection(DBUtils.ConnectionString))
+                {
+                    connection.Open();
+                    string Sql = "Select userID, userEmail, roleName, fullname, phoneNumber, address, status, note " +
+                            "From account " +
+                            "Where userEmail = @userEmail AND hashedPassword = @password ";
+                    using (var command = new MySqlCommand(Sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@userEmail", userEmail);
+                        command.Parameters.AddWithValue("@password", password);
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read()) return new Account
+                            {
+                                userID = reader.GetString("userID"),
+                                userEmail = userEmail,
+                                hashedPassword = password,
+                                fullname = reader.GetString("fullname")
+                            };
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return null;
+        }
     }
 }

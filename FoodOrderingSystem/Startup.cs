@@ -52,6 +52,7 @@ namespace FoodOrderingSystem
             services.AddTransient<IFeedbackDAO, FeedbackDAO>();
             services.AddTransient<IFeedbackService, FeedbackService>();
 
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +67,7 @@ namespace FoodOrderingSystem
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
+
 
             app.UseRouting();
 
