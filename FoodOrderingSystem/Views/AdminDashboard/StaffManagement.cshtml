@@ -26,7 +26,7 @@
                             </li>
                         </ul>
                         <ul style="margin: 10px; float: right;">
-                            <li><a href="Profile" title="CHANGE INFOMATION" itemprop="url" class="profile-name">Huu Quoc</a></li>
+                            <li><a href="Profile" title="CHANGE INFOMATION" itemprop="url" class="profile-name" id="nav-user"></a></li>
                         </ul>
                         <!-- Current User Name -->
                     </div>
@@ -93,16 +93,19 @@
                 <form class="sign-form" name="create-form">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <label>Email</label>
-                            <input class="brd-rd3" type="email" placeholder="Enter Email" style="font-size: 14px">
+                            <label class="required">Email</label>
+                            <input class="brd-rd3" type="email" placeholder="Enter Email" style="font-size: 14px" required>
+                            <p class="err-msg" style="color:red;"></p>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <label>Password</label>
-                            <input class="brd-rd3" type="password" placeholder="Enter Password" style="font-size: 14px">
+                            <label class="required">Password</label>
+                            <input class="brd-rd3" type="password" placeholder="Enter Password" style="font-size: 14px" required>
+                            <p class="err-msg" style="color:red;"></p>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <label>Full Name</label>
-                            <input class="brd-rd3" type="text" placeholder="Enter Name" style="font-size: 14px">
+                            <label class="required">Full Name</label>
+                            <input class="brd-rd3" type="text" placeholder="Enter Name" style="font-size: 14px" required>
+                            <p class="err-msg" style="color:red;"></p>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <label>Phone Number</label>

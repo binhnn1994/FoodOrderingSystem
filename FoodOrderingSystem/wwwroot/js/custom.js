@@ -1,18 +1,45 @@
-var user;
+var page, user;
 
 window.onload = function() {
-    var page = window.location.pathname.split("/").slice(-2).join("/");
-    getUserByID("e5f5ef3699a1");
+    var userElement = document.getElementById("nav-user");
+    if (userElement) {
+        userElement.setAttribute("name", "e5f5ef3699a1");
+        getUserInfo();
+    }
 
-    // console.log(window.location.pathname);
-    // console.log(page);
+    page = window.location.pathname.split("/").slice(-2).join("/");
+    console.log(window.location.pathname);
+    console.log(page);
+
+    setTimeout(function() { initPages() }, 800);
+}
+
+function initPages() {
+    //===== All Pages =====*/
+    if (page.length >= 2) {
+        var currentUser = document.getElementById("nav-user");
+        if (currentUser) {
+            if (user.fullname.length > 0) {
+                currentUser.innerHTML = user.fullname;
+            } else {
+                currentUser.innerHTML = user.userEmail;
+            }
+        }
+    }
 
     //===== Profile Pages =====*/
-    if (page.includes("Profile")) {
+    if (page.includes("Profile") || page.includes("StaffDashboard")) {
         setProfileInfo();
-        document.getElementById("profile-name").value = "hihihaha";
-        document.getElementById("profile-phone").value = "hihihehe";
-        document.getElementById("profile-address").value = "hihihuhu";
+        if (page === "AdminDashboard/Profile") {
+            getTime();
+
+            $('#date-from').change(function() {
+                var date = $(this).val();
+            });
+            $('#date-to').change(function() {
+                var date = $(this).val();
+            });
+        }
     }
 
     //===== Staff Management Page =====*/
@@ -26,13 +53,13 @@ window.onload = function() {
     }
 
     //===== Food Management Page =====*/
-    if (page === "AdminDashboard/Index" || page === "AdminDashboard/") {
+    if (page === "AdminDashboard/Index" || page === "AdminDashboard/" || page === "/AdminDashboard") {
         loadCategories();
         showItemList();
     }
 
     //===== Order Page =====*/
-    if (page === "CustomerDashboard/Index" || page === "/CustomerDashboard" || page === "/") {
+    if (page === "CustomerDashboard/Index" || page === "CustomerDashboard/" || page === "/CustomerDashboard" || page === "/") {
         loadCategories();
         showItemList();
 
@@ -79,9 +106,8 @@ window.onload = function() {
         });
     }
 
-    //===== All Pages =====*/
-    if (page.length >= 0) {
-        // formatMoneyString();
+    if (page.includes("StaffDashboard")) {
+        showOrderList();
     }
 }
 
@@ -138,8 +164,9 @@ function deactivateItem(itemID) {
     request.send(content);
 }
 
-function getUserByID(userID) {
+function getUserInfo() {
     var request = new XMLHttpRequest();
+    var userID = document.getElementById("nav-user").getAttribute("name");
     var url = "/api/AdminDashboard/ViewAccountDetail";
     var content = '{"UserID": "' + userID + '"}';
 
@@ -149,4 +176,50 @@ function getUserByID(userID) {
         user = JSON.parse(this.responseText);
     }
     request.send(content);
+}
+
+function format(time) {
+    return (time < 10 ? '0' : '') + time;
+}
+
+function getTime() {
+    var now = new Date();
+
+    var year = now.getFullYear();
+    var month = format(now.getMonth() + 1);
+    var day = format(now.getDate());
+    var preMonth;
+
+    if (now.getMonth() === 0) {
+        preMonth = 12;
+        year = year - 1;
+    } else {
+        preMonth = format(now.getMonth());
+    }
+
+    //Set date-type elements
+    var dateTo = document.getElementById("date-to");
+    dateTo.value = [year, month, day].join('-');
+    dateTo.max = dateTo.value;
+
+    var dateFrom = document.getElementById("date-from");
+    dateFrom.value = [year, preMonth, day].join('-');
+    dateFrom.max = dateTo.value;
+}
+
+function setProfileInfo() {
+    document.getElementById("info-name").innerHTML = user.fullname;
+    document.getElementById("info-email").innerHTML = user.userEmail;
+    document.getElementById("profile-name").value = user.fullname;
+    document.getElementById("profile-phone").value = user.phoneNumber;
+    document.getElementById("profile-address").value = user.address;
+}
+
+function formatDate(original) {
+    var normalizedDate = "";
+    normalizedDate += original.substring(8, 10) + '/';
+    normalizedDate += original.substring(5, 7) + '/';
+    normalizedDate += original.substring(0, 4) + ' ';
+    normalizedDate += original.substring(11, 16);
+    return normalizedDate;
 }

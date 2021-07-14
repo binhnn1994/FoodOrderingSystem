@@ -5842,7 +5842,7 @@ input:checked+.switch-slider:before {
     font-family: Poppins;
     font-weight: 500;
     color: #3c3838;
-    font-size: 16px;
+    font-size: 14px;
     float: left;
     width: 100%;
     margin-bottom: 9px;
@@ -6892,6 +6892,10 @@ input:checked+.switch-slider:before {
     float: right;
 }
 
+.sign-form .required::after {
+    content: " *";
+    color: red;
+ }
 
 /*===== Login & Register Popup =====*/
 
@@ -9511,4 +9515,15 @@ nav>div>ul>li a.profile-name {
 .report-table table tbody tr td:nth-child(4),
 .report-table table tbody tr td:nth-child(5) {
     text-align: right;
+}
+
+.date-input {
+    text-align: center;
+    font-size: 12px;
+}
+
+.date-input input {
+    margin: 0px 10px 15px;
+    padding: 8px 12px;
+    border: 1px solid #313131;
 }

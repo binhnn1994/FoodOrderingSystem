@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "Dashboard";
 }
 
 <main>
@@ -8,7 +8,7 @@
             <div class="container">
                 <div class="logo">
                     <h1 itemprop="headline">
-                        <a href="Index" title="Home" itemprop="url"><img src="~/images/logo.png" alt="logo.png" itemprop="image"></a>
+                        <a href="../" title="Home" itemprop="url"><img src="~/images/logo.png" alt="logo.png" itemprop="image"></a>
                     </h1>
                 </div>
                 <nav>
@@ -22,7 +22,7 @@
                             </div>
                         </form>
                         <ul style="margin: 10px; float: right;">
-                            <li><a href="Profile" title="CHANGE INFORMATION" itemprop="url">Huu Quoc</a></li>
+                            <li><a href="Profile" title="CHANGE INFORMATION" itemprop="url" class="profile-name" id="nav-user"></a></li>
                         </ul>
                         <!-- Current User Name -->
                     </div>
@@ -46,8 +46,8 @@
                                             <div class="profile-sidebar-inner brd-rd5">
                                                 <div class="user-info red-bg">
                                                     <div class="user-info-inner">
-                                                        <h5 itemprop="headline">HUU QUOC</h5>
-                                                        <span>huuquoc@gudfood.com</span>
+                                                        <h5 itemprop="headline" id="info-name"></h5>
+                                                        <span id="info-email"></span>
                                                         <a class="brd-rd3 sign-out-btn yellow-bg" href="login-register.html" title="" itemprop="url"><i class="fa fa-sign-out"></i> SIGN OUT</a>
                                                     </div>
                                                 </div>
@@ -207,7 +207,7 @@
                                 <li>
                                     <hr style="width: 100%; margin: 0;">
                                 </li>
-                                <li><span style="top: 0%">Total</span> <i class="money">210000</i></li>
+                                <li><span style="top: 0%">Total</span> <i class="money">21000</i></li>
                             </ul>
                             <div>
                                 <span>*Note: Don't put tomato sauce on pizza please.</span>
