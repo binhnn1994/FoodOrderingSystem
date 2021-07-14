@@ -69,7 +69,7 @@
                                                         <table>
                                                             <thead>
                                                                 <tr>
-                                                                    <th>ID</th>
+                                                                    <th>NO.</th>
                                                                     <th>NAME</th>
                                                                     <th>ORDER TIME</th>
                                                                     <th>ADDRESS</th>
@@ -169,24 +169,6 @@
                                         <span class="price money">185000</span>
                                     </div>
                                 </li>
-                                <li>
-                                    <div class="dish-name">
-                                        <h6 itemprop="headline">3 x Chicken Tandoori Special With Mozzarella</h6>
-                                        <span class="price money">85000</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="dish-name">
-                                        <h6 itemprop="headline">2 x Pizza Meatlovers</h6>
-                                        <span class="price money">185000</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="dish-name">
-                                        <h6 itemprop="headline">2 x Pizza Meatlovers</h6>
-                                        <span class="price money">185000</span>
-                                    </div>
-                                </li>
                             </ul>
                             <ul class="order-total red-bg" style="margin-bottom: 10px;">
                                 <li><span>Sub total</span> <i class="money" id="subtotal-order-details">158000</i></li>
@@ -200,8 +182,9 @@
                                 <span>*Note: Don't put tomato sauce on pizza please.</span>
                             </div>
                             <div class="order-info detail-button">
-                                <a class="brd-rd3 detail-submit-btn" href="#">Decline</button>
-                                <a class="brd-rd3 detail-submit-btn" href="#">Accept</button>
+                                <span id="order-customer-id" style="display: none"></span>
+                                <a class="brd-rd3 detail-submit-btn decline-order" href="#">Decline</a>
+                                <a class="brd-rd3 detail-submit-btn accept-order" href="#">Accept</a>
                             </div>
                         </div>
                     </div>
