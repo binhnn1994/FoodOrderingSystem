@@ -87,7 +87,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $('.create-close-btn, .create-submit-btn').on('click', function() {
+    $('.create-close-btn').on('click', function() {
         $('html').removeClass('create-popup-active');
         return false;
     });
