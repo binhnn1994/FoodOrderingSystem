@@ -59,24 +59,13 @@ $(document).ready(function() {
         return false;
     });
 
-    //===== Feedback Popup Script =====//
-    $('.feedback-popup-btn').on('click', function() {
-        $('html').addClass('feedback-popup-active');
-        return false;
-    });
-
-    $('.feedback-close-btn').on('click', function() {
-        $('html').removeClass('feedback-popup-active');
-        return false;
-    });
-
     //===== Detail Popup Script =====//
     $('.detail-popup-btn').on('click', function() {
         $('html').addClass('detail-popup-active');
         return false;
     });
 
-    $('.detail-close-btn').on('click', function() {
+    $('.detail-close-btn, .detail-submit-btn').on('click', function() {
         $('html').removeClass('detail-popup-active');
         return false;
     });
