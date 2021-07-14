@@ -60,15 +60,15 @@ namespace FoodOrderingSystem.ApiControllers
             public Account Account { get; set; }
         }
 
-        [Route("GetPendingOrder")]
-        public JsonResult GetPendingOrder([FromServices] ICustomerOrderService customerOrderService, [FromServices] IAccountService accountService)
+        [Route("GetOrders/{Status}")]
+        public JsonResult GetOrders([FromServices] ICustomerOrderService customerOrderService, [FromServices] IAccountService accountService, string Status)
         {
             try
             {
-                var pendingOrders = customerOrderService.GetPendingCustomerOrders();
-                if (pendingOrders == null || pendingOrders.Count == 0) return new JsonResult(new { Message = "There is no pending order at this time" });
+                var Orders = customerOrderService.GetCustomerOrdersByStatus(Status);
+                if (Orders == null || Orders.Count == 0) return new JsonResult(new { Message = "There is no pending order at this time" });
                 var customerOrder_Account = new List<CustomerOrder_Account>();
-                foreach (var ord in pendingOrders)
+                foreach (var ord in Orders)
                 {
                     var acc = accountService.GetDetailOfAccount(ord.CustomerID);
                     customerOrder_Account.Add(new CustomerOrder_Account

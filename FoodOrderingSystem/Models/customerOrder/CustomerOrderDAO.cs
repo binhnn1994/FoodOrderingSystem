@@ -78,19 +78,25 @@ namespace FoodOrderingSystem.Models.customerOrder
             }
         }
 
-        public IList<CustomerOrder> GetPendingCustomerOrders()
+        public IList<CustomerOrder> GetCustomerOrdersByStatus(string Status)
         {
             IList<CustomerOrder> customerOrders = new List<CustomerOrder>();
+            string Sql;
             try
             {
                 using (var connection = new MySqlConnection(DBUtils.ConnectionString))
                 {
                     connection.Open();
-                    string Sql = "Select orderID, customerID, orderDate, status, toAddress, deliveryFee, note, total "
+                    if (Status == "" || Status.ToLower().Equals("all"))
+                        Sql = "Select orderID, customerID, orderDate, status, toAddress, deliveryFee, note, total "
+                                                + "From customerOrder ";
+                    else Sql = "Select orderID, customerID, orderDate, status, toAddress, deliveryFee, note, total "
                         + "From customerOrder "
-                        + "Where status = 'Pending' ";
+                        + "Where status = @Status ";
                     using (var command = new MySqlCommand(Sql, connection))
                     {
+                        if (!(Status == "" || Status.ToLower().Equals("all")))
+                            command.Parameters.AddWithValue("@Status", Status);
                         using (var reader = command.ExecuteReader())
                         {
                             while (reader.Read())
