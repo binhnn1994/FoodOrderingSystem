@@ -56,8 +56,8 @@ namespace FoodOrderingSystem.Controllers
             var cartitem = cart.Find(p => p.item.itemID == itemID);
             if (cartitem != null)
             {
-                // Đã tồn tại, tăng thêm 1
-                cartitem.quantity =quantity;
+                // Đã tồn tại, sửa quantity
+                cartitem.quantity = quantity;
             }
             else
             {
