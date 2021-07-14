@@ -103,7 +103,7 @@ namespace FoodOrderingSystem.ApiControllers
             try
             {
                 if (obj.CustomerEmail == null && obj.RequestContent == null) return (new JsonResult(new { Message = "fail" }));
-                
+
                 int addFeedbackID = feedbackService.AddFeedback(obj.CustomerEmail, obj.RequestContent);
                 string body = "Thank you for your feedback. We will respond soon. \n" +
                     "Your feedback content: \n " +
@@ -142,5 +142,22 @@ namespace FoodOrderingSystem.ApiControllers
                 return new JsonResult(new { Message = ex.Message });
             }
         }
+        [Route("GetOrderDetailsByOrderID")]
+        public JsonResult GetOrderDetailsByOrderID([FromServices] IOrderDetailsService orderDetailsService, Request request)
+        {
+            try
+            {
+                if (request.OrderID == null) return new JsonResult(new { Message = "Invalid OrderID" });
+                var result = orderDetailsService.GetOrderDetails(request.OrderID);
+                if (result == null) return new JsonResult(new { Message = "Invalid OrderID" });
+                return new JsonResult(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("GetOrderDetailsByOrderID: " + ex.Message);
+                return new JsonResult(new { Message = ex.Message });
+            }
+        }
+
     }
 }
