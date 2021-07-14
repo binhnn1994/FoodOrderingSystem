@@ -17,7 +17,6 @@
 </head>
 
 <body>
-    <h1 style="color:red">@ViewBag.Message</h1>
     <main>
         <header class="stick" style="transform: translate3d(0px, 0px, 0px); position: fixed; top: 0px;">
             <div class="logo-menu-sec">
@@ -157,7 +156,6 @@
             </div>
         </div>
         <!-- Bottom Bar -->
-
         <div class="log-popup text-center">
             <div class="sign-popup-wrapper brd-rd5">
                 <div class="sign-popup-inner brd-rd5">
@@ -168,10 +166,10 @@
                     <form class="sign-form" action="/Account/Login" method="post">
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-lg-12">
-                                <input class="brd-rd3" type="email" placeholder="Email" style="font-size: 14px">
+                                <input name="email" class="brd-rd3" type="email" placeholder="Email" style="font-size: 14px" required>
                             </div>
                             <div class="col-md-12 col-sm-12 col-lg-12">
-                                <input class="brd-rd3" type="password" placeholder="Password" style="font-size: 14px">
+                                <input name="password" class="brd-rd3" type="password" placeholder="Password" style="font-size: 14px" required>
                             </div>
                             <div class="col-md-12 col-sm-12 col-lg-12">
                                 <button class="red-bg brd-rd3">SIGN IN</button>
@@ -195,10 +193,22 @@
                     <form class="sign-form" action="/Account/Register/" method="post">
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-lg-12">
-                                <input class="brd-rd3" type="email" placeholder="Email" style="font-size: 14px">
+                                <input name="email" class="brd-rd3" type="email" placeholder="Email" style="font-size: 14px" required>
                             </div>
                             <div class="col-md-12 col-sm-12 col-lg-12">
-                                <input class="brd-rd3" type="password" placeholder="Password" style="font-size: 14px">
+                                <input name="password" class="brd-rd3" type="password" placeholder="Password" style="font-size: 14px" required>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-lg-12">
+                                <input name="confirmPassword" class="brd-rd3" type="password" placeholder="Confirm Password" style="font-size: 14px" required>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-lg-12">
+                                <input name="fullname" class="brd-rd3" type="text" placeholder="Fullname" required style="font-size: 14px">
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-lg-12">
+                                <input name="phoneNumber" class="brd-rd3" type="tel" placeholder="1234-567-789" pattern="[0-9]{4}-[0-9]{3}-[0-9]{3}" required style="font-size: 14px">
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-lg-12">
+                                <input name="address" class="brd-rd3" type="text" placeholder="Address" required style="font-size: 14px">
                             </div>
                             <div class="col-md-12 col-sm-12 col-lg-12">
                                 <button class="red-bg brd-rd3">REGISTER</button>

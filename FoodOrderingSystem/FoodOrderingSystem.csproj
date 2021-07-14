@@ -20,8 +20,4 @@
     <PackageReference Include="MySql.Data" Version="8.0.25" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Account\" />
-  </ItemGroup>
-
 </Project>

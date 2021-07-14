@@ -10,7 +10,7 @@ namespace FoodOrderingSystem.Services.Interfaces
     {
         public Feedback GetFeedback(string feedbackID);
 
-        public IList<Feedback> GetFeedbacks(string status);
+        public IList<Feedback> GetFeedbackByStatus(string status);
 
         public bool RespondFeedback(string feedbackID);
     }

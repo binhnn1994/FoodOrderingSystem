@@ -1,0 +1,51 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<html class="log-popup-active">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>Menu - GudFood</title>
+    <link rel="shortcut icon" href="~/images/favicon.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="~/css/icons.min.css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/red-color.css">
+    <link rel="stylesheet" href="~/css/yellow-color.css">
+    <link rel="stylesheet" href="~/css/jquery.bootstrap-touchspin.min.css">
+</head>
+<body>
+    <div class="log-popup text-center">
+        <div class="sign-popup-wrapper brd-rd5">
+            <div class="sign-popup-inner brd-rd5">
+                <a class="sign-close-btn" href="/Home/Index" title="" itemprop="url"><i class="fa fa-close"></i></a>
+                <div class="sign-popup-title text-center">
+                    <h4 itemprop="headline">SIGN IN</h4><br/>
+                    <h5 style="color:red">@ViewBag.Message</h5>
+                </div>
+                <form class="sign-form" action="/Account/Login" method="post">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <input name="email" class="brd-rd3" type="email" placeholder="Email" style="font-size: 14px" required>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <input name="password" class="brd-rd3" type="password" placeholder="Password" style="font-size: 14px" required>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <button class="red-bg brd-rd3">SIGN IN</button>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <a class="sign-popup-btn" href="#" title="" itemprop="url">Not a member? Sign up</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
