@@ -114,7 +114,7 @@ function renderReviewList(orderList, status) {
             btnWrap.style.display = "none";
         }
 
-        // id.style.display = "none";
+        id.style.display = "none";
 
         button.href = "#";
         button.title = "Reply";
