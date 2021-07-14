@@ -1,22 +1,34 @@
-var user, page;
+var page, user;
 
 window.onload = function() {
-    setSessionInfo(function() {
-        initPages();
-    });
+    var userElement = document.getElementById("nav-user");
+    if (userElement) {
+        userElement.setAttribute("name", "e5f5ef3699a1");
+        getUserInfo();
+    }
+
+    page = window.location.pathname.split("/").slice(-2).join("/");
+    console.log(window.location.pathname);
+    console.log(page);
+
+    setTimeout(function() { initPages() }, 800);
 }
 
 function initPages() {
     //===== All Pages =====*/
-    if (page.length >= 0) {
+    if (page.length >= 2) {
         var currentUser = document.getElementById("nav-user");
         if (currentUser) {
-            currentUser.innerHTML = user.fullname;
+            if (user.fullname.length > 0) {
+                currentUser.innerHTML = user.fullname;
+            } else {
+                currentUser.innerHTML = user.userEmail;
+            }
         }
     }
 
     //===== Profile Pages =====*/
-    if (page.includes("Profile")) {
+    if (page.includes("Profile") || page.includes("StaffDashboard")) {
         setProfileInfo();
         if (page === "AdminDashboard/Profile") {
             getTime();
@@ -93,16 +105,10 @@ function initPages() {
             return false;
         });
     }
-}
 
-function setSessionInfo(callback) {
-    page = window.location.pathname.split("/").slice(-2).join("/");
-    console.log(window.location.pathname);
-    console.log(page);
-    getUserByID("e5f5ef3699a1");
-    setTimeout(function() {
-        callback();
-    }, 500);
+    if (page.includes("StaffDashboard")) {
+        showOrderList();
+    }
 }
 
 function formatMoneyString() {
@@ -158,8 +164,9 @@ function deactivateItem(itemID) {
     request.send(content);
 }
 
-function getUserByID(userID) {
+function getUserInfo() {
     var request = new XMLHttpRequest();
+    var userID = document.getElementById("nav-user").getAttribute("name");
     var url = "/api/AdminDashboard/ViewAccountDetail";
     var content = '{"UserID": "' + userID + '"}';
 
@@ -206,4 +213,13 @@ function setProfileInfo() {
     document.getElementById("profile-name").value = user.fullname;
     document.getElementById("profile-phone").value = user.phoneNumber;
     document.getElementById("profile-address").value = user.address;
+}
+
+function formatDate(original) {
+    var normalizedDate = "";
+    normalizedDate += original.substring(8, 10) + '/';
+    normalizedDate += original.substring(5, 7) + '/';
+    normalizedDate += original.substring(0, 4) + ' ';
+    normalizedDate += original.substring(11, 16);
+    return normalizedDate;
 }
