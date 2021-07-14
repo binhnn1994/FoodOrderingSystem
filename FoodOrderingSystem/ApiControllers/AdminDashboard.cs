@@ -1,6 +1,7 @@
 ﻿using FoodOrderingSystem.Models.account;
 using FoodOrderingSystem.Models.category;
 using FoodOrderingSystem.Models.item;
+using FoodOrderingSystem.Models.saleReport;
 using FoodOrderingSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -531,6 +532,31 @@ namespace FoodOrderingSystem.ApiControllers
             {
                 IEnumerable<Category> categories = categoryService.GetCategories();
                 return new JsonResult(categories);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("GetCategories: " + e.Message);
+                var message = new
+                {
+                    message = "error"
+                };
+                return new JsonResult(message);
+            }
+        }
+
+        public class FromDateToDate
+        {
+            public DateTime FromDate { get; set; }
+            public DateTime ToDate { get; set; }
+        }
+        [Route("SaleReport")]
+        public JsonResult SaleReport([FromServices] ISaleReportService saleReportService,[FromBody] FromDateToDate dateObj)
+        {
+            try
+            {
+                if (dateObj.FromDate.ToString() == null || dateObj.ToDate.ToString() == null) return new JsonResult(new { message = "fail" });
+                IList<SaleReportObj> saleReportObjList = saleReportService.ListSaleReport(dateObj.FromDate, dateObj.ToDate);
+                return new JsonResult(saleReportService);
             }
             catch (Exception e)
             {

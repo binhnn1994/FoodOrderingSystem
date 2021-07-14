@@ -11,7 +11,43 @@ namespace FoodOrderingSystem.Models.saleReport
     {
         public IList<SaleReportObj> ListSaleReport(DateTime fromDate, DateTime toDate)
         {
-            return null;
+            var saleReportObj = new List<SaleReportObj>();
+            try
+            {
+                using (var connection = new MySqlConnection(DBUtils.ConnectionString))
+                {
+                    connection.Open();
+                    string Sql = "SELECT  I.itemID, I.itemName, I.categoryName, I.unitPrice, SUM(OD.quantity*I.unitPrice) as totalSales " +
+                                 "FROM customerOrder O, account C, orderDetails OD, item I " +
+                                 "where O.customerID = C.userID and O.orderID = OD.orderID and OD.itemID = I.itemID and " +
+                                 "O.orderDate >= @fromDate and O.orderDate <= @toDate " +
+                                 "group by I.itemID";
+                    using (var command = new MySqlCommand(Sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@fromDate", fromDate);
+                        command.Parameters.AddWithValue("@toDate", toDate);
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                saleReportObj.Add(new SaleReportObj
+                                {
+                                    ItemID = reader.GetString(0),
+                                    ItemName = reader.GetString(1),
+                                    CategoryName = reader.GetString(2),
+                                    UnitPrice = reader.GetFloat(3),
+                                    TotalSales = reader.GetFloat(4)
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return saleReportObj;
         }
     }
 }

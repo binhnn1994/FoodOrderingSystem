@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FoodOrderingSystem.Models.saleReport;
 
 namespace FoodOrderingSystem
 {
@@ -65,6 +66,9 @@ namespace FoodOrderingSystem
 
             services.AddTransient<IFeedbackDAO, FeedbackDAO>();
             services.AddTransient<IFeedbackService, FeedbackService>();
+
+            services.AddTransient<ISaleReportDAO, SaleReportDAO>();
+            services.AddTransient<ISaleReportService, SaleReportService>();
 
 
         }

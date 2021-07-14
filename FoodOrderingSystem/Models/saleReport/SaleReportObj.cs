@@ -10,8 +10,10 @@ namespace FoodOrderingSystem.Models.saleReport
 {
     public class SaleReportObj
     {
-        public Item item { set; get; }
-        public CustomerOrder customerOrder { set; get; }
-        public OrderDetails orderDetails { set; get; }
+        public string ItemID { get; set; }
+        public string ItemName { get; set; }
+        public string CategoryName { get; set; }
+        public float UnitPrice { get; set; }
+        public float TotalSales { get; set; }
     }
 }
