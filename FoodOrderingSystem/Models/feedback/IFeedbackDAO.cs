@@ -7,7 +7,7 @@ namespace FoodOrderingSystem.Models.feedback
 {
     public interface IFeedbackDAO
     {
-        public Feedback GetFeedback(string feedbackID);
+        public Feedback GetFeedbackByID(string feedbackID);
 
         public IList<Feedback> GetFeedbacks(string status);
 

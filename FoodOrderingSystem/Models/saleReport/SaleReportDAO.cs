@@ -18,10 +18,9 @@ namespace FoodOrderingSystem.Models.saleReport
                 {
                     connection.Open();
                     string Sql = "SELECT  I.itemID, I.itemName, I.categoryName, I.unitPrice, SUM(OD.quantity*I.unitPrice) as totalSales " +
-                                 "FROM customerOrder O, account C, orderDetails OD, item I " +
-                                 "where O.customerID = C.userID and O.orderID = OD.orderID and OD.itemID = I.itemID and " +
-                                 "O.orderDate >= @fromDate and O.orderDate <= @toDate " +
-                                 "group by I.itemID";
+                                    "FROM customerOrder O, account C, orderDetails OD, item I " +
+                                    "WHERE O.customerID = C.userID and O.orderID = OD.orderID and OD.itemID = I.itemID and O.orderDate >= @fromDate and O.orderDate <= @toDate " +
+                                    "GROUP BY I.itemID";
                     using (var command = new MySqlCommand(Sql, connection))
                     {
                         command.Parameters.AddWithValue("@fromDate", fromDate);

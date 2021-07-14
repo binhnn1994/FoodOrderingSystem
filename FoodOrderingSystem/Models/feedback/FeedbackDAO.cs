@@ -41,7 +41,7 @@ namespace FoodOrderingSystem.Models.feedback
             return result;
         }
 
-        public Feedback GetFeedback(string feedbackID)
+        public Feedback GetFeedbackByID(string feedbackID)
         {
             try
             {

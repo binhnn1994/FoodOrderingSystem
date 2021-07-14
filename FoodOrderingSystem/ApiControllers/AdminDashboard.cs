@@ -556,7 +556,8 @@ namespace FoodOrderingSystem.ApiControllers
             {
                 if (dateObj.FromDate.ToString() == null || dateObj.ToDate.ToString() == null) return new JsonResult(new { message = "fail" });
                 IList<SaleReportObj> saleReportObjList = saleReportService.ListSaleReport(dateObj.FromDate, dateObj.ToDate);
-                return new JsonResult(saleReportService);
+                if (saleReportObjList == null) return new JsonResult(new { Message = "There is no order during this time !" });
+                return new JsonResult(saleReportObjList);
             }
             catch (Exception e)
             {
