@@ -53,7 +53,6 @@
                                                 </div>
                                                 <ul class="nav nav-tabs">
                                                     <li class="active"><a href="#my-orders" data-toggle="tab" aria-expanded="true"><i class="fa fa-shopping-basket"></i> MY ORDERS</a></li>
-                                                    <li><a href="#my-reviews" data-toggle="tab"><i class="fa fa-comments"></i> MY REVIEWS</a></li>
                                                     <li><a href="#account-settings" data-toggle="tab"><i class="fa fa-cog"></i> ACCOUNT SETTINGS</a></li>
                                                 </ul>
                                             </div>
@@ -61,46 +60,10 @@
                                     </div>
                                     <div class="col-md-8 col-sm-12 col-lg-8">
                                         <div class="tab-content">
-                                            <div class="tab-pane fade" id="my-reviews">
-                                                <div class="tabs-wrp brd-rd5">
-                                                    <h4 itemprop="headline">MY REVIEWS</h4>
-                                                    <div class="review-list">
-                                                        <div class="review-box brd-rd5">
-                                                            <h4 itemprop="headline">HUU QUOC</h4>
-                                                            <p itemprop="description">Pepsi giao tới nhà tan hết đá rồi, vừa không lạnh vừa nhạt toẹt. Hơi cáu nhưng vì bánh tráng trộn mlem mlem nên bỏ qua.</p>
-                                                            <div class="review-info">
-                                                                <div class="review-info-inner">
-                                                                    <i class="red-clr">07/07/2021 - 12:30PM</i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="review-box brd-rd5">
-                                                            <h4 itemprop="headline">HUU QUOC</h4>
-                                                            <p itemprop="description">Bún đậu mắm tôm thúi quá hmu hmu. Hình như mắm tôm hết hạn thì phải :'( Bún cũng có mùi chua chua.</p>
-                                                            <div class="review-info">
-                                                                <div class="review-info-inner">
-                                                                    <i class="red-clr">13/04/2021 - 04:30PM</i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Review List -->
-                                                </div>
-                                            </div>
                                             <div class="tab-pane fade active in" id="my-orders">
                                                 <div class="tabs-wrp brd-rd5">
                                                     <h4 itemprop="headline">MY ORDERS</h4>
-                                                    <div class="order-list">
-                                                        <div class="order-item brd-rd5">
-                                                            <div class="order-info">
-                                                                <h4 itemprop="headline">07/07/2021 - 12:30PM</h4>
-                                                                <span class="price money">850000.00</span>
-                                                                <span class="processing brd-rd3">PROCESSING</span>
-                                                                <a class="brd-rd3 detail-popup-btn" href="#" title="Detail" itemprop="url" style="margin-left: 1rem;">Order Detail</a>
-                                                                <a class="brd-rd3 feedback-popup-btn" href="#" title="Feedback" itemprop="url">Feedback</a>
-                                                                <span class="red-clr" style="margin-top: 10px;">5th Avenue New York 68</span>
-                                                            </div>
-                                                        </div>
+                                                    <div class="order-list" id="order-list">
                                                     </div>
                                                 </div>
                                             </div>
@@ -219,3 +182,5 @@
         </div>
     </div>
 </main>
+
+<script src="~/js/customer-profile.js"></script>

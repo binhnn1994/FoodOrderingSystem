@@ -9,8 +9,8 @@ window.onload = function() {
 
     page = window.location.pathname.split("/").slice(-2).join("/");
     path = window.location.pathname;
-    // console.log(path);
-    // console.log(page);
+    console.log(path);
+    console.log(page);
 
     setTimeout(function() { initPages() }, 800);
 }
@@ -115,18 +115,21 @@ function initPages() {
         //===== Accept Order Script =====//
         $('.accept-order').on('click', function() {
             var orderID = $(this).parent().find('span').text();
-            console.log(orderID);
-            // acceptOrder(orderID);
+            acceptOrder(orderID);
             return false;
         });
 
         //===== Decline Order Script =====//
         $('.decline-order').on('click', function() {
             var orderID = $(this).parent().find('span').text();
-            console.log(orderID);
-            // declineOrder(orderID);
+            declineOrder(orderID);
             return false;
         });
+    }
+
+    //===== Customer Profile Page =====*/
+    if (path.includes("CustomerDashboard/Profile")) {
+        showOrderList();
     }
 }
 

@@ -30,11 +30,11 @@ function renderOrderList(orderList, callback) {
         var cellId = row.insertCell(5);
 
         cellNo.innerHTML = i + 1;
-        cellName.innerHTML = orderList[i].customerID;
-        cellDate.innerHTML = formatDate(orderList[i].orderDate);
-        cellAddress.innerHTML = orderList[i].toAddress;
-        cellTotal.innerHTML = '<span class="money">' + orderList[i].total + '</span>';
-        cellId.innerHTML = orderList[i].orderID;
+        cellName.innerHTML = orderList[i].account.fullname;
+        cellDate.innerHTML = formatDate(orderList[i].customerOrder.orderDate);
+        cellAddress.innerHTML = orderList[i].customerOrder.toAddress;
+        cellTotal.innerHTML = '<span class="money">' + orderList[i].customerOrder.total + '</span>';
+        cellId.innerHTML = orderList[i].customerOrder.orderID;
 
         cellId.style.display = "none";
     }
@@ -44,11 +44,74 @@ function renderOrderList(orderList, callback) {
         $('html').addClass('detail-popup-active');
 
         $('#order-customer-id').html($(this).children("td:nth-child(6)").text());
+        getOrderDetail();
 
         return false;
     });
 
     callback();
+}
+
+function getOrderDetail() {
+    var request = new XMLHttpRequest();
+    var url = "/api/StaffDashboard/GetOrderDetailsByOrderID";
+    var content = '{"OrderID": "' + $('#order-customer-id').html() + '"}';
+
+    request.open('POST', url, true);
+    request.setRequestHeader("Content-Type", "text/json");
+    request.onload = function() {
+        var result = JSON.parse(this.responseText);
+        renderOrderDetail(result);
+    }
+    request.send(content);
+}
+
+function renderOrderDetail(orderDetail) {
+    function getItemNameAndPrice(itemID) {
+        var request = new XMLHttpRequest();
+        var url = "/api/AdminDashboard/ViewItemDetail";
+        var content = '{"ItemID": "' + itemID + '"}';
+
+        request.open('POST', url, true);
+        request.setRequestHeader("Content-Type", "text/json");
+        request.onload = function() {
+            console.log(this.responseText);
+            var result = JSON.parse(this.responseText);
+            values = {
+                name: result.itemName,
+                price: result.unitPrice
+            }
+        }
+        request.send(content);
+    }
+
+    var list = document.getElementById("order-details-list");
+
+    while (list.firstChild) {
+        list.removeChild(list.firstChild);
+    }
+
+    for (let i = 0; i < orderDetail.length; i++) {
+        var values = getItemNameAndPrice(orderDetail[i].itemID);
+        var li = document.createElement('li');
+        var item = document.createElement('div');
+        var quantity = document.createElement('span');
+        var name = document.createElement('h6');
+        var price = document.createElement('span');
+
+        list.appendChild(li);
+        li.appendChild(item);
+        item.appendChild(name);
+        name.appendChild(quantity);
+        item.appendChild(price);
+
+        price.classList = "price money";
+        item.classList = "dish-name";
+
+        quantity.innerHTML = orderDetail[i].quantity;
+        name.innerHTML += " x " + values;
+        price.innerHTML = values[1] * orderDetail[i].quantity;
+    }
 }
 
 function showReviewList() {
