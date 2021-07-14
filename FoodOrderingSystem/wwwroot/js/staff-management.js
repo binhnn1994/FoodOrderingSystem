@@ -109,8 +109,6 @@ function updateStaff() {
     content += "&phoneNumber=" + inputs[3].value;
     content += "&address=" + encodeURIComponent(inputs[4].value);
 
-    console.log(content);
-
     request.open('POST', url, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     request.onload = function() {
@@ -121,8 +119,8 @@ function updateStaff() {
 }
 
 function createStaff() {
-  
-        var inputs = document.forms["create-form"].elements;
+
+    var inputs = document.forms["create-form"].elements;
     if (isCreateStaffValid(inputs)) {
         var request = new XMLHttpRequest();
         var url = "/api/AdminDashboard/CreateStaff";
@@ -134,7 +132,7 @@ function createStaff() {
 
         request.open('POST', url, true);
         request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        request.onload = function () {
+        request.onload = function() {
             $('html').removeClass('create-popup-active');
             alert("Added successfully!");
             clearCreateStaffError(inputs)
@@ -179,9 +177,9 @@ function clearCreateStaffError(inputs) {
     $(inputs[2]).css("border", "none");
 
 
-        $(".sign-form").find(".err-msg")[0].textContent = "";
+    $(".sign-form").find(".err-msg")[0].textContent = "";
 
-        $(".sign-form").find(".err-msg")[1].textContent = "";
+    $(".sign-form").find(".err-msg")[1].textContent = "";
 
-        $(".sign-form").find(".err-msg")[2].textContent = "";
+    $(".sign-form").find(".err-msg")[2].textContent = "";
 }

@@ -2,17 +2,7 @@
 @{
     ViewData["Title"] = "Ordering";
 }
-
-@* @if (Model.Count > 0) {
-        decimal total = 0;
-        @foreach (var cartitem in Model) {
-            var subtotal = cartitem.quantity * cartitem.item.unitPrice;
-            total += subtotal;
-
-            <p>hihi</p>
-        }
-    } *@
-
+<h1 style="color:red">@ViewBag.Message</h1>
 <main>
     <header class="stick" style="transform: translate3d(0px, 0px, 0px); position: fixed; top: 0px;">
         <div class="logo-menu-sec">
@@ -119,7 +109,7 @@
                 <div class="sign-popup-title text-center">
                     <h4 itemprop="headline">SIGN IN</h4>
                 </div>
-                <form class="sign-form">
+                <form class="sign-form" action="/Account/Login" method="post">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <input name="email" class="brd-rd3" type="email" placeholder="Email" style="font-size: 14px" required>
@@ -145,7 +135,7 @@
                 <div class="sign-popup-title text-center">
                     <h4 itemprop="headline">SIGN UP</h4>
                 </div>
-                <form class="sign-form">
+                <form class="sign-form" action="/Account/Register/" method="post">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <input name="email" class="brd-rd3" type="email" placeholder="Email" style="font-size: 14px" required>
