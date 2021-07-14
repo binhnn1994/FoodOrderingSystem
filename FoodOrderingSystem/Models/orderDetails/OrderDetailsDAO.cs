@@ -33,17 +33,17 @@ namespace FoodOrderingSystem.Models.orderDetails
             return result;
         }
 
-        public IList<OrderDetails> GetOrderDetails(string orderID)
+        public IList<dynamic> GetOrderDetails(string orderID)
         {
-            IList<OrderDetails> orderDetails = new List<OrderDetails>();
+            IList<dynamic> orderDetails = new List<dynamic>();
             try
             {
                 using (var connection = new MySqlConnection(DBUtils.ConnectionString))
                 {
                     connection.Open();
-                    string Sql = "Select orderID, itemID, quantity " +
-                            "From orderDetails " +
-                            "Where orderID = @orderID ";
+                    string Sql = "SELECT D.orderID, I.itemName, D.quantity, I.unitPrice " +
+                        "FROM orderDetails D Inner join item I on D.itemID = I.itemID " +
+                        "WHERE D.orderID = @orderID ";
                     using (var command = new MySqlCommand(Sql, connection))
                     {
                         command.Parameters.AddWithValue("@orderID", orderID);
@@ -51,11 +51,13 @@ namespace FoodOrderingSystem.Models.orderDetails
                         {
                             while (reader.Read())
                             {
-                                orderDetails.Add(new OrderDetails
+                                orderDetails.Add(new
                                 {
-                                    OrderID = reader.GetString("orderID"),
-                                    ItemID = reader.GetString("itemID"),
-                                    Quantity = reader.GetInt32("quantity")
+                                    OrderID = reader.GetString(0),
+                                    Item = reader.GetString(1),
+                                    Quantity = reader.GetInt32(2),
+                                    UnitPrice = reader.GetDouble(3)
+
                                 });
                             }
                             return orderDetails;

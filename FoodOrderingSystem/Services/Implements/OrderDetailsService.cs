@@ -14,5 +14,7 @@ namespace FoodOrderingSystem.Services.Implements
 
         public bool AddOrderDetail(string orderID, string itemID, int quantity)
             => _orderDetailsDAO.AddOrderDetail(orderID, itemID, quantity);
+
+        public IList<dynamic> GetOrderDetails(string orderID) => _orderDetailsDAO.GetOrderDetails(orderID);
     }
 }
