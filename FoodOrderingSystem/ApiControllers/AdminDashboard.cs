@@ -23,7 +23,7 @@ namespace FoodOrderingSystem.ApiControllers
             _logger = logger;
         }
 
-        public class Request
+        public class AdminDashboardRequest
         {
             public int RowsOnPage { get; set; }
             public int RequestPage { get; set; }
@@ -37,7 +37,7 @@ namespace FoodOrderingSystem.ApiControllers
 
         [HttpPost]
         [Route("ViewStaffsList")]
-        public JsonResult ViewStaffsList([FromServices] IAccountService accountService, [FromBody] Request request)
+        public JsonResult ViewStaffsList([FromServices] IAccountService accountService, [FromBody] AdminDashboardRequest request)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace FoodOrderingSystem.ApiControllers
 
         [HttpPost]
         [Route("ViewCustumerList")]
-        public JsonResult ViewCustumerList([FromServices] IAccountService accountService, [FromBody] Request request)
+        public JsonResult ViewCustumerList([FromServices] IAccountService accountService, [FromBody] AdminDashboardRequest request)
         {
             try
             {
@@ -145,7 +145,7 @@ namespace FoodOrderingSystem.ApiControllers
         }
 
         [Route("InactiveAccount")]
-        public JsonResult InactiveAccount([FromServices] IAccountService accountService, [FromForm] Request request)
+        public JsonResult InactiveAccount([FromServices] IAccountService accountService, [FromForm] AdminDashboardRequest request)
         {
             try
             {
@@ -172,7 +172,7 @@ namespace FoodOrderingSystem.ApiControllers
         }
 
         [Route("ActiveAccount")]
-        public JsonResult ActiveAccount([FromServices] IAccountService accountService, [FromForm] Request request)
+        public JsonResult ActiveAccount([FromServices] IAccountService accountService, [FromForm] AdminDashboardRequest request)
         {
             try
             {
@@ -199,7 +199,7 @@ namespace FoodOrderingSystem.ApiControllers
         }
 
         [Route("ReasonAccountInactived")]
-        public JsonResult ReasonAccountInactived([FromServices] IAccountService accountService, [FromBody] Request request)
+        public JsonResult ReasonAccountInactived([FromServices] IAccountService accountService, [FromBody] AdminDashboardRequest request)
         {
             try
             {
@@ -226,7 +226,7 @@ namespace FoodOrderingSystem.ApiControllers
 
         [HttpPost]
         [Route("ViewItemList")]
-        public JsonResult ViewItemList([FromServices] IItemService itemService, [FromBody] Request request)
+        public JsonResult ViewItemList([FromServices] IItemService itemService, [FromBody] AdminDashboardRequest request)
         {
             try
             {
@@ -310,7 +310,7 @@ namespace FoodOrderingSystem.ApiControllers
         }
 
         [Route("InactiveItem")]
-        public JsonResult InactiveItem([FromServices] IItemService itemService, [FromForm] Request request)
+        public JsonResult InactiveItem([FromServices] IItemService itemService, [FromForm] AdminDashboardRequest request)
         {
             try
             {
@@ -337,7 +337,7 @@ namespace FoodOrderingSystem.ApiControllers
         }
 
         [Route("ActiveItem")]
-        public JsonResult ActiveItem([FromServices] IItemService itemService, [FromForm] Request request)
+        public JsonResult ActiveItem([FromServices] IItemService itemService, [FromForm] AdminDashboardRequest request)
         {
             try
             {
@@ -364,7 +364,7 @@ namespace FoodOrderingSystem.ApiControllers
         }
 
         [Route("ReasonItemInactived")]
-        public JsonResult ReasonItemInactived([FromServices] IItemService itemService, [FromBody] Request request)
+        public JsonResult ReasonItemInactived([FromServices] IItemService itemService, [FromBody] AdminDashboardRequest request)
         {
             try
             {
@@ -393,7 +393,7 @@ namespace FoodOrderingSystem.ApiControllers
         //Search Item
         [HttpPost]
         [Route("ViewItemListBySearching")]
-        public JsonResult ViewItemListBySearching([FromServices] IItemService itemService, [FromBody] Request request)
+        public JsonResult ViewItemListBySearching([FromServices] IItemService itemService, [FromBody] AdminDashboardRequest request)
         {
             try
             {
@@ -426,7 +426,7 @@ namespace FoodOrderingSystem.ApiControllers
 
         [HttpPost]
         [Route("ViewCustomerListBySearching")]
-        public JsonResult ViewCustomerListBySearching([FromServices] IAccountService accountService, [FromBody] Request request)
+        public JsonResult ViewCustomerListBySearching([FromServices] IAccountService accountService, [FromBody] AdminDashboardRequest request)
         {
             try
             {
@@ -457,7 +457,7 @@ namespace FoodOrderingSystem.ApiControllers
 
         [HttpPost]
         [Route("ViewStaffListBySearching")]
-        public JsonResult ViewStaffListBySearching([FromServices] IAccountService accountService, [FromBody] Request request)
+        public JsonResult ViewStaffListBySearching([FromServices] IAccountService accountService, [FromBody] AdminDashboardRequest request)
         {
             try
             {
@@ -487,7 +487,7 @@ namespace FoodOrderingSystem.ApiControllers
         }
 
         [Route("ViewAccountDetail")]
-        public JsonResult ViewAccountDetail([FromServices] IAccountService accountService, [FromBody] Request request)
+        public JsonResult ViewAccountDetail([FromServices] IAccountService accountService, [FromBody] AdminDashboardRequest request)
         {
             try
             {
@@ -506,7 +506,7 @@ namespace FoodOrderingSystem.ApiControllers
         }
 
         [Route("ViewItemDetail")]
-        public JsonResult ViewItemDetail([FromServices] IItemService itemService, [FromBody] Request request)
+        public JsonResult ViewItemDetail([FromServices] IItemService itemService, [FromBody] AdminDashboardRequest request)
         {
             try
             {

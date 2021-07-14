@@ -1,17 +1,17 @@
-﻿using System;
+﻿using FoodOrderingSystem.Models.feedback;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FoodOrderingSystem.Models.feedback
+namespace FoodOrderingSystem.Services.Interfaces
 {
-    public interface IFeedbackDAO
+    public interface IFeedbackService
     {
         public Feedback GetFeedback(string feedbackID);
 
         public IList<Feedback> GetFeedbacks(string status);
 
         public bool RespondFeedback(string feedbackID);
-        bool AddFeedback(int feedbackID, string customerEmail, DateTime receiveDate, string status, string content, DateTime respondDate);
     }
 }

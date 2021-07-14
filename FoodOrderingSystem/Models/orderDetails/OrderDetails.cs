@@ -7,8 +7,9 @@ namespace FoodOrderingSystem.Models.orderDetails
 {
     public class OrderDetails
     {
-        public string orderID { get; set; }
-        public string itemID { get; set; }
-        public int quantity { get; set; }
+        public string OrderID { get; set; }
+        public string ItemID { get; set; }
+        public int Quantity { get; set; }
+        
     }
 }
