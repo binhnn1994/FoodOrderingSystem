@@ -9,6 +9,6 @@ namespace FoodOrderingSystem.Services.Interfaces
     public interface IOrderDetailsService
     {
         bool AddOrderDetail(string orderID, string itemID, int quantity);
-        public IList<OrderDetails> GetOrderDetails(string orderID);
+        public IList<dynamic> GetOrderDetails(string orderID);
     }
 }
