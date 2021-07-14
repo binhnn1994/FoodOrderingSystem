@@ -86,7 +86,7 @@ namespace FoodOrderingSystem.ApiControllers
             }
         }
 
-        [Route("c")]
+        [Route("RespondFeedback")]
         [HttpPost]
         public async Task<IActionResult> RespondFeedback([FromServices] IFeedbackService feedbackService, [FromServices] ISendMailService sendMailService, [FromBody] StaffDashboardRequest request)
         {
