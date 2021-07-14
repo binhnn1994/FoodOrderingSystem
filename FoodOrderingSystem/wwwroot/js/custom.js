@@ -1,18 +1,33 @@
-var user;
+var user, page;
 
 window.onload = function() {
-    var page = window.location.pathname.split("/").slice(-2).join("/");
-    getUserByID("e5f5ef3699a1");
+    setSessionInfo(function() {
+        initPages();
+    });
+}
 
-    // console.log(window.location.pathname);
-    // console.log(page);
+function initPages() {
+    //===== All Pages =====*/
+    if (page.length >= 0) {
+        var currentUser = document.getElementById("nav-user");
+        if (currentUser) {
+            currentUser.innerHTML = user.fullname;
+        }
+    }
 
     //===== Profile Pages =====*/
     if (page.includes("Profile")) {
         setProfileInfo();
-        document.getElementById("profile-name").value = "hihihaha";
-        document.getElementById("profile-phone").value = "hihihehe";
-        document.getElementById("profile-address").value = "hihihuhu";
+        if (page === "AdminDashboard/Profile") {
+            getTime();
+
+            $('#date-from').change(function() {
+                var date = $(this).val();
+            });
+            $('#date-to').change(function() {
+                var date = $(this).val();
+            });
+        }
     }
 
     //===== Staff Management Page =====*/
@@ -26,13 +41,13 @@ window.onload = function() {
     }
 
     //===== Food Management Page =====*/
-    if (page === "AdminDashboard/Index" || page === "AdminDashboard/") {
+    if (page === "AdminDashboard/Index" || page === "AdminDashboard/" || page === "/AdminDashboard") {
         loadCategories();
         showItemList();
     }
 
     //===== Order Page =====*/
-    if (page === "CustomerDashboard/Index" || page === "/CustomerDashboard" || page === "/") {
+    if (page === "CustomerDashboard/Index" || page === "CustomerDashboard/" || page === "/CustomerDashboard" || page === "/") {
         loadCategories();
         showItemList();
 
@@ -78,11 +93,16 @@ window.onload = function() {
             return false;
         });
     }
+}
 
-    //===== All Pages =====*/
-    if (page.length >= 0) {
-        // formatMoneyString();
-    }
+function setSessionInfo(callback) {
+    page = window.location.pathname.split("/").slice(-2).join("/");
+    console.log(window.location.pathname);
+    console.log(page);
+    getUserByID("e5f5ef3699a1");
+    setTimeout(function() {
+        callback();
+    }, 500);
 }
 
 function formatMoneyString() {
@@ -149,4 +169,41 @@ function getUserByID(userID) {
         user = JSON.parse(this.responseText);
     }
     request.send(content);
+}
+
+function format(time) {
+    return (time < 10 ? '0' : '') + time;
+}
+
+function getTime() {
+    var now = new Date();
+
+    var year = now.getFullYear();
+    var month = format(now.getMonth() + 1);
+    var day = format(now.getDate());
+    var preMonth;
+
+    if (now.getMonth() === 0) {
+        preMonth = 12;
+        year = year - 1;
+    } else {
+        preMonth = format(now.getMonth());
+    }
+
+    //Set date-type elements
+    var dateTo = document.getElementById("date-to");
+    dateTo.value = [year, month, day].join('-');
+    dateTo.max = dateTo.value;
+
+    var dateFrom = document.getElementById("date-from");
+    dateFrom.value = [year, preMonth, day].join('-');
+    dateFrom.max = dateTo.value;
+}
+
+function setProfileInfo() {
+    document.getElementById("info-name").innerHTML = user.fullname;
+    document.getElementById("info-email").innerHTML = user.userEmail;
+    document.getElementById("profile-name").value = user.fullname;
+    document.getElementById("profile-phone").value = user.phoneNumber;
+    document.getElementById("profile-address").value = user.address;
 }
