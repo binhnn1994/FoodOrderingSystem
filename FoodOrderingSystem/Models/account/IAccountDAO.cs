@@ -17,5 +17,6 @@ namespace FoodOrderingSystem.Models.account
         int NumberOfAccountBySearching(string searchValue, string roleName);
         IEnumerable<Account> ViewAccountListBySearching(string searchValue, string roleName, int RowsOnPage, int RequestPage);
         public Account Login(string userEmail, string password);
+        public bool Register(string userEmail, string password, string fullname, string phoneNumber, string address);
     }
 }

@@ -48,7 +48,7 @@ namespace FoodOrderingSystem.Models.feedback
                 using (var connection = new MySqlConnection(DBUtils.ConnectionString))
                 {
                     connection.Open();
-                    string Sql = "Select feedbackID, customerEmail, status, receiveDate, requestContent, respondDate, respondContent" +
+                    string Sql = "Select feedbackID, customerEmail, status, receiveDate, requestContent, respondDate, respondContent " +
                             "From feedback " +
                             "Where feedbackID = @feedbackID ";
                     using (var command = new MySqlCommand(Sql, connection))
@@ -66,7 +66,7 @@ namespace FoodOrderingSystem.Models.feedback
                                     ReceiveDate = reader.GetDateTime("receiveDate"),
                                     RequestContent = reader.GetString("requestContent"),
                                     RespondDate = reader.IsDBNull(reader.GetOrdinal("respondDate")) ? null : reader.GetDateTime("respondDate"),
-                                    RespondContent = reader.GetString("respondContent")
+                                    RespondContent = reader.IsDBNull(reader.GetOrdinal("respondContent")) ? null : reader.GetString("respondContent")
                                 };
                             }
                         }
@@ -80,7 +80,7 @@ namespace FoodOrderingSystem.Models.feedback
             return null;
         }
 
-        public IList<Feedback> GetFeedbacks(string status)
+        public IList<Feedback> GetFeedbackByStatus(string status)
         {
             IList<Feedback> feedbacks = new List<Feedback>();
             try
@@ -88,7 +88,7 @@ namespace FoodOrderingSystem.Models.feedback
                 using (var connection = new MySqlConnection(DBUtils.ConnectionString))
                 {
                     connection.Open();
-                    string sql = "Select feedbackID, customerEmail, status, receiveDate, requestContent, respondDate, respondContent" +
+                    string sql = "Select feedbackID, customerEmail, status, receiveDate, requestContent, respondDate, respondContent " +
                             "From feedback " +
                             "Where status = @status " +
                             "Order by receiveDate ";
@@ -107,7 +107,7 @@ namespace FoodOrderingSystem.Models.feedback
                                     ReceiveDate = reader.GetDateTime("receiveDate"),
                                     RequestContent = reader.GetString("requestContent"),
                                     RespondDate = reader.IsDBNull(reader.GetOrdinal("respondDate")) ? null : reader.GetDateTime("respondDate"),
-                                    RespondContent = reader.GetString("respondContent")
+                                    RespondContent = reader.IsDBNull(reader.GetOrdinal("respondContent")) ? null : reader.GetString("respondContent")
                                 });
                             }
                         }

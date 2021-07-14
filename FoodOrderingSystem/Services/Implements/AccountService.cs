@@ -26,5 +26,6 @@ namespace FoodOrderingSystem.Services.Implements
         public int NumberOfAccountBySearching(string searchValue, string roleName) 
             => _accountDAO.NumberOfAccountBySearching(searchValue, roleName);
         public Account Login(string userEmail, string password) => _accountDAO.Login(userEmail, password);
+        public bool Register(string userEmail, string password, string fullname, string phoneNumber, string address) => _accountDAO.Register(userEmail, password, fullname, phoneNumber, address);
     }
 }

@@ -1,0 +1,63 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<html class="sign-popup-active">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>Food Management - GudFood</title>
+    <link rel="shortcut icon" href="~/images/favicon.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="~/css/icons.min.css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/red-color.css">
+    <link rel="stylesheet" href="~/css/yellow-color.css">
+</head>
+
+<body>
+    <div class="sign-popup text-center">
+        <div class="sign-popup-wrapper brd-rd5">
+            <div class="sign-popup-inner brd-rd5">
+                <a class="sign-close-btn" href="/Home/Index" title="" itemprop="url"><i class="fa fa-close"></i></a>
+                <div class="sign-popup-title text-center">
+                    <h4 itemprop="headline">SIGN UP</h4><br/>
+                    <h5 style="color:red">@ViewBag.Message</h5>
+                </div>
+                <form class="sign-form" action="/Account/Register/" method="post">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <input name="email" class="brd-rd3" type="email" placeholder="Email" style="font-size: 14px" required>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <input name="password" class="brd-rd3" type="password" placeholder="Password" style="font-size: 14px" required>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <input name="confirmPassword" class="brd-rd3" type="password" placeholder="Confirm Password" style="font-size: 14px" required>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <input name="fullname" class="brd-rd3" type="text" placeholder="Fullname" required style="font-size: 14px">
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <input name="phoneNumber" class="brd-rd3" type="tel" placeholder="1234-567-789" pattern="[0-9]{4}-[0-9]{3}-[0-9]{3}" required style="font-size: 14px">
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <input name="address" class="brd-rd3" type="text" placeholder="Address" required style="font-size: 14px">
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <button class="red-bg brd-rd3">REGISTER</button>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <a class="log-popup-btn" href="#" title="" itemprop="url">Already Registered? Sign in</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -133,7 +133,7 @@ namespace FoodOrderingSystem.ApiControllers
             try
             {
                 if (request.Status == null) return new JsonResult(new { Message = "Invalid status" });
-                var feedbacks = feedbackService.GetFeedbacks(request.Status );
+                var feedbacks = feedbackService.GetFeedbackByStatus(request.Status);
                 if (feedbacks == null) return new JsonResult(new { Message = "There is no feedback" });
                 return new JsonResult(feedbacks);
             }
