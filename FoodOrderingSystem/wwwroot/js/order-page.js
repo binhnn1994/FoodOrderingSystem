@@ -107,7 +107,7 @@ function renderItemList(itemList, callback) {
                 image.alt = "dish-img1-" + (j + 1) + ".jpg";
 
                 button.title = "Order Now";
-                button.href = "/CustomerDashboard/addcart/" + itemList[j].itemID;
+                button.href = "/addcart/" + itemList[j].itemID;
 
                 name.innerHTML = itemList[j].itemName;
                 price.innerHTML = itemList[j].unitPrice;

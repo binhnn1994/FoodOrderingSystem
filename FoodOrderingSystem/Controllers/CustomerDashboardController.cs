@@ -41,7 +41,7 @@ namespace FoodOrderingSystem.Controllers
 			return View(cart);
         }
 
-        [Route("addcart/{itemID}", Name = "addcart")]
+        [Route("/addcart/{itemID}", Name = "addcart")]
         public IActionResult AddToCart([FromRoute] string itemID)
         {
             var product = itemService.GetDetailOfItem(itemID);
@@ -49,6 +49,7 @@ namespace FoodOrderingSystem.Controllers
                 return NotFound("Không có sản phẩm");
             var cart = GetCartItems();
             var cartitem = cart.Find(p => p.item.itemID == itemID);
+            System.Diagnostics.Debug.WriteLine("Add item " + itemID + " to cart");
             if (cartitem != null)
             {
                 cartitem.quantity++;
@@ -106,7 +107,9 @@ namespace FoodOrderingSystem.Controllers
             double deliveryFee = 20000;
             double total = 0;
             var cart = GetCartItems();
-            Account user = accountService.GetDetailOfAccount(userID);
+            Account user = accountService.GetDetailOfAccount(userID);   
+            System.Diagnostics.Debug.WriteLine("Trying to checkout");
+            System.Diagnostics.Debug.WriteLine("User ID is " + userID);
 
             if (!string.IsNullOrEmpty(userID))
             {
@@ -131,11 +134,16 @@ namespace FoodOrderingSystem.Controllers
                 {
                     orderDetailsService.AddOrderDetail(orderID, cartObject.item.itemID, cartObject.quantity);
                 }
+                System.Diagnostics.Debug.WriteLine("Checkout successfully");
                 //delete cart out session
                 ClearCart();
                 RedirectToAction(nameof(Index));
             }
-            
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Failed to checkout");
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
