@@ -136,7 +136,7 @@ namespace FoodOrderingSystem.Controllers
                 RedirectToAction(nameof(Index));
             }
             
-            return View();
+            return RedirectToAction(nameof(Index));
         }
 
         // Key save string json of Cart

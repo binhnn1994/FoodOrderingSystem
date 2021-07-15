@@ -101,7 +101,7 @@ function initPages() {
             formatMoneyString();
         });
 
-        $('.cash-method a.payment-close-btn').on('click', function() {
+        $('.cash-method a.payment-close-btn, a.thanks-close').on('click', function() {
             $('html').removeClass('cash-method-popup-active');
             return false;
         });

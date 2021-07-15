@@ -132,8 +132,14 @@ $(document).ready(function() {
 
     //===== Thanks Message Popup Script =====//
     $('.confrm-order-btn > a').on('click', function() {
-        $('html').addClass('thanks-message-popup-active');
+        setTimeout(function() { $('html').addClass('thanks-message-popup-active') }, 1000);
         return false;
+    });
+
+    $('.checkout-button').click(function(event) {
+        event.preventDefault();
+        var url = $(this).attr('href');
+        $.get(url, function() {});
     });
 
     $('a.thanks-close').on('click', function() {
