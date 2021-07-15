@@ -31,16 +31,6 @@ function initPages() {
     //===== Profile Pages =====*/
     if (path.includes("Profile") || path.includes("StaffDashboard")) {
         setProfileInfo();
-        if (page === "AdminDashboard/Profile") {
-            getTime();
-
-            $('#date-from').change(function() {
-                var date = $(this).val();
-            });
-            $('#date-to').change(function() {
-                var date = $(this).val();
-            });
-        }
     }
 
     //===== Staff Management Page =====*/
@@ -130,6 +120,16 @@ function initPages() {
     //===== Customer Profile Page =====*/
     if (path.includes("CustomerDashboard/Profile")) {
         showOrderList();
+    }
+
+    //===== Admin Profile Page =====*/
+    if (path.includes("AdminDashboard/Profile")) {
+        getTime();
+        showReport();
+
+        $('#date-from, #date-to').change(function() {
+            showReport();
+        });
     }
 }
 

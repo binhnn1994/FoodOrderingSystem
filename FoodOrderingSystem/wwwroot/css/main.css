@@ -9531,11 +9531,68 @@ nav>div>ul>li a.profile-name {
 
 .date-input {
     text-align: center;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .date-input input {
     margin: 0px 10px 15px;
     padding: 8px 12px;
     border: 1px solid #313131;
+}
+
+#report-table-area_filter>label,
+#report-table-area_length>label,
+#report-table-area_info,
+#report-table-area_paginate>a {
+    font-size: 13px;
+    font-weight: 400;
+    color: #616161;
+    margin: 15px 0px;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #313131 !important;
+    background-color: #fff !important;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid #313131 !important;
+    background-color: #fff !important;
+}
+
+#report-table-area tbody tr td:nth-child(1) {
+    width: 5%;
+}
+
+#report-table-area tbody tr td:nth-child(2) {
+    width: 40%;
+}
+
+#report-table-area tbody tr td:nth-child(3) {
+    width: 17%;
+}
+
+#report-table-area tbody tr td:nth-child(4) {
+    width: 18%;
+}
+
+#report-table-area tbody tr td:nth-child(5) {
+    width: 20%;
+}
+
+.date-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.date-error>p {
+    -webkit-border-radius: 12px;
+    border-radius: 12px;
+    padding: 3px 13px;
+    color: red;
+    border: 1px solid red;
+    text-align: left;
+    display: none;
+    font-size: 12px;
 }
