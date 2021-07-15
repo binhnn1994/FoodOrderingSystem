@@ -1,4 +1,6 @@
-﻿using FoodOrderingSystem.Services.Interfaces;
+﻿using FoodOrderingSystem.Models.account;
+using FoodOrderingSystem.Models.customerOrder;
+using FoodOrderingSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -43,7 +45,9 @@ namespace FoodOrderingSystem.ApiControllers
                 bool result = false;
                 if(status != null) result = customerOrderService.ConfirmUpdate(request.OrderID, status);
                 
-                if (result) return new JsonResult(new { Message = "Confirm Successfully" });
+                if (result && status == "Accepted") return new JsonResult(new { Message = "Accepted Successfully!" });
+				if (result && status == "Rejected") return new JsonResult(new { Message = "Rejected Successfully!" });
+
                 return new JsonResult(new { Message = "An error occured! Please try again !" });
             }
             catch (Exception ex)
@@ -52,15 +56,30 @@ namespace FoodOrderingSystem.ApiControllers
                 return new JsonResult(new { Message = ex.Message});
             }
         }
+        public class CustomerOrder_Account
+        {
+            public CustomerOrder CustomerOrder { get; set; }
+            public Account Account { get; set; }
+        }
 
-        [Route("GetPendingOrder")]
-        public JsonResult GetPendingOrder([FromServices] ICustomerOrderService customerOrderService)
+        [Route("GetOrders/{Status}")]
+        public JsonResult GetOrders([FromServices] ICustomerOrderService customerOrderService, [FromServices] IAccountService accountService, string Status)
         {
             try
             {
-                var pendingOrders = customerOrderService.GetPendingCustomerOrders();
-                if (pendingOrders == null || pendingOrders.Count == 0) return new JsonResult(new { Message = "There is no pending order at this time" });
-                return new JsonResult(pendingOrders);
+                var Orders = customerOrderService.GetCustomerOrdersByStatus(Status);
+                if (Orders == null || Orders.Count == 0) return new JsonResult(new { Message = "There is no pending order at this time" });
+                var customerOrder_Account = new List<CustomerOrder_Account>();
+                foreach (var ord in Orders)
+                {
+                    var acc = accountService.GetDetailOfAccount(ord.CustomerID);
+                    customerOrder_Account.Add(new CustomerOrder_Account
+                    {
+                        CustomerOrder = ord,
+                        Account = acc
+                    });
+                }
+                return new JsonResult(customerOrder_Account);
             }
             catch (Exception ex)
             {

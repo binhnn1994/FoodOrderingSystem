@@ -78,19 +78,25 @@ namespace FoodOrderingSystem.Models.customerOrder
             }
         }
 
-        public IList<CustomerOrder> GetPendingCustomerOrders()
+        public IList<CustomerOrder> GetCustomerOrdersByStatus(string Status)
         {
             IList<CustomerOrder> customerOrders = new List<CustomerOrder>();
+            string Sql;
             try
             {
                 using (var connection = new MySqlConnection(DBUtils.ConnectionString))
                 {
                     connection.Open();
-                    string Sql = "Select orderID, customerID, orderDate, status, toAddress, deliveryFee, note, total "
+                    if (Status == "" || Status.ToLower().Equals("all"))
+                        Sql = "Select orderID, customerID, orderDate, status, toAddress, deliveryFee, note, total "
+                                                + "From customerOrder ";
+                    else Sql = "Select orderID, customerID, orderDate, status, toAddress, deliveryFee, note, total "
                         + "From customerOrder "
-                        + "Where status = 'Pending' ";
+                        + "Where status = @Status ";
                     using (var command = new MySqlCommand(Sql, connection))
                     {
+                        if (!(Status == "" || Status.ToLower().Equals("all")))
+                            command.Parameters.AddWithValue("@Status", Status);
                         using (var reader = command.ExecuteReader())
                         {
                             while (reader.Read())
@@ -149,6 +155,47 @@ namespace FoodOrderingSystem.Models.customerOrder
                 throw new Exception("Fail. " + ex.Message);
             }
             return result;
+        }
+
+        public IList<CustomerOrder> GetOrderListByID(string customerID)
+        {
+            IList<CustomerOrder> customerOrders = new List<CustomerOrder>();
+            try
+            {
+                using (var connection = new MySqlConnection(DBUtils.ConnectionString))
+                {
+                    connection.Open();
+                    string Sql = "Select orderID, customerID, orderDate, status, toAddress, deliveryFee, note, total "
+                        + "From customerOrder "
+                        + "Where customerID = @customerID ";
+                    using (var command = new MySqlCommand(Sql, connection))
+                    {
+                        command.Parameters.AddWithValue("@customerID", customerID);
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                customerOrders.Add(new CustomerOrder
+                                {
+                                    OrderID = reader.GetString("orderID"),
+                                    CustomerID = reader.GetString("customerID"),
+                                    OrderDate = reader.GetDateTime("orderDate"),
+                                    Status = reader.GetString("status"),
+                                    ToAddress = reader.GetString("toAddress"),
+                                    DeliveryFee = reader.GetDouble("deliveryFee"),
+                                    Note = reader.IsDBNull(reader.GetOrdinal("note")) ? null : reader.GetString("note"),
+                                    Total = reader.GetDouble("total")
+                                });
+                            }
+                            return customerOrders;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

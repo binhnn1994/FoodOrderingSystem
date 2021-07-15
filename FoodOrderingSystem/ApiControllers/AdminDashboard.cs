@@ -89,11 +89,14 @@ namespace FoodOrderingSystem.ApiControllers
         }
 
         [Route("CreateStaff")]
-        public IActionResult CreateStaff([FromServices] IAccountService accountService, [FromForm] Account account)
+        public async Task<IActionResult> CreateStaff([FromServices] IAccountService accountService, [FromServices] ISendMailService sendMailService, [FromForm] Account account)
         {
             try
             {
                 bool result = accountService.CreateStaff(account.userEmail, account.hashedPassword, account.fullname, account.phoneNumber, account.address);
+                string body = "Dear, " + account.fullname + "\n" + "\nYour password is: " + account.hashedPassword + "\n" +
+                    "Thanks.";
+                await sendMailService.SendEmailAsync(account.userEmail, "Replied to FeedbackID: ", body);
                 var message = new
                 {
                     message = "success"

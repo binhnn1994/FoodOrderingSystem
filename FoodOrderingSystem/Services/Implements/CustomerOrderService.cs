@@ -15,8 +15,9 @@ namespace FoodOrderingSystem.Services.Implements
         public bool ConfirmUpdate(string orderID, string status) => _customerOrderDAO.ConfirmUpdate(orderID, status);
 
         public CustomerOrder GetCustomerOrderByID(string orderID) => _customerOrderDAO.GetCustomerOrderByID(orderID);
-        public IList<CustomerOrder> GetPendingCustomerOrders() => _customerOrderDAO.GetPendingCustomerOrders();
+        public IList<CustomerOrder> GetCustomerOrdersByStatus(string Status) => _customerOrderDAO.GetCustomerOrdersByStatus(Status);
         public string AddCustomerOrder(string customerID, string toAddress, double deliveryFee, string note, double total)
             => _customerOrderDAO.AddCustomerOrder(customerID, toAddress, deliveryFee, note, total);
+        public IList<CustomerOrder> GetOrderListByID(string customerID) => _customerOrderDAO.GetOrderListByID(customerID);
     }
 }

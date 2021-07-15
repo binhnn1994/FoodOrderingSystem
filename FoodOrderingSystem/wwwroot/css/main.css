@@ -6895,7 +6895,8 @@ input:checked+.switch-slider:before {
 .sign-form .required::after {
     content: " *";
     color: red;
- }
+}
+
 
 /*===== Login & Register Popup =====*/
 
@@ -7875,6 +7876,17 @@ i.off {
     background-color: #434343;
     color: #fff;
     padding: 10px 25px;
+}
+
+.review-details>a {
+    margin-top: -30px;
+}
+
+.detail-button>a {
+    margin-top: 20px;
+    font-size: 14px;
+    margin-top: 20px;
+    margin-right: 75px;
 }
 
 .order-info>span.price {

@@ -1,4 +1,5 @@
-﻿using FoodOrderingSystem.Models.Cart;
+﻿using FoodOrderingSystem.Models.account;
+using FoodOrderingSystem.Models.Cart;
 using FoodOrderingSystem.Models.item;
 using FoodOrderingSystem.Services.Implements;
 using FoodOrderingSystem.Services.Interfaces;
@@ -18,30 +19,28 @@ namespace FoodOrderingSystem.Controllers
     {
         private readonly ILogger<CustomerDashboardController> _logger;
 
+        private readonly IAccountService accountService;
         private readonly IItemService itemService;
         private readonly ICustomerOrderService customerOrderService;
         private readonly IOrderDetailsService orderDetailsService;
 
-        public CustomerDashboardController(ILogger<CustomerDashboardController> logger, IItemService _itemService
-                                        ,ICustomerOrderService _customerOrderService, IOrderDetailsService _orderDetailsService
-                                        )
+        public CustomerDashboardController(ILogger<CustomerDashboardController> logger, IItemService _itemService ,ICustomerOrderService _customerOrderService, 
+            IOrderDetailsService _orderDetailsService, IAccountService _accountService)
         {
             _logger = logger;
             itemService = _itemService;
             customerOrderService = _customerOrderService;
             orderDetailsService = _orderDetailsService;
+            accountService = _accountService;
         }
 
         [Route("", Name = "Index")]
         public IActionResult Index()
         {
-            //var products = itemService.ViewItemListFilterCategory("all", "all", 10, 1); //tests
-            //return View(products);
 			var cart = GetCartItems();
 			return View(cart);
         }
 
-        /// Thêm sản phẩm vào cart
         [Route("addcart/{itemID}", Name = "addcart")]
         public IActionResult AddToCart([FromRoute] string itemID)
         {
@@ -52,21 +51,16 @@ namespace FoodOrderingSystem.Controllers
             var cartitem = cart.Find(p => p.item.itemID == itemID);
             if (cartitem != null)
             {
-                // Đã tồn tại, tăng thêm 1
                 cartitem.quantity++;
             }
             else
             {
-                //  Thêm mới
                 cart.Add(new CartObj() { quantity = 1, item = product });
             }
-            // Lưu cart vào Session
             SaveCartSession(cart);
-            // Chuyển đến trang hiện thị Cart
             return RedirectToAction(nameof(Index));
         }
 
-        // xóa item trong cart
         [Route("/removecart/{itemID}", Name = "removecart")]
         public IActionResult RemoveCart([FromRoute] string itemID)
         {
@@ -74,73 +68,70 @@ namespace FoodOrderingSystem.Controllers
             var cartitem = cart.Find(p => p.item.itemID == itemID);
             if (cartitem != null)
             {
-                // Đã tồn tại, tăng thêm 1
                 cart.Remove(cartitem);
             }
             SaveCartSession(cart);
             return RedirectToAction(nameof(Cart));
         }
 
-        /// Cập nhật
         [Route("/updatecart", Name = "updatecart")]
         [HttpPost]
         public IActionResult UpdateCart([FromForm] string itemID, [FromForm] int quantity)
         {
-            // Cập nhật Cart thay đổi số lượng quantity ...
             var cart = GetCartItems();
             var cartitem = cart.Find(p => p.item.itemID == itemID);
             if (cartitem != null)
             {
-                // Đã tồn tại, tăng thêm 1
                 cartitem.quantity = quantity;
             }
             SaveCartSession(cart);
-            // Trả về mã thành công (không có nội dung gì - chỉ để Ajax gọi)
             return Ok();
         }
 
 
-        // Hiện thị giỏ hàng
+        // show cart
         [Route("/cart", Name = "cart")]
         public IActionResult Cart()
         {
-            var cart = GetCartItems();/*
-            var product = itemService.GetDetailOfItem("183b8d8fb523");
-            var cartitem = cart.Find(p => p.item.itemID == "183b8d8fb523");
-            if (cartitem != null)
-            {
-                // Đã tồn tại, tăng thêm 1
-                cartitem.quantity++;
-            }
-            else
-            {
-                //  Thêm mới
-                cart.Add(new CartObj() { quantity = 1, item = product });
-            }*/
+            var cart = GetCartItems();
             return View(cart);
         }
 
         [Route("/checkout")]
-        public IActionResult CheckOut([FromForm] string address, [FromForm] string note, [FromForm] double total)
+        public IActionResult CheckOut()
         {
             var session = HttpContext.Session;
-            //string userID = session.GetString("USERID");
-            string userID = "487iuewur398";
+            string userID = session.GetString("USERID");
+            string note = "No";
             double deliveryFee = 20000;
-            // Xử lý khi đặt hàng
+            double total = 0;
             var cart = GetCartItems();
-            ViewData["address"] = address;
-            ViewData["cart"] = cart;
+            Account user = accountService.GetDetailOfAccount(userID);
 
             if (!string.IsNullOrEmpty(userID))
             {
-                //tạo cấu trúc db lưu lại đơn hàng
-                string orderID = customerOrderService.AddCustomerOrder(userID, "abc", deliveryFee, "cyz", 202000);
+                foreach (var cartObject in cart)
+                {
+                    total += cartObject.quantity * (double)cartObject.item.unitPrice;
+                }
+                if (total > 500000)
+                {
+                    deliveryFee = 5000;
+                }
+                else if (total > 300000)
+                {
+                    deliveryFee = 10000;
+                }
+                else
+                {
+                    deliveryFee = 20000;
+                }
+                string orderID = customerOrderService.AddCustomerOrder(userID, user.address, deliveryFee, note, total);
                 foreach (var cartObject in cart)
                 {
                     orderDetailsService.AddOrderDetail(orderID, cartObject.item.itemID, cartObject.quantity);
                 }
-                //xóa cart khỏi session
+                //delete cart out session
                 ClearCart();
                 RedirectToAction(nameof(Index));
             }
@@ -148,10 +139,9 @@ namespace FoodOrderingSystem.Controllers
             return View();
         }
 
-        // Key lưu chuỗi json của Cart
+        // Key save string json of Cart
         public const string CARTKEY = "cart";
 
-        // Lấy cart từ Session (danh sách CartItem)
         List<CartObj> GetCartItems()
         {
 
@@ -164,14 +154,12 @@ namespace FoodOrderingSystem.Controllers
             return new List<CartObj>();
         }
 
-        // Xóa cart khỏi session
         void ClearCart()
         {
             var session = HttpContext.Session;
             session.Remove(CARTKEY);
         }
 
-        // Lưu Cart (Danh sách CartObj) vào session
         void SaveCartSession(List<CartObj> list)
         {
             var session = HttpContext.Session;
@@ -182,6 +170,9 @@ namespace FoodOrderingSystem.Controllers
         [Route("Profile")]
         public IActionResult Profile()
         {
+            var session = HttpContext.Session;
+            string userID = session.GetString("USERID");
+            ViewBag.userID = userID;
             return View();
         }
     }

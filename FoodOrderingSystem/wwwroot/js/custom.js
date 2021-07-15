@@ -8,7 +8,8 @@ window.onload = function() {
     }
 
     page = window.location.pathname.split("/").slice(-2).join("/");
-    console.log(window.location.pathname);
+    path = window.location.pathname;
+    console.log(path);
     console.log(page);
 
     setTimeout(function() { initPages() }, 800);
@@ -28,7 +29,7 @@ function initPages() {
     }
 
     //===== Profile Pages =====*/
-    if (page.includes("Profile") || page.includes("StaffDashboard")) {
+    if (path.includes("Profile") || path.includes("StaffDashboard")) {
         setProfileInfo();
         if (page === "AdminDashboard/Profile") {
             getTime();
@@ -43,23 +44,23 @@ function initPages() {
     }
 
     //===== Staff Management Page =====*/
-    if (page === "AdminDashboard/StaffManagement") {
+    if (path.includes("AdminDashboard/StaffManagement")) {
         showStaffsList();
     }
 
     //===== Customer Management Page =====*/
-    if (page === "AdminDashboard/CustomerManagement") {
+    if (path.includes("AdminDashboard/CustomerManagement")) {
         showCustomerList();
     }
 
     //===== Food Management Page =====*/
-    if (page === "AdminDashboard/Index" || page === "AdminDashboard/" || page === "/AdminDashboard") {
+    if (path.includes("AdminDashboard/Index") || page === "AdminDashboard/" || page === "/AdminDashboard") {
         loadCategories();
         showItemList();
     }
 
     //===== Order Page =====*/
-    if (page === "CustomerDashboard/Index" || page === "CustomerDashboard/" || page === "/CustomerDashboard" || page === "/") {
+    if (path.includes("CustomerDashboard/Index") || page === "CustomerDashboard/" || page === "/CustomerDashboard" || page === "/") {
         loadCategories();
         showItemList();
 
@@ -106,7 +107,28 @@ function initPages() {
         });
     }
 
+    //===== Staff Page =====*/
     if (page.includes("StaffDashboard")) {
+        showOrderList();
+        showReviewList();
+
+        //===== Accept Order Script =====//
+        $('.accept-order').on('click', function() {
+            var orderID = $(this).parent().find('span').text();
+            acceptOrder(orderID);
+            return false;
+        });
+
+        //===== Decline Order Script =====//
+        $('.decline-order').on('click', function() {
+            var orderID = $(this).parent().find('span').text();
+            declineOrder(orderID);
+            return false;
+        });
+    }
+
+    //===== Customer Profile Page =====*/
+    if (path.includes("CustomerDashboard/Profile")) {
         showOrderList();
     }
 }
@@ -197,7 +219,6 @@ function getTime() {
         preMonth = format(now.getMonth());
     }
 
-    //Set date-type elements
     var dateTo = document.getElementById("date-to");
     dateTo.value = [year, month, day].join('-');
     dateTo.max = dateTo.value;

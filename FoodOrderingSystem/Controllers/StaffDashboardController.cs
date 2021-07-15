@@ -1,4 +1,5 @@
 ﻿using FoodOrderingSystem.Models.account;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -15,6 +16,9 @@ namespace FoodOrderingSystem.Controllers
     {
         public IActionResult Index()
         {
+            var session = HttpContext.Session;
+            string userID = session.GetString("USERID");
+            ViewBag.userID = userID;
             return View();
         }
     }

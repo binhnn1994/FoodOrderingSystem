@@ -57,25 +57,7 @@
                                             <div class="tab-pane fade" id="my-reviews">
                                                 <div class="tabs-wrp brd-rd5">
                                                     <h4 itemprop="headline">PENDING REVIEWS</h4>
-                                                    <div class="review-list">
-                                                        <div class="review-box brd-rd5">
-                                                            <h4 itemprop="headline">HUU QUOC</h4>
-                                                            <p itemprop="description">Pepsi giao tới nhà tan hết đá rồi, vừa không lạnh vừa nhạt toẹt. Hơi cáu nhưng vì bánh tráng trộn mlem mlem nên bỏ qua.</p>
-                                                            <div class="review-info">
-                                                                <div class="review-info-inner">
-                                                                    <i class="red-clr">07/07/2021 - 12:30PM</i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="review-box brd-rd5">
-                                                            <h4 itemprop="headline">HUU QUOC</h4>
-                                                            <p itemprop="description">Bún đậu mắm tôm thúi quá hmu hmu. Hình như mắm tôm hết hạn thì phải :'( Bún cũng có mùi chua chua.</p>
-                                                            <div class="review-info">
-                                                                <div class="review-info-inner">
-                                                                    <i class="red-clr">13/04/2021 - 04:30PM</i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                    <div class="review-list" id="review-list">
                                                     </div>
                                                     <!-- Review List -->
                                                 </div>
@@ -87,28 +69,14 @@
                                                         <table>
                                                             <thead>
                                                                 <tr>
-                                                                    <th>ID</th>
+                                                                    <th>NO.</th>
                                                                     <th>NAME</th>
                                                                     <th>ORDER TIME</th>
                                                                     <th>ADDRESS</th>
                                                                     <th>TOTAL</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody id="staff-table">
-                                                                <tr>
-                                                                    <td>1</td>
-                                                                    <td>Huu Quoc</td>
-                                                                    <td>14/07/2021 5:38</td>
-                                                                    <td>138 Ton That Thuyet, Pleiku</td>
-                                                                    <td><span class="money">208000</span></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>1</td>
-                                                                    <td>Huu Quoc</td>
-                                                                    <td>14/07/2021 5:38</td>
-                                                                    <td>138 Ton That Thuyet, Pleiku</td>
-                                                                    <td><span class="money">208000</span></td>
-                                                                </tr>
+                                                            <tbody id="order-table">
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -167,15 +135,17 @@
             <div class="sign-popup-inner brd-rd5">
                 <a class="feedback-close-btn" href="#" title="" itemprop="url"><i class="fa fa-close"></i></a>
                 <div class="sign-popup-title text-center">
-                    <h4 itemprop="headline">FEEDBACK</h4>
+                    <h4 itemprop="headline">REPLY FEEDBACK</h4>
                 </div>
-                <form class="sign-form">
+                <form class="sign-form" name="reply-form">
                     <div class="row">
+                        <input type="hidden" id="respond-feedback-id">
+                        <input type="hidden" id="respond-feedback-email">
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <textarea class="brd-rd3" style="margin-top: 1rem; font-size:12px;" placeholder="Write your feedback here... "></textarea>
+                            <textarea class="brd-rd3" id="reply-content" style="margin-top: 1rem; font-size:12px;" placeholder="Write your feedback here... "></textarea>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <button class="red-bg brd-rd3" type="submit">SEND</button>
+                            <button class="red-bg brd-rd3 feedback-submit-btn" onclick="replyFeedback()" type="button">SEND</button>
                         </div>
                     </div>
                 </form>
@@ -192,42 +162,20 @@
                 <div class="row">
                     <div class "col-md-12 col-sm-12 col-lg-12">
                         <div class="order-list-wrapper">
-                            <ul class="order-list-inner">
-                                <li>
-                                    <div class="dish-name">
-                                        <h6 itemprop="headline">2 x Pizza Meatlovers</h6>
-                                        <span class="price money">185000</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="dish-name">
-                                        <h6 itemprop="headline">3 x Chicken Tandoori Special With Mozzarella</h6>
-                                        <span class="price money">85000</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="dish-name">
-                                        <h6 itemprop="headline">2 x Pizza Meatlovers</h6>
-                                        <span class="price money">185000</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="dish-name">
-                                        <h6 itemprop="headline">2 x Pizza Meatlovers</h6>
-                                        <span class="price money">185000</span>
-                                    </div>
-                                </li>
+                            <ul class="order-list-inner" id="order-details-list">
                             </ul>
                             <ul class="order-total red-bg" style="margin-bottom: 10px;">
-                                <li><span>Sub total</span> <i class="money">158000</i></li>
-                                <li><span>Delivery fee</span> <i class="money">70000</i></li>
+                                <li><span>Sub total</span> <i class="money" id="subtotal-order-details">158000</i></li>
+                                <li><span>Delivery fee</span> <i class="money" id="delivery-order-details">20000</i></li>
                                 <li>
                                     <hr style="width: 100%; margin: 0;">
                                 </li>
-                                <li><span style="top: 0%">Total</span> <i class="money">210000</i></li>
+                                <li><span style="top: 0%">Total</span> <i class="money" id="total-order-details">178000</i></li>
                             </ul>
-                            <div>
-                                <span>*Note: Don't put tomato sauce on pizza please.</span>
+                            <div class="order-info detail-button">
+                                <span id="order-customer-id" style="display: none"></span>
+                                <a class="brd-rd3 detail-submit-btn decline-order" href="#">Decline</a>
+                                <a class="brd-rd3 detail-submit-btn accept-order" href="#">Accept</a>
                             </div>
                         </div>
                     </div>
