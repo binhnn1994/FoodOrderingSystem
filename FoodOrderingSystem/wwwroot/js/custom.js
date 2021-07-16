@@ -1,6 +1,7 @@
 function getUserInfo() {
     var request = new XMLHttpRequest();
-    var userID = document.getElementById("nav-user").getAttribute("name");
+    var userID = document.getElementById("nav-user").innerHTML;
+    // var userID = document.getElementById("nav-user").getAttribute("name");
     var url = "/api/AdminDashboard/ViewAccountDetail";
     var content = '{"UserID": "' + userID + '"}';
 
