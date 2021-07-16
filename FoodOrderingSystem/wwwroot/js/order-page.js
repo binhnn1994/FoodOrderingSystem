@@ -1,17 +1,16 @@
-var categoryList;
-
 function loadCategories() {
     var request = new XMLHttpRequest();
     var url = "/api/AdminDashboard/GetCategories";
 
     request.open('GET', url, true);
     request.onload = function() {
-        categoryList = JSON.parse(this.responseText);
+        var categoryList = JSON.parse(this.responseText);
+        showItemList(categoryList);
     };
     request.send();
 }
 
-function showItemList() {
+function showItemList(categoryList) {
     var searchValue = document.getElementById("search-value").value;
     var request = new XMLHttpRequest();
     var url, content;
@@ -28,7 +27,7 @@ function showItemList() {
     request.setRequestHeader("Content-Type", "text/json");
     request.onload = function() {
         var result = JSON.parse(this.responseText).data;
-        renderItemList(result, function() {
+        renderItemList(result, categoryList, function() {
             formatMoneyString();
 
             //===== Touch Spin =====//
@@ -40,7 +39,7 @@ function showItemList() {
     request.send(content);
 }
 
-function renderItemList(itemList, callback) {
+function renderItemList(itemList, categoryList, callback) {
     var list = document.getElementById("dishes-list");
 
     while (list.firstChild) {

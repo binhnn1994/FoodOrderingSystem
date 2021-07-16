@@ -1,6 +1,13 @@
 $(document).ready(function() {
     'use strict';
 
+    if ($('#nav-user').length) {
+        $('#nav-user').attr('name', '3c55b58e980f');
+        getUserInfo();
+    } else {
+        initPages("[]");
+    }
+
     //===== Profile Image Upload =====*/
     function readURL(input) {
         if (input.files && input.files[0]) {

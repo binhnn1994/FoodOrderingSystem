@@ -1,36 +1,33 @@
-var page, user;
+function getUserInfo() {
+    var request = new XMLHttpRequest();
+    var userID = document.getElementById("nav-user").getAttribute("name");
+    var url = "/api/AdminDashboard/ViewAccountDetail";
+    var content = '{"UserID": "' + userID + '"}';
 
-window.onload = function() {
-    var userElement = document.getElementById("nav-user");
-    if (userElement) {
-        userElement.setAttribute("name", "e5f5ef3699a1");
-        getUserInfo();
+    request.open('POST', url, true);
+    request.setRequestHeader("Content-Type", "text/json");
+    request.onload = function() {
+        initPages(this.responseText);
     }
-
-    page = window.location.pathname.split("/").slice(-2).join("/");
-    path = window.location.pathname;
-    console.log(path);
-    console.log(page);
-
-    setTimeout(function() { initPages() }, 800);
+    request.send(content);
 }
 
-function initPages() {
+function initPages(userInfo) {
+    var page = window.location.pathname.split("/").slice(-2).join("/");
+    var path = window.location.pathname;
+    var user = JSON.parse(userInfo);
+    console.log(path);
+    console.log(page);
+    console.log(user);
+
     //===== All Pages =====*/
     if (page.length >= 2) {
-        var currentUser = document.getElementById("nav-user");
-        if (currentUser) {
-            if (user.fullname.length > 0) {
-                currentUser.innerHTML = user.fullname;
-            } else {
-                currentUser.innerHTML = user.userEmail;
-            }
-        }
+        document.getElementById("nav-user").innerHTML = user.fullname;
     }
 
     //===== Profile Pages =====*/
     if (path.includes("Profile") || path.includes("StaffDashboard")) {
-        setProfileInfo();
+        setProfileInfo(user);
     }
 
     //===== Staff Management Page =====*/
@@ -46,13 +43,11 @@ function initPages() {
     //===== Food Management Page =====*/
     if (path.includes("AdminDashboard/Index") || page === "AdminDashboard/" || page === "/AdminDashboard") {
         loadCategories();
-        showItemList();
     }
 
     //===== Order Page =====*/
     if (path.includes("CustomerDashboard/Index") || page === "CustomerDashboard/" || page === "/CustomerDashboard" || page === "/") {
         loadCategories();
-        showItemList();
 
         $('.item-remove-btn').prop("onclick", null).off("click");
         $('.item-remove-btn').click(function(event) {
@@ -186,20 +181,6 @@ function deactivateItem(itemID) {
     request.send(content);
 }
 
-function getUserInfo() {
-    var request = new XMLHttpRequest();
-    var userID = document.getElementById("nav-user").getAttribute("name");
-    var url = "/api/AdminDashboard/ViewAccountDetail";
-    var content = '{"UserID": "' + userID + '"}';
-
-    request.open('POST', url, true);
-    request.setRequestHeader("Content-Type", "text/json");
-    request.onload = function() {
-        user = JSON.parse(this.responseText);
-    }
-    request.send(content);
-}
-
 function format(time) {
     return (time < 10 ? '0' : '') + time;
 }
@@ -228,7 +209,7 @@ function getTime() {
     dateFrom.max = dateTo.value;
 }
 
-function setProfileInfo() {
+function setProfileInfo(user) {
     document.getElementById("info-name").innerHTML = user.fullname;
     document.getElementById("info-email").innerHTML = user.userEmail;
     document.getElementById("profile-name").value = user.fullname;
