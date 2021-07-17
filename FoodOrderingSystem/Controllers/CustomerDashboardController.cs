@@ -5,6 +5,7 @@ using FoodOrderingSystem.Services.Implements;
 using FoodOrderingSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace FoodOrderingSystem.Controllers
 {
+    [Authorize(Roles = "Customer")]
     [Route("/CustomerDashboard")]
     public class CustomerDashboardController : Controller
     {
@@ -24,7 +26,7 @@ namespace FoodOrderingSystem.Controllers
         private readonly ICustomerOrderService customerOrderService;
         private readonly IOrderDetailsService orderDetailsService;
 
-        public CustomerDashboardController(ILogger<CustomerDashboardController> logger, IItemService _itemService ,ICustomerOrderService _customerOrderService, 
+        public CustomerDashboardController(ILogger<CustomerDashboardController> logger, IItemService _itemService, ICustomerOrderService _customerOrderService,
             IOrderDetailsService _orderDetailsService, IAccountService _accountService)
         {
             _logger = logger;
@@ -34,11 +36,14 @@ namespace FoodOrderingSystem.Controllers
             accountService = _accountService;
         }
 
-        [Route("", Name = "Index")]
+        [Route("Index", Name = "Index")]
         public IActionResult Index()
         {
-			var cart = GetCartItems();
-			return View(cart);
+            var session = HttpContext.Session;
+            string userID = session.GetString("USERID");
+            ViewBag.userID = userID;
+            var cart = GetCartItems();
+            return View(cart);
         }
 
         [Route("/addcart/{itemID}", Name = "addcart")]
@@ -49,7 +54,6 @@ namespace FoodOrderingSystem.Controllers
                 return NotFound("Không có sản phẩm");
             var cart = GetCartItems();
             var cartitem = cart.Find(p => p.item.itemID == itemID);
-            System.Diagnostics.Debug.WriteLine("Add item " + itemID + " to cart");
             if (cartitem != null)
             {
                 cartitem.quantity++;
@@ -89,7 +93,6 @@ namespace FoodOrderingSystem.Controllers
             return Ok();
         }
 
-
         // show cart
         [Route("/cart", Name = "cart")]
         public IActionResult Cart()
@@ -103,11 +106,11 @@ namespace FoodOrderingSystem.Controllers
         {
             var session = HttpContext.Session;
             string userID = session.GetString("USERID");
-            string note = "No";
-            double deliveryFee = 20000;
+            string note = "Default";
+            double deliveryFee;
             double total = 0;
             var cart = GetCartItems();
-            Account user = accountService.GetDetailOfAccount(userID);   
+            Account user = accountService.GetDetailOfAccount(userID);
             System.Diagnostics.Debug.WriteLine("Trying to checkout");
             System.Diagnostics.Debug.WriteLine("User ID is " + userID);
 
@@ -117,6 +120,7 @@ namespace FoodOrderingSystem.Controllers
                 {
                     total += cartObject.quantity * (double)cartObject.item.unitPrice;
                 }
+
                 if (total > 500000)
                 {
                     deliveryFee = 5000;
@@ -129,6 +133,7 @@ namespace FoodOrderingSystem.Controllers
                 {
                     deliveryFee = 20000;
                 }
+
                 string orderID = customerOrderService.AddCustomerOrder(userID, user.address, deliveryFee, note, total);
                 foreach (var cartObject in cart)
                 {

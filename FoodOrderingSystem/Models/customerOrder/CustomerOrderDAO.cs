@@ -12,7 +12,6 @@ namespace FoodOrderingSystem.Models.customerOrder
     {
         public CustomerOrder GetCustomerOrderByID(string orderID)
         {
-            string result = null;
             try
             {
                 using (var connection = new MySqlConnection(DBUtils.ConnectionString))
@@ -40,7 +39,7 @@ namespace FoodOrderingSystem.Models.customerOrder
                                     Total = reader.GetDouble("total")
                                 };
                             }
-                connection.Close();
+                            connection.Close();
                         }
                     }
                 }
@@ -199,4 +198,4 @@ namespace FoodOrderingSystem.Models.customerOrder
         }
     }
 }
-    
+

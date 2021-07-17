@@ -19,7 +19,7 @@ namespace FoodOrderingSystem.ApiControllers
             _logger = logger;
         }
 
-        public class Request
+        public new class Request
         {
             public int RowsOnPage { get; set; }
             public int RequestPage { get; set; }

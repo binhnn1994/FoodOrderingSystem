@@ -1,6 +1,7 @@
 ﻿using FoodOrderingSystem.Models.account;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace FoodOrderingSystem.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminDashboardController : Controller
     {
         /*private readonly HttpClient client = null;

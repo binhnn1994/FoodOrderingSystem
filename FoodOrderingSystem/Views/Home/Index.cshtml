@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "Ordering";
 }
-<h1 style="color:red">@ViewBag.Message</h1>
 <main>
     <header class="stick" style="transform: translate3d(0px, 0px, 0px); position: fixed; top: 0px;">
         <div class="logo-menu-sec">
@@ -53,22 +52,6 @@
                                                 <h4 itemprop="headline" style="color: #01b1c9; font-weight: 600;">Order Details</h4>
                                                 <div class="order-list-wrapper">
                                                     <ul class="order-list-inner" id="order-list">
-                                                        @* @if (Model.Count > 0) {
-                                                                decimal total = 0;
-                                                                @foreach (var cartitem in Model) {
-                                                                    var subtotal = cartitem.quantity * cartitem.item.unitPrice;
-                                                                    total += subtotal;
-
-                                                                    <li>
-                                                                        <div class="dish-name">
-                                                                            <h5 style="display: none">@cartitem.item.itemID</h5>
-                                                                            <h6 itemprop="headline"><span style="color: #00db30">@cartitem.quantity</span> x @cartitem.item.itemName</h6>
-                                                                            <a class="item-remove-btn" href="#" title="" itemprop="url"><i class="fa fa-close"></i></a>
-                                                                            <span class="price money">@(subtotal.ToString("n0"))</span>
-                                                                        </div>
-                                                                    </li>
-                                                                }
-                                                            } *@
                                                         <li>
                                                             <div class="dish-name">
                                                                 <h5 style="display: none">95b50503d970</h5>
@@ -105,21 +88,25 @@
     <div class="log-popup text-center">
         <div class="sign-popup-wrapper brd-rd5">
             <div class="sign-popup-inner brd-rd5">
-                <a class="sign-close-btn" href="/Home/Index" title="" itemprop="url"><i class="fa fa-close"></i></a>
+                <a class="log-close-btn" href="#" title="" itemprop="url"><i class="fa fa-close"></i></a>
                 <div class="sign-popup-title text-center">
-                    <h4 itemprop="headline">SIGN IN</h4><br/>
-                    <h5 style="color:red">@ViewBag.Message</h5>
+                    <h4 itemprop="headline">SIGN IN</h4>
                 </div>
-                <form class="sign-form" action="/Account/Login" method="post">
+                <form class="sign-form" id="login-form">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <input name="email" class="brd-rd3" type="email" placeholder="Email" style="font-size: 14px" required>
+                            <label>Email</label>
+                            <input name="email" class="brd-rd3" type="email" placeholder="Enter Your Email" style="font-size: 14px" required>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <input name="password" class="brd-rd3" type="password" placeholder="Password" style="font-size: 14px" required>
+                            <label>Password</label>
+                            <input name="password" class="brd-rd3" type="password" placeholder="Enter Your Password" style="font-size: 14px" required>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <button class="red-bg brd-rd3">SIGN IN</button>
+                            <p id="login-error-message" style="color:red; display:none;"></p>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <button class="red-bg brd-rd3" type="button" onclick="checkLogin()">SIGN IN</button>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <a class="sign-popup-btn" href="#" title="" itemprop="url">Not a member? Sign up</a>
@@ -132,33 +119,34 @@
     <div class="sign-popup text-center">
         <div class="sign-popup-wrapper brd-rd5">
             <div class="sign-popup-inner brd-rd5">
-                <a class="sign-close-btn" href="/Home/Index" title="" itemprop="url"><i class="fa fa-close"></i></a>
+                <a class="sign-close-btn" href="#" title="" itemprop="url"><i class="fa fa-close"></i></a>
                 <div class="sign-popup-title text-center">
-                    <h4 itemprop="headline">SIGN UP</h4><br/>
-                    <h5 style="color:red">@ViewBag.Message</h5>
+                    <h4 itemprop="headline">SIGN UP</h4>
                 </div>
-                <form class="sign-form" action="/Account/Register/" method="post">
+                <form class="sign-form">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-lg-12">
+                            <label class="required">Email</label>
                             <input name="email" class="brd-rd3" type="email" placeholder="Email" style="font-size: 14px" required>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
+                            <label class="required">Password</label>
                             <input name="password" class="brd-rd3" type="password" placeholder="Password" style="font-size: 14px" required>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <input name="confirmPassword" class="brd-rd3" type="password" placeholder="Confirm Password" style="font-size: 14px" required>
-                        </div>
-                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <label class="required">Full Name</label>
                             <input name="fullname" class="brd-rd3" type="text" placeholder="Fullname" required style="font-size: 14px">
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
+                            <label class="required">Phone Number</label>
                             <input name="phoneNumber" class="brd-rd3" type="tel" placeholder="1234-567-789" pattern="[0-9]{4}-[0-9]{3}-[0-9]{3}" required style="font-size: 14px">
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
+                            <label class="required">Address</label>
                             <input name="address" class="brd-rd3" type="text" placeholder="Address" required style="font-size: 14px">
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <button class="red-bg brd-rd3">REGISTER</button>
+                            <button class="red-bg brd-rd3" type="button" onclick="registerCustomer()">REGISTER</button>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <a class="log-popup-btn" href="#" title="" itemprop="url">Already Registered? Sign in</a>
@@ -218,3 +206,4 @@
 </main>
 
 <script src="~/js/order-page.js"></script>
+<script src="~/js/login-register.js"></script>

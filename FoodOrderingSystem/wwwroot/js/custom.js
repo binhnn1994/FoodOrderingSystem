@@ -1,7 +1,7 @@
 function getUserInfo() {
     var request = new XMLHttpRequest();
     var userID = document.getElementById("nav-user").innerHTML;
-    // var userID = document.getElementById("nav-user").getAttribute("name");
+    userID = "e5f5ef3699a1";
     var url = "/api/AdminDashboard/ViewAccountDetail";
     var content = '{"UserID": "' + userID + '"}';
 
@@ -22,7 +22,7 @@ function initPages(userInfo) {
     console.log(user);
 
     //===== All Pages =====*/
-    if (page.length >= 2) {
+    if (page.length >= 2 && path.includes("Home/Index") === false) {
         document.getElementById("nav-user").innerHTML = user.fullname;
     }
 
@@ -44,6 +44,7 @@ function initPages(userInfo) {
     //===== Food Management Page =====*/
     if (path.includes("AdminDashboard/Index") || page === "AdminDashboard/" || page === "/AdminDashboard") {
         loadCategories();
+        showItemList();
     }
 
     //===== Order Page =====*/
@@ -225,4 +226,13 @@ function formatDate(original) {
     normalizedDate += original.substring(0, 4) + ' ';
     normalizedDate += original.substring(11, 16);
     return normalizedDate;
+}
+
+function IsEmail(email) {
+    var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if (!regex.test(email)) {
+        return false;
+    } else {
+        return true;
+    }
 }

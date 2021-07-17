@@ -119,8 +119,8 @@ function updateStaff() {
 }
 
 function createStaff() {
-
     var inputs = document.forms["create-form"].elements;
+
     if (isCreateStaffValid(inputs)) {
         var request = new XMLHttpRequest();
         var url = "/api/AdminDashboard/CreateStaff";
@@ -160,15 +160,6 @@ function isCreateStaffValid(inputs) {
         return false;
     }
     return true;
-}
-
-function IsEmail(email) {
-    var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    if (!regex.test(email)) {
-        return false;
-    } else {
-        return true;
-    }
 }
 
 function clearCreateStaffError(inputs) {

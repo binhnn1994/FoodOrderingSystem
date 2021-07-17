@@ -1,7 +1,6 @@
 using FoodOrderingSystem.Models.account;
 using FoodOrderingSystem.Models.customerOrder;
 using FoodOrderingSystem.Models.category;
-using FoodOrderingSystem.Models.customerOrder;
 using FoodOrderingSystem.Models.feedback;
 using FoodOrderingSystem.Models.item;
 using FoodOrderingSystem.Models.orderDetails;
@@ -10,6 +9,7 @@ using FoodOrderingSystem.Services.Interfaces;
 using FoodOrderingSystem.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -42,22 +42,28 @@ namespace FoodOrderingSystem
             services.Configure<MailSettings>(mailsettings);
             services.AddTransient<ISendMailService, SendMailService>();
 
-
             services.AddControllersWithViews();
             services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
             services.AddSession(cfg => {                    // Đăng ký dịch vụ Session
                 cfg.Cookie.Name = "gudfood";                // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
                 cfg.IdleTimeout = new TimeSpan(0, 60, 0);    // Thời gian tồn tại của Session
+                cfg.Cookie.IsEssential = true;
+                cfg.Cookie.HttpOnly = true;
             });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
             services.AddTransient<IAccountDAO, AccountDAO>();
             services.AddTransient<IAccountService, AccountService>();
 
             services.AddTransient<IItemDAO, ItemDAO>();
             services.AddTransient<IItemService, ItemService>();
+
             services.AddTransient<ICategoryDAO, CategoryDAO>();
             services.AddTransient<ICategoryService, CategoryService>();
+
             services.AddTransient<ICustomerOrderDAO, CustomerOrderDAO>();
             services.AddTransient<ICustomerOrderService, CustomerOrderService>();
+
             services.AddTransient<IOrderDetailsDAO, OrderDetailsDAO>();
             services.AddTransient<IOrderDetailsService, OrderDetailsService>();
 
@@ -69,18 +75,6 @@ namespace FoodOrderingSystem
 
             services.AddTransient<ISaleReportDAO, SaleReportDAO>();
             services.AddTransient<ISaleReportService, SaleReportService>();
-
-            //add session
-            services.AddDistributedMemoryCache();
-
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,9 +90,9 @@ namespace FoodOrderingSystem
             }
             app.UseStaticFiles();
 
-
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
 
@@ -108,7 +102,7 @@ namespace FoodOrderingSystem
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Startup}/{action?}/{id?}");
             });
         }
     }

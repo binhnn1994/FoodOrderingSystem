@@ -4,7 +4,6 @@ function showReport() {
 
     var dateFrom = document.getElementById("date-from").value;
     var dateTo = document.getElementById("date-to").value;
-    console.log(dateFrom + " - " + dateTo);
 
     if (dateFrom.length === 0 || dateTo.length === 0) {
         $('#date-not-exist-error').show();
