@@ -86,7 +86,18 @@ namespace FoodOrderingSystem
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
+
+                app.Use(async (context, next) =>
+                {
+                    await next();
+
+                    if (context.Response.StatusCode == 404 && !context.Response.HasStarted)
+                    {
+                        context.Request.Path = "/Error";
+                        await next();
+                    }
+                });
             }
             app.UseStaticFiles();
 
