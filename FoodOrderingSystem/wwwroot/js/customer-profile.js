@@ -1,6 +1,7 @@
 function showOrderList() {
     var request = new XMLHttpRequest();
-    var url = "/api/StaffDashboard/GetOrders/all";
+    var url = "/api/CustomerDashboard/GetOrderListByID/";
+    url += document.getElementById("nav-user-id").innerHTML;
 
     request.open('GET', url, true);
     request.onload = function() {
@@ -13,59 +14,55 @@ function showOrderList() {
 }
 
 function renderOrderList(orderList, callback) {
-    var userID = document.getElementById("nav-user-id").innerHTML;
     var list = document.getElementById("order-list");
     list.innerHTML = "";
 
     for (let i = 0; i < orderList.length; i++) {
-        if (userID === orderList[i].account.userID) {
-            console.log(userID + " - " + orderList[i].account.userID);
-            var box = document.createElement('div');
-            var info = document.createElement('div');
-            var time = document.createElement('h4');
-            var price = document.createElement('span');
-            var status = document.createElement('span');
-            var detailBtn = document.createElement('a');
-            var feedbackBtn = document.createElement('a');
-            var orderID = document.createElement('h5');
+        var box = document.createElement('div');
+        var info = document.createElement('div');
+        var time = document.createElement('h4');
+        var price = document.createElement('span');
+        var status = document.createElement('span');
+        var detailBtn = document.createElement('a');
+        var feedbackBtn = document.createElement('a');
+        var orderID = document.createElement('h5');
 
-            list.appendChild(box);
-            box.appendChild(info);
-            info.appendChild(time);
-            info.appendChild(price);
-            info.appendChild(status);
-            info.appendChild(detailBtn);
-            info.appendChild(feedbackBtn);
-            info.appendChild(orderID);
+        list.appendChild(box);
+        box.appendChild(info);
+        info.appendChild(time);
+        info.appendChild(price);
+        info.appendChild(status);
+        info.appendChild(detailBtn);
+        info.appendChild(feedbackBtn);
+        info.appendChild(orderID);
 
-            box.classList = "order-item brd-rd5";
-            info.classList = "order-info";
-            price.classList = "price money";
-            status.classList = "brd-rd3";
-            detailBtn.classList = "brd-rd3 detail-popup-btn";
-            feedbackBtn.classList = "brd-rd3 feedback-popup-btn";
+        box.classList = "order-item brd-rd5";
+        info.classList = "order-info";
+        price.classList = "price money";
+        status.classList = "brd-rd3";
+        detailBtn.classList = "brd-rd3 detail-popup-btn";
+        feedbackBtn.classList = "brd-rd3 feedback-popup-btn";
 
-            detailBtn.href = "#";
-            feedbackBtn.href = "#";
-            detailBtn.style.marginLeft = "1rem";
-            orderID.style.display = "none";
+        detailBtn.href = "#";
+        feedbackBtn.href = "#";
+        detailBtn.style.marginLeft = "1rem";
+        orderID.style.display = "none";
 
-            var orderStatus = orderList[i].customerOrder.status.toUpperCase();
-            if (orderStatus === "PENDING") {
-                status.classList.add("processing")
-            } else if (orderStatus === "ACCEPTED") {
-                status.classList.add("completed")
-            } else if (orderStatus === "REJECTED") {
-                status.classList.add("rejected")
-            }
-
-            time.innerHTML = formatDate(orderList[i].customerOrder.orderDate);
-            price.innerHTML = orderList[i].customerOrder.total + calcDeliveryFee(orderList[i].customerOrder.total);
-            status.innerHTML = orderStatus;
-            orderID.innerHTML = orderList[i].customerOrder.orderID;
-            detailBtn.innerHTML = "Order Detail";
-            feedbackBtn.innerHTML = "Feedback";
+        var orderStatus = orderList[i].status.toUpperCase();
+        if (orderStatus === "PENDING") {
+            status.classList.add("processing")
+        } else if (orderStatus === "ACCEPTED") {
+            status.classList.add("completed")
+        } else if (orderStatus === "REJECTED") {
+            status.classList.add("rejected")
         }
+
+        time.innerHTML = formatDate(orderList[i].orderDate);
+        price.innerHTML = orderList[i].total + calcDeliveryFee(orderList[i].total);
+        status.innerHTML = orderStatus;
+        orderID.innerHTML = orderList[i].orderID;
+        detailBtn.innerHTML = "Order Detail";
+        feedbackBtn.innerHTML = "Feedback";
     }
 
     callback();
@@ -76,7 +73,7 @@ function renderOrderList(orderList, callback) {
         return false;
     });
 
-    $('.feedback-close-btn, .feedback-submit-btn').on('click', function() {
+    $('.feedback-close-btn').on('click', function() {
         $('html').removeClass('feedback-popup-active');
         return false;
     });
@@ -154,18 +151,37 @@ function renderOrderDetail(orderDetail, callback) {
 
 function sendFeedback() {
     var request = new XMLHttpRequest();
-    var url = "/api/CustomerDashboard/AddFeedback";
-    var inputs = document.forms["feedback-form"].elements;
-
-    var feedbackContent = inputs[0].value;
-    var customerEmail = "huuquoc852@gmail.com";
-    var content = '{"CustomerEmail": "' + customerEmail + '", "RequestContent": "' + feedbackContent + '"}';
+    var userID = document.getElementById("nav-user-id").innerHTML;
+    var url = "/api/AdminDashboard/ViewAccountDetail";
+    var content = '{"UserID": "' + userID + '"}';
 
     request.open('POST', url, true);
     request.setRequestHeader("Content-Type", "text/json");
     request.onload = function() {
         var result = JSON.parse(this.responseText);
-        alert("Sent " + result.message + "fully");
-    };
+        proceedSending(result.userEmail);
+    }
     request.send(content);
+}
+
+function proceedSending(customerEmail) {
+    var request = new XMLHttpRequest();
+    var url = "/api/CustomerDashboard/AddFeedback";
+    var inputs = document.forms["feedback-form"].elements;
+
+    var feedbackContent = inputs[0].value;
+    var content = '{"CustomerEmail": "' + customerEmail + '", "RequestContent": "' + feedbackContent + '"}';
+
+    if (feedbackContent.length > 0) {
+        request.open('POST', url, true);
+        request.setRequestHeader("Content-Type", "text/json");
+        request.onload = function() {
+            var result = JSON.parse(this.responseText);
+            $('html').removeClass('feedback-popup-active');
+            alert("Sent " + result.message + "fully");
+        };
+        request.send(content);
+    } else {
+        alert("Feedback cannot be empty!");
+    }
 }

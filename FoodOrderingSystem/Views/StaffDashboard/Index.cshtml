@@ -15,7 +15,10 @@
                 <nav>
                     <div class="menu-sec">
                         <ul style="margin: 10px; float: right;">
-                            <li><a href="#" title="CHANGE INFORMATION" itemprop="url" class="profile-name" id="nav-user">@ViewBag.userID</a></li>
+                            <li>
+                                <a href="#" title="CHANGE INFORMATION" itemprop="url" class="profile-name" id="nav-user">@ViewBag.userID</a>
+                                <p id="nav-user-id" style="display: none">@ViewBag.userID</p>
+                            </li>
                         </ul>
                         <!-- Current User Name -->
                     </div>
@@ -90,22 +93,25 @@
                                                         <div class="row">
                                                             <div class="col-md-12 col-sm-12 col-lg-12">
                                                                 <div class="profile-info-form-wrap">
-                                                                    <form class="profile-info-form">
+                                                                    <form class="profile-info-form" name="profile-info-form">
                                                                         <div class="row mrg20">
                                                                             <div class="col-md-12 col-sm-12 col-lg-12">
                                                                                 <label>Full Name</label>
                                                                                 <input class="brd-rd3" type="text" id="profile-name" placeholder="Enter Your Name">
+                                                                                <p class="err-msg" style="color:red;"></p>
                                                                             </div>
                                                                             <div class="col-md-12 col-sm-12 col-lg-12">
                                                                                 <label>Phone Number</label>
                                                                                 <input class="brd-rd3" type="text" id="profile-phone" placeholder="Enter Your Phone Number">
+                                                                                <p class="err-msg" style="color:red;"></p>
                                                                             </div>
                                                                             <div class="col-md-12 col-sm-12 col-lg-12">
                                                                                 <label>Address</label>
                                                                                 <input class="brd-rd3" type="text" id="profile-address" placeholder="Enter Your Address">
+                                                                                <p class="err-msg" style="color:red;"></p>
                                                                             </div>
                                                                         </div>
-                                                                        <button class="red-bg brd-rd4" style="width: 22%; font-size: 13px; margin: 0px 230px" type="submit">SAVE</button>
+                                                                        <button class="red-bg brd-rd4" style="width: 22%; font-size: 13px; margin: 0px 230px" onclick="updateProfile()" type="button">SAVE</button>
                                                                     </form>
                                                                 </div>
                                                             </div>
