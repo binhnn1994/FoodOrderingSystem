@@ -52,7 +52,7 @@ namespace FoodOrderingSystem.ApiControllers
             }
             catch (Exception ex)
             {
-                _logger.LogInformation("Active an account: " + ex.Message);
+                _logger.LogInformation("Confirm an order: " + ex.Message);
                 return new JsonResult(new { Message = ex.Message});
             }
         }
