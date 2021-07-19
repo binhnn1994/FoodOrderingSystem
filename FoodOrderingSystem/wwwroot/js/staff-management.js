@@ -137,8 +137,8 @@ function createStaff() {
             if (message === "success") {
                 $('html').removeClass('create-popup-active');
                 alert("Added successfully!");
-                clearCreateStaffError(inputs)
-                showStaffsList();
+                clearCreateStaffError(inputs);
+                setTimeout(function() { location.reload(); }, 500);
             } else if (message.includes("Duplicate") && message.includes("userEmail")) {
                 $(".sign-form").find(".err-msg")[0].textContent = "This email address has been used";
                 $(inputs[0]).css("border", "1px solid red");

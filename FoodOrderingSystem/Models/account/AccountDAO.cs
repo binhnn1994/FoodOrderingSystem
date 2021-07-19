@@ -88,7 +88,7 @@ namespace FoodOrderingSystem.Models.account
             {
                 connection.Open();
                 string Sql = "Insert Into account (userID, userEmail, roleName, hashedPassword, fullname, phoneNumber, address, status) " +
-                    "Values (Left(SHA(RAND()),12), @userEmail, 'Staff', SHA(@password), @fullname, @phoneNumber, @address, 'Active')";
+                    "Values (Left(SHA(RAND()),12), @userEmail, 'Staff', @password, @fullname, @phoneNumber, @address, 'Active')";
                 using (var command = new MySqlCommand(Sql, connection))
                 {
                     command.Parameters.AddWithValue("@userEmail", userEmail);
@@ -350,34 +350,28 @@ namespace FoodOrderingSystem.Models.account
 
         public bool Register(string userEmail, string password, string fullname, string phoneNumber, string address)
         {
-            try
+            var result = false;
+            using (var connection = new MySqlConnection(DBUtils.ConnectionString))
             {
-                using (var connection = new MySqlConnection(DBUtils.ConnectionString))
+                connection.Open();
+                string Sql = "Insert Into account (userID, userEmail, roleName, hashedPassword, fullname, phoneNumber, address, status) " +
+                    "Values (Left(SHA(RAND()),12), @userEmail, 'Customer', @password, @fullname, @phoneNumber, @address, 'Active')";
+                using (var command = new MySqlCommand(Sql, connection))
                 {
-                    connection.Open();
-                    string Sql = "Insert into account(userID, userEmail, roleName, fullname, phoneNumber, address, status, note) " +
-                            "Values(@userID, @userEmail, @roleName, @fullname, @phoneNumber, @address, @status, @note) ";
-                    using (var command = new MySqlCommand(Sql, connection))
+                    command.Parameters.AddWithValue("@userEmail", userEmail);
+                    command.Parameters.AddWithValue("@password", password);
+                    command.Parameters.AddWithValue("@fullname", fullname);
+                    command.Parameters.AddWithValue("@phoneNumber", phoneNumber);
+                    command.Parameters.AddWithValue("@address", address);
+                    int rowEffects = command.ExecuteNonQuery();
+                    if (rowEffects > 0)
                     {
-                        command.Parameters.AddWithValue("@userID", new Random().Next(0, 9999999));
-                        command.Parameters.AddWithValue("@userEmail", userEmail);
-                        command.Parameters.AddWithValue("@roleName", "Customer");
-                        command.Parameters.AddWithValue("@fullname", fullname);
-                        command.Parameters.AddWithValue("@phoneNumber", phoneNumber);
-                        command.Parameters.AddWithValue("@address", address);
-                        command.Parameters.AddWithValue("@status", "Active");
-                        command.Parameters.AddWithValue("@note", null);
-                        int result = command.ExecuteNonQuery();
-                        if (result == 1) return true;
+                        result = true;
                     }
-                    connection.Close();
                 }
+                connection.Close();
             }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            return false;
+            return result;
         }
     }
 }

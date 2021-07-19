@@ -96,7 +96,7 @@ namespace FoodOrderingSystem.ApiControllers
                 bool result = accountService.CreateStaff(account.userEmail, account.hashedPassword, account.fullname, account.phoneNumber, account.address);
                 string body = "Dear, " + account.fullname + "\n" + "\nYour password is: " + account.hashedPassword + "\n" +
                     "Thanks.";
-                await sendMailService.SendEmailAsync(account.userEmail, "Replied to FeedbackID: ", body);
+                await sendMailService.SendEmailAsync(account.userEmail, "Create New Account", body);
                 var message = new
                 {
                     message = "success"

@@ -47,7 +47,7 @@ function initPages(userInfo) {
     }
 
     //===== Order Page =====*/
-    if (path.includes("CustomerDashboard/Index") || page === "CustomerDashboard/" || page === "/CustomerDashboard" || page === "/") {
+    if (path.includes("CustomerDashboard/Index") || page === "CustomerDashboard/" || page === "/CustomerDashboard") {
         loadCategories();
 
         $('.item-remove-btn').prop("onclick", null).off("click");

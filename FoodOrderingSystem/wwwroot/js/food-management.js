@@ -99,8 +99,7 @@ function renderItemList(itemList, callback) {
         editBtn.title = "Edit";
         editBtn.href = "#";
 
-        image.src = "../images/resource/featured-restaurant-img" + (i + 1) + ".jpg";
-        image.alt = "featured-restaurant-img" + (i + 1) + ".jpg";
+        image.alt = "dish-img" + (i + 1) + ".jpg";
 
         if (itemList[i].status !== "Active") {
             var disableColor = "#999999";
@@ -116,6 +115,7 @@ function renderItemList(itemList, callback) {
         category.innerHTML = itemList[i].categoryName;
         description.innerHTML = itemList[i].description;
         status.innerHTML = itemList[i].status === "Active" ? "Available" : "Unavailable";
+        image.src = itemList[i].image;
         price.innerHTML = itemList[i].unitPrice;
         editBtn.innerHTML = "Edit";
     }
@@ -126,6 +126,7 @@ function renderItemList(itemList, callback) {
     $('.edit-popup-btn').on('click', function() {
         $('html').addClass('edit-popup-active');
 
+        var $thumb = $(this).parent().parent().find('.featured-restaurant-thumb');
         var $info = $(this).parent().parent().find('.featured-restaurant-info');
         var $button = $(this).parent().parent().find('.ord-btn');
 
@@ -134,6 +135,7 @@ function renderItemList(itemList, callback) {
         $('#dish-category-edit').val($info.find('h5').text());
         $('#dish-price-edit').val($button.find('.price').text().replace(/\D/g, ''));
         $('#dish-description-edit').val($info.find('p').text());
+        $('#dish-image-edit').val($thumb.find('img').attr('src'));
 
         getCategories();
 
@@ -165,7 +167,6 @@ function renderItemList(itemList, callback) {
                 list[i].style.display = "none";
             }
         }
-        // $('.masonry').isotope({ filter: selector });
     });
 }
 

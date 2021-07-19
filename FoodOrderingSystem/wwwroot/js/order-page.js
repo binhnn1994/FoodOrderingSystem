@@ -102,8 +102,8 @@ function renderItemList(itemList, categoryList, callback) {
                 qtyInput.type = "text";
                 qtyInput.value = 1;
                 qtyInput.style.display = "block";
-                image.src = "../images/resource/dish-img1-" + (j + 1) + ".jpg";
-                image.alt = "dish-img1-" + (j + 1) + ".jpg";
+
+                image.alt = "dish-img-" + (j + 1) + ".jpg";
 
                 button.title = "Order Now";
                 button.href = "/addcart/" + itemList[j].itemID;
@@ -111,6 +111,7 @@ function renderItemList(itemList, categoryList, callback) {
                 name.innerHTML = itemList[j].itemName;
                 price.innerHTML = itemList[j].unitPrice;
                 description.innerHTML = itemList[j].description;
+                image.src = itemList[j].image;
                 button.innerHTML = "Add to order";
             }
         }

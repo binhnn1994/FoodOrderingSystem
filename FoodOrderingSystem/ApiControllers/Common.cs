@@ -99,5 +99,31 @@ namespace FoodOrderingSystem.ApiControllers
             HttpContext.Session.Clear();
             return Redirect("/");
         }
+
+        [Route("Register")]
+        public async Task<IActionResult> Register([FromServices] IAccountService accountService, [FromServices] ISendMailService sendMailService, [FromForm] Account account)
+        {
+            try
+            {
+                bool result = accountService.Register(account.userEmail, account.hashedPassword, account.fullname, account.phoneNumber, account.address);
+                string body = "Dear, " + account.fullname + "\n" + "\nYour password is: " + account.hashedPassword + "\n" +
+                    "Thanks.";
+                await sendMailService.SendEmailAsync(account.userEmail, "Create New Account", body);
+                var message = new
+                {
+                    message = "success"
+                };
+                return new JsonResult(message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("Register: " + e.Message);
+                var message = new
+                {
+                    message = e.Message
+                };
+                return new JsonResult(message);
+            }
+        }
     }
 }
