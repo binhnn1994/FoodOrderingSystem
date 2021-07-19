@@ -13,12 +13,13 @@ function checkLogin() {
         var result = JSON.parse(this.responseText);
         if (result.role === "Admin") {
             window.location.href = "../AdminDashboard/Index";
-        } else
-        if (result.role === "Customer") {
+        } else if (result.role === "Customer") {
             window.location.href = "/CustomerDashboard/Index";
-        } else
-        if (result.role === "Staff") {
+        } else if (result.role === "Staff") {
             window.location.href = "../StaffDashboard/Index";
+        } else if (result.role === "Unauthenticated") {
+            $('#login-error-message').show();
+            $('#login-error-message').html("This account has been banned! Please contact the admin for more details.");
         } else {
             $('#login-error-message').show();
             $('#login-error-message').html("Username or password is incorrect! Please try again.");

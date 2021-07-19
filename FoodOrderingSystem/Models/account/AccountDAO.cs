@@ -321,7 +321,7 @@ namespace FoodOrderingSystem.Models.account
                     connection.Open();
                     string Sql = "Select userID, userEmail, roleName, fullname, phoneNumber, address, status, note " +
                             "From account " +
-                            "Where userEmail = @userEmail AND hashedPassword = @password ";
+                            "Where userEmail = @userEmail AND hashedPassword = @password AND status = 'Active'";
                     using (var command = new MySqlCommand(Sql, connection))
                     {
                         command.Parameters.AddWithValue("@userEmail", userEmail);
