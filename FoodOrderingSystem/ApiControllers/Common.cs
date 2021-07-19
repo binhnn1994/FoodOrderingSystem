@@ -70,7 +70,6 @@ namespace FoodOrderingSystem.ApiControllers
                     });
                 }
 
-                System.Diagnostics.Debug.WriteLine("Role is: " + user.roleName);
                 HttpContext.Session.SetString("USERID", user.userID);
                 HttpContext.Session.SetString("FULLLNAME", user.fullname);
                 HttpContext.Session.SetString("ROLENAME", user.roleName);

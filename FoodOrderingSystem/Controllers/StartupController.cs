@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PRN_GroceryStoreManagement.Controllers
 {
+    [AllowAnonymous]
     public class StartupController : Controller
     {
         public IActionResult Index()
