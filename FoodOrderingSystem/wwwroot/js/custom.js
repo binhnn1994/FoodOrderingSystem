@@ -230,6 +230,16 @@ function IsEmail(email) {
     }
 }
 
+function IsPhone(phone) {
+    if (phone.length !== 10) {
+        return false;
+    }
+    if (isNaN(phone)) {
+        return false;
+    }
+    return true;
+}
+
 function calcDeliveryFee(subTotalInt) {
     if (subTotalInt > 500000) {
         return 5000;

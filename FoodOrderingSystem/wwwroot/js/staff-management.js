@@ -133,10 +133,19 @@ function createStaff() {
         request.open('POST', url, true);
         request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         request.onload = function() {
-            $('html').removeClass('create-popup-active');
-            alert("Added successfully!");
-            clearCreateStaffError(inputs)
-            showStaffsList();
+            var message = JSON.parse(this.responseText).message;
+            if (message === "success") {
+                $('html').removeClass('create-popup-active');
+                alert("Added successfully!");
+                clearCreateStaffError(inputs)
+                showStaffsList();
+            } else if (message.includes("Duplicate") && message.includes("userEmail")) {
+                $(".sign-form").find(".err-msg")[0].textContent = "This email address has been used";
+                $(inputs[0]).css("border", "1px solid red");
+            } else if (message.includes("Duplicate") && message.includes("phoneNumber")) {
+                $(".sign-form").find(".err-msg")[3].textContent = "This phone number has been used";
+                $(inputs[3]).css("border", "1px solid red");
+            }
         };
         request.send(content);
     }
@@ -144,7 +153,7 @@ function createStaff() {
 
 function isCreateStaffValid(inputs) {
     clearCreateStaffError(inputs);
-    if (inputs[0].value == "" || inputs[1].value == "" || inputs[2].value == "") {
+    if (!IsEmail(inputs[0].value) || inputs[1].value == "" || inputs[2].value == "" || !IsPhone(inputs[3].value) || inputs[4].value == "") {
         if (!IsEmail(inputs[0].value)) {
             $(".sign-form").find(".err-msg")[0].textContent = "Must have a valid email address";
             $(inputs[0]).css("border", "1px solid red");
@@ -157,6 +166,14 @@ function isCreateStaffValid(inputs) {
             $(".sign-form").find(".err-msg")[2].textContent = "Must have a name";
             $(inputs[2]).css("border", "1px solid red");
         }
+        if (!IsPhone(inputs[3].value)) {
+            $(".sign-form").find(".err-msg")[3].textContent = "Must have a valid phone number";
+            $(inputs[3]).css("border", "1px solid red");
+        }
+        if (inputs[4].value == "") {
+            $(".sign-form").find(".err-msg")[4].textContent = "Must have an address";
+            $(inputs[4]).css("border", "1px solid red");
+        }
         return false;
     }
     return true;
@@ -166,8 +183,12 @@ function clearCreateStaffError(inputs) {
     $(inputs[0]).css("border", "none");
     $(inputs[1]).css("border", "none");
     $(inputs[2]).css("border", "none");
+    $(inputs[3]).css("border", "none");
+    $(inputs[4]).css("border", "none");
 
     $(".sign-form").find(".err-msg")[0].textContent = "";
     $(".sign-form").find(".err-msg")[1].textContent = "";
     $(".sign-form").find(".err-msg")[2].textContent = "";
+    $(".sign-form").find(".err-msg")[3].textContent = "";
+    $(".sign-form").find(".err-msg")[4].textContent = "";
 }
