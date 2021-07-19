@@ -29,11 +29,14 @@ function renderOrderList(orderList, callback) {
         var cellTotal = row.insertCell(4);
         var cellId = row.insertCell(5);
 
+        var totalInt = orderList[i].customerOrder.total;
+        totalInt += calcDeliveryFee(totalInt);
+
         cellNo.innerHTML = i + 1;
         cellName.innerHTML = orderList[i].account.fullname;
         cellDate.innerHTML = formatDate(orderList[i].customerOrder.orderDate);
         cellAddress.innerHTML = orderList[i].customerOrder.toAddress;
-        cellTotal.innerHTML = '<span class="money">' + orderList[i].customerOrder.total + '</span>';
+        cellTotal.innerHTML = '<span class="money">' + totalInt + '</span>';
         cellId.innerHTML = orderList[i].customerOrder.orderID;
 
         cellId.style.display = "none";

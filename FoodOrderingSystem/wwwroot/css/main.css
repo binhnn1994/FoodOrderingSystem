@@ -7686,7 +7686,8 @@ html.thanks-message-popup-active .thanks-message {
 }
 
 span.processing,
-span.completed {
+span.completed,
+span.rejected {
     padding: 7px 12px;
     display: inline-block;
     color: #fff;
@@ -7700,6 +7701,10 @@ span.processing {
 
 span.completed {
     background-color: #67cc4c;
+}
+
+span.rejected {
+    background-color: #cc4c4c;
 }
 
 .booking-table>table tbody td a.detail-link {
@@ -7865,7 +7870,8 @@ i.off {
 }
 
 .order-info>span.processing,
-.order-info>span.completed {
+.order-info>span.completed,
+.order-info>span.rejected {
     margin-left: 30px;
     margin-top: 9px;
 }

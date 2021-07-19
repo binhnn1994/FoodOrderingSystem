@@ -150,6 +150,7 @@ $(document).ready(function() {
 
     $('a.thanks-close').on('click', function() {
         $('html').removeClass('thanks-message-popup-active');
+        setTimeout(function() { location.reload() }, 300);
         return false;
     });
 

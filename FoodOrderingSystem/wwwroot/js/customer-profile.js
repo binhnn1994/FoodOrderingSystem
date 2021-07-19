@@ -13,46 +13,59 @@ function showOrderList() {
 }
 
 function renderOrderList(orderList, callback) {
+    var userID = document.getElementById("nav-user-id").innerHTML;
     var list = document.getElementById("order-list");
     list.innerHTML = "";
 
     for (let i = 0; i < orderList.length; i++) {
-        var box = document.createElement('div');
-        var info = document.createElement('div');
-        var time = document.createElement('h4');
-        var price = document.createElement('span');
-        var status = document.createElement('span');
-        var detailBtn = document.createElement('a');
-        var feedbackBtn = document.createElement('a');
-        var orderID = document.createElement('h5');
+        if (userID === orderList[i].account.userID) {
+            console.log(userID + " - " + orderList[i].account.userID);
+            var box = document.createElement('div');
+            var info = document.createElement('div');
+            var time = document.createElement('h4');
+            var price = document.createElement('span');
+            var status = document.createElement('span');
+            var detailBtn = document.createElement('a');
+            var feedbackBtn = document.createElement('a');
+            var orderID = document.createElement('h5');
 
-        list.appendChild(box);
-        box.appendChild(info);
-        info.appendChild(time);
-        info.appendChild(price);
-        info.appendChild(status);
-        info.appendChild(detailBtn);
-        info.appendChild(feedbackBtn);
-        info.appendChild(orderID);
+            list.appendChild(box);
+            box.appendChild(info);
+            info.appendChild(time);
+            info.appendChild(price);
+            info.appendChild(status);
+            info.appendChild(detailBtn);
+            info.appendChild(feedbackBtn);
+            info.appendChild(orderID);
 
-        box.classList = "order-item brd-rd5";
-        info.classList = "order-info";
-        price.classList = "price money";
-        status.classList = "processing brd-rd3";
-        detailBtn.classList = "brd-rd3 detail-popup-btn";
-        feedbackBtn.classList = "brd-rd3 feedback-popup-btn";
+            box.classList = "order-item brd-rd5";
+            info.classList = "order-info";
+            price.classList = "price money";
+            status.classList = "brd-rd3";
+            detailBtn.classList = "brd-rd3 detail-popup-btn";
+            feedbackBtn.classList = "brd-rd3 feedback-popup-btn";
 
-        detailBtn.href = "#";
-        feedbackBtn.href = "#";
-        detailBtn.style.marginLeft = "1rem";
-        orderID.style.display = "none";
+            detailBtn.href = "#";
+            feedbackBtn.href = "#";
+            detailBtn.style.marginLeft = "1rem";
+            orderID.style.display = "none";
 
-        time.innerHTML = formatDate(orderList[i].customerOrder.orderDate);
-        price.innerHTML = orderList[i].customerOrder.total;
-        status.innerHTML = orderList[i].customerOrder.status.toUpperCase();
-        orderID.innerHTML = orderList[i].customerOrder.orderID;
-        detailBtn.innerHTML = "Order Detail";
-        feedbackBtn.innerHTML = "Feedback";
+            var orderStatus = orderList[i].customerOrder.status.toUpperCase();
+            if (orderStatus === "PENDING") {
+                status.classList.add("processing")
+            } else if (orderStatus === "ACCEPTED") {
+                status.classList.add("completed")
+            } else if (orderStatus === "REJECTED") {
+                status.classList.add("rejected")
+            }
+
+            time.innerHTML = formatDate(orderList[i].customerOrder.orderDate);
+            price.innerHTML = orderList[i].customerOrder.total + calcDeliveryFee(orderList[i].customerOrder.total);
+            status.innerHTML = orderStatus;
+            orderID.innerHTML = orderList[i].customerOrder.orderID;
+            detailBtn.innerHTML = "Order Detail";
+            feedbackBtn.innerHTML = "Feedback";
+        }
     }
 
     callback();
@@ -130,13 +143,7 @@ function renderOrderDetail(orderDetail, callback) {
         subtotal += orderDetail[i].unitPrice * orderDetail[i].quantity;
     }
 
-    if (subtotal > 500000) {
-        deliveryFee = 5000;
-    } else if (subtotal > 300000) {
-        deliveryFee = 10000;
-    } else {
-        deliveryFee = 20000;
-    }
+    deliveryFee = calcDeliveryFee(subtotal);
 
     document.getElementById("subtotal-order-details").innerHTML = subtotal;
     document.getElementById("delivery-order-details").innerHTML = deliveryFee;

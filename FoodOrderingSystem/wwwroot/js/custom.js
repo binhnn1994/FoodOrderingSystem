@@ -71,15 +71,9 @@ function initPages(userInfo) {
             $('#billing-address').val(user.address);
 
             var subTotal = $('#subtotal-bill').text();
-            var deliveryFee;
             var subTotalInt = parseInt(subTotal.replace(/\D/g, ''));
-            if (subTotalInt > 500000) {
-                deliveryFee = 5000;
-            } else if (subTotalInt > 300000) {
-                deliveryFee = 10000;
-            } else {
-                deliveryFee = 20000;
-            }
+            var deliveryFee = calcDeliveryFee(subTotalInt);
+
             $('#billing-subtotal').html(subTotal);
             $('#billing-delivery').html(deliveryFee);
             $('#billing-total').html(subTotalInt + deliveryFee);
@@ -233,5 +227,15 @@ function IsEmail(email) {
         return false;
     } else {
         return true;
+    }
+}
+
+function calcDeliveryFee(subTotalInt) {
+    if (subTotalInt > 500000) {
+        return 5000;
+    } else if (subTotalInt > 300000) {
+        return 10000;
+    } else {
+        return 20000;
     }
 }
