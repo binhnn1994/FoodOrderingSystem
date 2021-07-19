@@ -94,7 +94,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $('.add-close-btn, .add-submit-btn').on('click', function() {
+    $('.add-close-btn').on('click', function() {
         $('html').removeClass('add-popup-active');
         return false;
     });

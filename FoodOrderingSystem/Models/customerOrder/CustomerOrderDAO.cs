@@ -91,7 +91,8 @@ namespace FoodOrderingSystem.Models.customerOrder
                                                 + "From customerOrder ";
                     else Sql = "Select orderID, customerID, orderDate, status, toAddress, deliveryFee, note, total "
                         + "From customerOrder "
-                        + "Where status = @Status ";
+                        + "Where status = @Status " +
+                        "Order by orderDate ASC";
                     using (var command = new MySqlCommand(Sql, connection))
                     {
                         if (!(Status == "" || Status.ToLower().Equals("all")))
@@ -167,7 +168,7 @@ namespace FoodOrderingSystem.Models.customerOrder
                     string Sql = "Select orderID, customerID, orderDate, status, toAddress, deliveryFee, note, total "
                         + "From customerOrder "
                         + "Where customerID = @customerID " +
-                        "Order by ASC";
+                        "Order by orderDate DESC";
                     using (var command = new MySqlCommand(Sql, connection))
                     {
                         command.Parameters.AddWithValue("@customerID", customerID);

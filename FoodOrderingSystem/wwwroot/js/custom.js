@@ -249,3 +249,61 @@ function calcDeliveryFee(subTotalInt) {
         return 20000;
     }
 }
+
+function updateProfile() {
+    var inputs = document.forms["profile-info-form"].elements;
+    var userID = document.getElementById("nav-user-id").innerHTML;
+
+    if (isProfileValid(inputs)) {
+        var request = new XMLHttpRequest();
+        var url = "/api/AdminDashboard/UpdateStaffInformation";
+        var content = 'userID=' + userID;
+        content += '&fullname=' + inputs[0].value;
+        content += "&phoneNumber=" + inputs[1].value;
+        content += "&address=" + inputs[2].value;
+
+        request.open('POST', url, true);
+        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        request.onload = function() {
+            var message = JSON.parse(this.responseText).message;
+            if (message === "success") {
+                alert("Update profile successfully!");
+                clearProfileError(inputs);
+            } else if (message.includes("Duplicate") && message.includes("phoneNumber")) {
+                $(".profile-info-form").find(".err-msg")[1].textContent = "This phone number has been used";
+                $(inputs[1]).css("border", "1px solid red");
+            }
+        };
+        request.send(content);
+    }
+}
+
+function isProfileValid(inputs) {
+    clearProfileError(inputs);
+    if (inputs[0].value == "" || !IsPhone(inputs[1].value) || inputs[2].value == "") {
+        if (inputs[0].value == "") {
+            $(".profile-info-form").find(".err-msg")[0].textContent = "Must have a name";
+            $(inputs[0]).css("border", "1px solid red");
+        }
+        if (!IsPhone(inputs[1].value)) {
+            $(".profile-info-form").find(".err-msg")[1].textContent = "Must have a valid phone number";
+            $(inputs[1]).css("border", "1px solid red");
+        }
+        if (inputs[2].value == "") {
+            $(".profile-info-form").find(".err-msg")[2].textContent = "Must have an address";
+            $(inputs[2]).css("border", "1px solid red");
+        }
+        return false;
+    }
+    return true;
+}
+
+function clearProfileError(inputs) {
+    $(inputs[0]).css("border", "none");
+    $(inputs[1]).css("border", "none");
+    $(inputs[2]).css("border", "none");
+
+    $(".profile-info-form").find(".err-msg")[0].textContent = "";
+    $(".profile-info-form").find(".err-msg")[1].textContent = "";
+    $(".profile-info-form").find(".err-msg")[2].textContent = "";
+}

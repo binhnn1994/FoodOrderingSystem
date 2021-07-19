@@ -91,7 +91,7 @@ namespace FoodOrderingSystem.Models.feedback
                     string sql = "Select feedbackID, customerEmail, status, receiveDate, requestContent, respondDate, respondContent " +
                             "From feedback " +
                             "Where status = @status " +
-                            "Order by receiveDate ";
+                            "Order by receiveDate DESC";
                     using (var command = new MySqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@status", status);
