@@ -265,7 +265,6 @@ function updateProfile() {
         request.open('POST', url, true);
         request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         request.onload = function() {
-            console.log(this.responseText);
             var message = JSON.parse(this.responseText).message;
             if (message === "success") {
                 alert("Update profile successfully!");

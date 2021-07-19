@@ -84,20 +84,24 @@
                 <form class="sign-form" id="add-form">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <label>Name</label>
+                            <label class="required">Name</label>
                             <input class="brd-rd3" type="text" id="dish-name-add" placeholder="Enter Dish Name" style="font-size: 14px">
+                            <p class="err-msg" style="color:red;"></p>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <label>Category</label>
+                            <label class="required">Category</label>
                             <input list="categories" name="category" class="brd-rd3" type="text" id="dish-category-add" placeholder="Choose Dish Category" style="font-size: 14px" autocomplete="off">
+                            <p class="err-msg" style="color:red;"></p>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <label>Price</label>
+                            <label class="required">Price</label>
                             <input class="brd-rd3" type="number" id="dish-price-add" placeholder="Enter Price" style="font-size: 14px" min="1">
+                            <p class="err-msg" style="color:red;"></p>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <label>Image</label>
+                            <label class="required">Image</label>
                             <input class="brd-rd3" type="text" id="dish-image-add" placeholder="Enter Image URL" style="font-size: 14px">
+                            <p class="err-msg" style="color:red;"></p>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <label>Description</label>
@@ -121,22 +125,25 @@
                 </div>
                 <form class="sign-form" id="edit-form">
                     <div class="row">
-                        <input type="hidden" id="dish-id-edit">
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <label>Name</label>
+                            <label class="required">Name</label>
                             <input class="brd-rd3" type="text" id="dish-name-edit" placeholder="Enter Dish Name" style="font-size: 14px">
+                            <p class="err-msg" style="color:red;"></p>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <label>Category</label>
+                            <label class="required">Category</label>
                             <input list="categories" name="category" class="brd-rd3" type="text" id="dish-category-edit" placeholder="Choose Dish Category" style="font-size: 14px" autocomplete="off">
+                            <p class="err-msg" style="color:red;"></p>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <label>Price</label>
+                            <label class="required">Price</label>
                             <input class="brd-rd3" type="number" id="dish-price-edit" placeholder="Enter Price" style="font-size: 14px" min="1">
+                            <p class="err-msg" style="color:red;"></p>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
-                            <label>Image</label>
+                            <label class="required">Image</label>
                             <input class="brd-rd3" type="text" id="dish-image-edit" placeholder="Enter Image URL" style="font-size: 14px">
+                            <p class="err-msg" style="color:red;"></p>
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <label>Description</label>
@@ -152,6 +159,7 @@
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <button class="red-bg brd-rd3 edit-submit-btn" style="margin-top: 12px;" onclick="updateItem();" type="button">SAVE CHANGES</button>
                         </div>
+                        <input type="hidden" id="dish-id-edit">
                     </div>
                 </form>
             </div>

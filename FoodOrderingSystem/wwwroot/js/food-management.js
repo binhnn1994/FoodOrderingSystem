@@ -148,7 +148,7 @@ function renderItemList(itemList, callback) {
         return false;
     });
 
-    $('.edit-close-btn, .edit-submit-btn').on('click', function() {
+    $('.edit-close-btn').on('click', function() {
         $('html').removeClass('edit-popup-active');
         return false;
     });
@@ -195,57 +195,153 @@ function getCategories() {
 function updateItem() {
     var inputs = document.forms["edit-form"].elements;
 
-    var request = new XMLHttpRequest();
-    var url = "/api/AdminDashboard/UpdateItemInformation";
-    var content = 'itemID=' + inputs[0].value;
-    if (inputs[1].value.length > 0) {
-        content += "&itemName=" + encodeURIComponent(inputs[1].value);
-    }
-    if (inputs[2].value.length > 0) {
-        content += "&categoryName=" + encodeURIComponent(inputs[2].value);
-    }
-    if (inputs[3].value.length > 0) {
-        content += "&unitPrice=" + inputs[3].value;
-    }
-    if (inputs[4].value.length > 0) {
-        content += "&image=" + inputs[4].value;
-    }
-    if (inputs[5].value.length > 0) {
-        content += "&description=" + encodeURIComponent(inputs[5].value);
-    }
+    if (isUpdateItemValid(inputs)) {
+        var request = new XMLHttpRequest();
+        var url = "/api/AdminDashboard/UpdateItemInformation";
+        var content = 'itemID=' + inputs[8].value;
+        content += "&itemName=" + encodeURIComponent(inputs[0].value);
+        content += "&categoryName=" + encodeURIComponent(inputs[1].value);
+        content += "&unitPrice=" + inputs[2].value;
+        content += "&image=" + inputs[3].value;
+        content += "&description=" + encodeURIComponent(inputs[4].value);
 
-    if (inputs[6].checked === true) {
-        activateItem(inputs[0].value);
-    }
-    if (inputs[6].checked === false) {
-        deactivateItem(inputs[0].value);
-    }
+        if (inputs[5].checked === true) {
+            activateItem(inputs[8].value);
+        }
+        if (inputs[5].checked === false) {
+            deactivateItem(inputs[8].value);
+        }
 
-    request.open('POST', url, true);
-    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    request.onload = function() {
-        alert("Updated successfully!");
-        location.reload();
-    };
-    request.send(content);
+        request.open('POST', url, true);
+        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        request.onload = function() {
+            var message = JSON.parse(this.responseText).message;
+            if (message === "success") {
+                clearUpdateItemError(inputs);
+                alert("Update dish successfully!");
+                location.reload();
+            } else if (message.includes("Duplicate") && message.includes("itemName")) {
+                $("#edit-form").find(".err-msg")[0].textContent = "This dish already exists";
+                $(inputs[0]).css("border", "1px solid red");
+            } else if (message.includes("FOREIGN") && message.includes("categoryName")) {
+                $("#edit-form").find(".err-msg")[1].textContent = "This category does not exist";
+                $(inputs[1]).css("border", "1px solid red");
+            }
+        };
+        request.send(content);
+    }
 }
 
 function createItem() {
     var inputs = document.forms["add-form"].elements;
 
-    var request = new XMLHttpRequest();
-    var url = "/api/AdminDashboard/CreateItem";
-    var content = "itemName=" + encodeURIComponent(inputs[0].value);
-    content += "&categoryName=" + encodeURIComponent(inputs[1].value);
-    content += "&unitPrice=" + inputs[2].value;
-    content += "&image=" + inputs[3].value;
-    content += "&description=" + encodeURIComponent(inputs[4].value);
+    if (isCreateItemValid(inputs)) {
+        var request = new XMLHttpRequest();
+        var url = "/api/AdminDashboard/CreateItem";
+        var content = "itemName=" + encodeURIComponent(inputs[0].value);
+        content += "&categoryName=" + encodeURIComponent(inputs[1].value);
+        content += "&unitPrice=" + inputs[2].value;
+        content += "&image=" + inputs[3].value;
+        content += "&description=" + encodeURIComponent(inputs[4].value);
 
-    request.open('POST', url, true);
-    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    request.onload = function() {
-        alert("Added successfully!");
-        location.reload();
-    };
-    request.send(content);
+        request.open('POST', url, true);
+        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        request.onload = function() {
+            var message = JSON.parse(this.responseText).message;
+            if (message === "success") {
+                clearCreateItemError(inputs);
+                alert("Add dish successfully!");
+                location.reload();
+            } else if (message.includes("Duplicate") && message.includes("itemName")) {
+                $("#add-form").find(".err-msg")[0].textContent = "This dish already exists";
+                $(inputs[0]).css("border", "1px solid red");
+            } else if (message.includes("FOREIGN") && message.includes("categoryName")) {
+                $("#add-form").find(".err-msg")[1].textContent = "This category does not exist";
+                $(inputs[1]).css("border", "1px solid red");
+            }
+        };
+        request.send(content);
+    }
+}
+
+function isCreateItemValid(inputs) {
+    clearCreateItemError(inputs);
+    if (inputs[0].value == "" || inputs[1].value == "" || inputs[2].value == "" || inputs[3].value == "") {
+        if (inputs[0].value == "") {
+            $("#add-form").find(".err-msg")[0].textContent = "Must have a name";
+            $(inputs[0]).css("border", "1px solid red");
+        }
+        if (inputs[1].value == "") {
+            $("#add-form").find(".err-msg")[1].textContent = "Must have a category";
+            $(inputs[1]).css("border", "1px solid red");
+        }
+        if (inputs[2].value == "") {
+            $("#add-form").find(".err-msg")[2].textContent = "Must have a price";
+            $(inputs[2]).css("border", "1px solid red");
+        }
+        if (inputs[3].value == "") {
+            $("#add-form").find(".err-msg")[3].textContent = "Must have an image";
+            $(inputs[3]).css("border", "1px solid red");
+        }
+        return false;
+    }
+    if (inputs[2].value < 0) {
+        $("#add-form").find(".err-msg")[2].textContent = "Price must be greater than 0";
+        $(inputs[2]).css("border", "1px solid red");
+        return false;
+    }
+    return true;
+}
+
+function clearCreateItemError(inputs) {
+    $(inputs[0]).css("border", "none");
+    $(inputs[1]).css("border", "none");
+    $(inputs[2]).css("border", "none");
+    $(inputs[3]).css("border", "none");
+
+    $("#add-form").find(".err-msg")[0].textContent = "";
+    $("#add-form").find(".err-msg")[1].textContent = "";
+    $("#add-form").find(".err-msg")[2].textContent = "";
+    $("#add-form").find(".err-msg")[3].textContent = "";
+}
+
+function isUpdateItemValid(inputs) {
+    clearUpdateItemError(inputs);
+    if (inputs[0].value == "" || inputs[1].value == "" || inputs[2].value == "" || inputs[3].value == "") {
+        if (inputs[0].value == "") {
+            $("#edit-form").find(".err-msg")[0].textContent = "Must have a name";
+            $(inputs[0]).css("border", "1px solid red");
+        }
+        if (inputs[1].value == "") {
+            $("#edit-form").find(".err-msg")[1].textContent = "Must have a category";
+            $(inputs[1]).css("border", "1px solid red");
+        }
+        if (inputs[2].value == "") {
+            $("#edit-form").find(".err-msg")[2].textContent = "Must have a price";
+            $(inputs[2]).css("border", "1px solid red");
+        }
+        if (inputs[3].value == "") {
+            $("#edit-form").find(".err-msg")[3].textContent = "Must have an image";
+            $(inputs[3]).css("border", "1px solid red");
+        }
+        return false;
+    }
+    if (inputs[2].value < 0) {
+        $("#edit-form").find(".err-msg")[2].textContent = "Price must be greater than 0";
+        $(inputs[2]).css("border", "1px solid red");
+        return false;
+    }
+    return true;
+}
+
+function clearUpdateItemError(inputs) {
+    $(inputs[0]).css("border", "none");
+    $(inputs[1]).css("border", "none");
+    $(inputs[2]).css("border", "none");
+    $(inputs[3]).css("border", "none");
+
+    $("#edit-form").find(".err-msg")[0].textContent = "";
+    $("#edit-form").find(".err-msg")[1].textContent = "";
+    $("#edit-form").find(".err-msg")[2].textContent = "";
+    $("#edit-form").find(".err-msg")[3].textContent = "";
 }
