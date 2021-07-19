@@ -166,7 +166,8 @@ namespace FoodOrderingSystem.Models.customerOrder
                     connection.Open();
                     string Sql = "Select orderID, customerID, orderDate, status, toAddress, deliveryFee, note, total "
                         + "From customerOrder "
-                        + "Where customerID = @customerID ";
+                        + "Where customerID = @customerID " +
+                        "Order by ASC";
                     using (var command = new MySqlCommand(Sql, connection))
                     {
                         command.Parameters.AddWithValue("@customerID", customerID);
